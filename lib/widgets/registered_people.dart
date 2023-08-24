@@ -18,6 +18,7 @@ class RegisteredList extends StatelessWidget {
               return Padding(
                 padding: const EdgeInsets.all(16.0),
                 child: Card(
+                  elevation: 14,
                   child: InkWell(
                     onTap: () {},
                     child: ListTile(
@@ -26,6 +27,7 @@ class RegisteredList extends StatelessWidget {
                         icon: const Icon(Icons.people_alt_outlined),
                       ),
                       title: Text(person.nomeloja),
+                      subtitle: Text(person.cnpj.toString()),
                     ),
                   ),
                 ),

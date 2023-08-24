@@ -37,8 +37,6 @@ class Registeredpeople extends StatelessWidget {
                       color: Colors.amber,
                       borderRadius:
                           BorderRadius.only(bottomRight: Radius.circular(200))),
-                  child:
-                      const RegisteredList(), //                                                   <= lista de Pessoas
                   //
                 ),
               ),
@@ -58,6 +56,7 @@ class Registeredpeople extends StatelessWidget {
                   ),
                 ),
               ),
+              const RegisteredList()
             ],
           ),
         ),
