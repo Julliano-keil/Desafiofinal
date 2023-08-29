@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
+import 'repositorio_de_dados/person_controler.dart';
 import 'screens/botton_navigator_bar.dart';
 import 'screens/category_screen.dart';
 import 'screens/registered_people_screen.dart';
@@ -8,7 +10,13 @@ import 'screens/signin_screen.dart';
 import 'screens/signup_scren.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(
+    ChangeNotifierProvider<PersonControler>(
+      create: (context) =>
+          PersonControler(), // Ou qualquer lógica de inicialização necessária
+      child: const MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatefulWidget {

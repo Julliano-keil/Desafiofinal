@@ -6,7 +6,8 @@ class PersonControler extends ChangeNotifier {
   PersonControler() {
     loadata();
   }
-  String? nameuser = '';
+  String nameuser = '';
+
   final constroller = PessoaControler();
   final _listaPeople = <Person>[];
   List<Person> get listaPeople => _listaPeople;
@@ -52,8 +53,9 @@ class PersonControler extends ChangeNotifier {
 
     if (result.isNotEmpty) {
       final item = result.first;
-      print('User found: $item');
       nameuser = item[PersonTable.nomeloja];
+
+      print(' nome do usuario: $nameuser');
       return Person(
         id: item[PersonTable.id],
         cnpj: item[PersonTable.cnpj],
@@ -62,6 +64,7 @@ class PersonControler extends ChangeNotifier {
       );
     }
 
+    notifyListeners();
     return null;
   }
 }
