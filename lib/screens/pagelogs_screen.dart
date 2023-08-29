@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-import 'package:jscar/screens/singin_screen.dart';
-import 'package:jscar/widgets/button_navigation.dart';
+import '../widgets/button_navigation.dart';
+import 'signin_screen.dart';
 
 class Pagelogs extends StatelessWidget {
   const Pagelogs({super.key});
@@ -17,7 +17,7 @@ class Pagelogs extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                Image.asset("imagens/logojk.png"),
+                Image.asset('imagens/logojk.png'),
                 Buttonnavigator(
                     onpresed: () => Navigator.of(context).pushReplacement(
                         MaterialPageRoute(

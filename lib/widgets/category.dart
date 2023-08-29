@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:jscar/casos_de_usos/car.dart';
+import '../casos_de_usos/car.dart';
 
 class Categoryscren extends StatefulWidget {
   const Categoryscren({

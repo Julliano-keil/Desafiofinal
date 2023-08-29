@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:jscar/Screens/maindrawer.dart';
-import 'package:jscar/casos_de_usos/settings_code.dart';
-import 'package:jscar/widgets/registered_people.dart';
+import '../Screens/maindrawer.dart';
+import '../casos_de_usos/settings_code.dart';
+import '../widgets/registered_people.dart';
 
 class Registeredpeople extends StatelessWidget {
   Registeredpeople({super.key});
@@ -13,11 +13,11 @@ class Registeredpeople extends StatelessWidget {
     return MaterialApp(
       home: Scaffold(
         drawer:
-            const MainDrawer(), //                                                                  <= drawer
+            const MainDrawer(), //                                     <= drawer
         appBar: AppBar(
           backgroundColor: Colors.black,
           title: const Center(
-            child: Text('Asociados'),
+            child: Text('Associados'),
           ),
         ),
         body: Container(
@@ -56,7 +56,7 @@ class Registeredpeople extends StatelessWidget {
                   ),
                 ),
               ),
-              const RegisteredList()
+              const RegisteredList(),
             ],
           ),
         ),

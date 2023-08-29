@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:jscar/entidades/person_login.dart';
-import 'package:jscar/repositorio_de_dados/db.dart';
+import '../entidades/person_login.dart';
+import 'db.dart';
 
 class PersonControler extends ChangeNotifier {
   PersonControler() {
     loadata();
   }
+  String? nameuser = '';
   final constroller = PessoaControler();
   final _listaPeople = <Person>[];
   List<Person> get listaPeople => _listaPeople;
@@ -39,5 +40,28 @@ class PersonControler extends ChangeNotifier {
     listaPeople.clear();
     listaPeople.addAll(list);
     notifyListeners();
+  }
+
+  Future<dynamic> getUserByUsername(String username) async {
+    final database = await getdatabase();
+    final List<Map<String, dynamic>> result = await database.query(
+      PersonTable.tablename,
+      where: '${PersonTable.cnpj} = ?',
+      whereArgs: [username],
+    );
+
+    if (result.isNotEmpty) {
+      final item = result.first;
+      print('User found: $item');
+      nameuser = item[PersonTable.nomeloja];
+      return Person(
+        id: item[PersonTable.id],
+        cnpj: item[PersonTable.cnpj],
+        nomeloja: item[PersonTable.nomeloja],
+        senha: item[PersonTable.senha],
+      );
+    }
+
+    return null;
   }
 }

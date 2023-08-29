@@ -1,13 +1,14 @@
-import 'package:jscar/entidades/person_login.dart';
-import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
+import 'package:sqflite/sqflite.dart';
+
+import '../entidades/person_login.dart';
 
 Future<Database> getdatabase() async {
   final path = join(await getDatabasesPath(), 'pessoas.db');
 
   return openDatabase(
     path,
-    onCreate: (db, int version) async {
+    onCreate: (db, version) async {
       db.execute(PersonTable.createTable);
     },
     version: 1,

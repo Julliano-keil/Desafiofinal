@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:jscar/repositorio_de_dados/person_controler.dart';
 import 'package:provider/provider.dart';
+
+import '../repositorio_de_dados/person_controler.dart';
 
 class RegisteredList extends StatelessWidget {
   const RegisteredList({super.key});
@@ -18,6 +19,7 @@ class RegisteredList extends StatelessWidget {
               return Padding(
                 padding: const EdgeInsets.all(16.0),
                 child: Card(
+                  color: Colors.white,
                   elevation: 14,
                   child: InkWell(
                     onTap: () {},
@@ -26,7 +28,10 @@ class RegisteredList extends StatelessWidget {
                         onPressed: () {},
                         icon: const Icon(Icons.people_alt_outlined),
                       ),
-                      title: Text(person.nomeloja),
+                      title: Text(
+                        person.nomeloja,
+                        style: const TextStyle(fontSize: 20),
+                      ),
                       subtitle: Text(person.cnpj.toString()),
                     ),
                   ),

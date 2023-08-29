@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:jscar/Screens/maindrawer.dart';
-import 'package:jscar/screens/category_screen.dart';
-import 'package:jscar/screens/home_screen.dart';
+import '../Screens/maindrawer.dart';
+import 'category_screen.dart';
+import 'home_screen.dart';
 
 class Homepage extends StatefulWidget {
   const Homepage({super.key});
@@ -59,7 +59,7 @@ class _HomepageState extends State<Homepage> {
     );
   }
 
-  Widget _getBodyWidget() {
+  _getBodyWidget() {
     if (_selectedIndex == 0) {
       return const Home();
     } else if (_selectedIndex == 1) {
@@ -67,6 +67,6 @@ class _HomepageState extends State<Homepage> {
     } else if (_selectedIndex == 2) {
       return const Category();
     }
-    return Container(); // Retorna um container vazio se o índice for inválido.
+    return Container();
   }
 }

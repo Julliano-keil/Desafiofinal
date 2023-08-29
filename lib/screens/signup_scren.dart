@@ -1,19 +1,17 @@
 import 'package:flutter/material.dart';
-import 'package:jscar/repositorio_de_dados/person_controler.dart';
-
-import 'package:jscar/widgets/form_pagelogs.dart';
 import 'package:provider/provider.dart';
-
+import '../repositorio_de_dados/person_controler.dart';
+import '../widgets/form_pagelogs.dart';
 import 'botton_navigator_bar.dart';
-import 'singin_screen.dart';
 
 class SignUp extends StatelessWidget {
-  SignUp({super.key});
-  final _formKey = GlobalKey<FormState>();
+  const SignUp({super.key});
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
-        create: (context) => PersonControler(),
+    final formKey = GlobalKey<FormState>();
+    final state = Provider.of<PersonControler>(context, listen: false);
+    return ChangeNotifierProvider.value(
+        value: state,
         child: Consumer<PersonControler>(
           builder: (_, state, __) {
             return Scaffold(
@@ -49,7 +47,7 @@ class SignUp extends StatelessWidget {
                     ],
                   ),
                   child: Form(
-                    key: _formKey,
+                    key: formKey,
                     child: Column(
                       children: [
                         const Padding(
@@ -67,7 +65,7 @@ class SignUp extends StatelessWidget {
                           validator: (value) {
                             if (value == null || value.isEmpty) {
                               return 'Por favor, informe um CNPJ válido.';
-                            } else if (value.length < 14 || value.length > 14) {
+                            } else if (value.length != 14) {
                               return 'cnpj deve conter 14 digitos';
                             }
                             return null;
@@ -108,26 +106,13 @@ class SignUp extends StatelessWidget {
                             children: [
                               ElevatedButton(
                                 onPressed: () async {
-                                  if (_formKey.currentState!.validate()) {
+                                  if (formKey.currentState!.validate()) {
                                     await state.insert();
                                   }
                                 },
                                 child: const Text('Cadastrar'),
                               ),
                             ],
-                          ),
-                        ),
-                        Center(
-                          child: InkWell(
-                            onTap: () {
-                              Navigator.of(context).pushReplacement(
-                                  MaterialPageRoute(
-                                      builder: (context) => const SignIn()));
-                            },
-                            child: const Text(
-                              'Ja tenho conta ',
-                              style: TextStyle(color: Colors.blue),
-                            ),
                           ),
                         ),
                         const SizedBox(

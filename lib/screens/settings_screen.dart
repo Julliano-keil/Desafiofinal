@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:jscar/casos_de_usos/settings_code.dart';
-import 'package:jscar/screens/maindrawer.dart';
 
+import '../casos_de_usos/settings_code.dart';
 import '../widgets/thema_colors.dart';
+import 'maindrawer.dart';
 
 class Settings extends StatelessWidget {
   Settings({super.key});
@@ -13,7 +13,7 @@ class Settings extends StatelessWidget {
     return MaterialApp(
       home: Scaffold(
         drawer:
-            const MainDrawer(), //                                                                  <= drawer
+            const MainDrawer(), //                                     <= drawer
         appBar: AppBar(
           backgroundColor: Colors.black,
           title: const Center(
@@ -38,7 +38,7 @@ class Settings extends StatelessWidget {
                       borderRadius:
                           BorderRadius.only(bottomRight: Radius.circular(200))),
                   child:
-                      SettingsWidhts(), //                                                     <= Configuraçoes
+                      SettingsWidhts(), //                      <= Configuraçoes
                 ),
               ),
               Positioned(

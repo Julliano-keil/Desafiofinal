@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:jscar/casos_de_usos/settings_code.dart';
+import '../casos_de_usos/settings_code.dart';
 
 class SettingsWidhts extends StatefulWidget {
   SettingsWidhts({super.key});
@@ -11,7 +11,7 @@ class SettingsWidhts extends StatefulWidget {
 }
 
 class _SettingsWidhtsState extends State<SettingsWidhts> {
-  var settings = Settingscode();
+  Settingscode settings = Settingscode();
 
   Widget _createSwitch(
     String titulo,

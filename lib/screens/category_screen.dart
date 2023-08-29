@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:jscar/widgets/category.dart';
+import '../widgets/category.dart';
 
 import '../widgets/horizontal_tabbar.dart';
 
@@ -11,7 +11,7 @@ class Category extends StatefulWidget {
 }
 
 class _CategoryState extends State<Category> {
-  var selectedtalbar = "CLASSICOS";
+  String selectedtalbar = 'CLASSICOS';
 
   @override
   Widget build(BuildContext context) {
@@ -52,13 +52,13 @@ class _CategoryState extends State<Category> {
   String getselectbarindx(int indx) {
     switch (indx) {
       case 0:
-        return "CLASSICOS";
+        return 'CLASSICOS';
       case 1:
-        return "ESPORTIVOS";
+        return 'ESPORTIVOS';
       case 2:
-        return "CAMIONETES";
+        return 'CAMIONETES';
       default:
-        return "CLASSICOS";
+        return 'CLASSICOS';
     }
   }
 }

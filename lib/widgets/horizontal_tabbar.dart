@@ -21,7 +21,7 @@ class Horizontaltabbar extends StatelessWidget {
           color: Colors.white,
         )),
         onTap: ontap,
-        tabs: ["CLASSICOS", "ESPORTIVOS", "CAMIONETES"]
+        tabs: ['CLASSICOS', 'ESPORTIVOS', 'CAMIONETES']
             .map((e) => Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 12),
                   child: Text(e),

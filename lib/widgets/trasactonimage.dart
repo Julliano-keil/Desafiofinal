@@ -3,14 +3,14 @@ import 'package:flutter/material.dart';
 class TransactionImage extends StatelessWidget {
   final String imageUrl;
   final double width;
-  final double height; // Corrigido de heigth para height
+  final double height;
   final Function() onTap;
 
   const TransactionImage({
     super.key,
     required this.imageUrl,
     required this.width,
-    required this.height, // Corrigido de heigth para height
+    required this.height,
     required this.onTap,
   });
 

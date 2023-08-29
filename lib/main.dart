@@ -1,6 +1,11 @@
 import 'package:flutter/material.dart';
 
-import 'package:jscar/screens/singin_screen.dart';
+import 'screens/botton_navigator_bar.dart';
+import 'screens/category_screen.dart';
+import 'screens/registered_people_screen.dart';
+import 'screens/settings_screen.dart';
+import 'screens/signin_screen.dart';
+import 'screens/signup_scren.dart';
 
 void main() {
   runApp(const MyApp());
@@ -64,12 +69,21 @@ class _MyAppState extends State<MyApp> with SingleTickerProviderStateMixin {
             child: FadeTransition(
               opacity: _animation,
               child: Center(
-                child: Image.asset("imagens/logojk.png"),
+                child: Image.asset('imagens/logojk.png'),
               ),
             ),
           ),
         ),
       ),
+      routes: {
+        '/MyApp': (context) => const MyApp(),
+        '/Homepage': (context) => const Homepage(),
+        '/Categry': (context) => const Category(),
+        '/Settings': (context) => Settings(),
+        '/SignUp': (context) => const SignUp(),
+        '/SignIn': (context) => const SignIn(),
+        '/Registerpeople': (context) => Registeredpeople(),
+      },
     );
   }
 }

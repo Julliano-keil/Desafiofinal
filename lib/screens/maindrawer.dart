@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:jscar/screens/registered_people_screen.dart';
-import 'package:jscar/screens/settings_screen.dart';
 
 import 'botton_navigator_bar.dart';
+import 'registered_people_screen.dart';
+import 'settings_screen.dart';
 
 class MainDrawer extends StatelessWidget {
   const MainDrawer({super.key});
@@ -24,7 +24,7 @@ class MainDrawer extends StatelessWidget {
               color: const Color.fromARGB(
                   255, 0, 0, 0), // Cor de fundo do cabeçalho do Drawer
               child: Image.asset(
-                "imagens/logojk.png",
+                'imagens/logojk.png',
                 fit: BoxFit.cover,
               ),
             ),
