@@ -25,12 +25,10 @@ class _HomeState extends State<Home> {
   int currentIndex = 0;
 
   late Timer timer;
-  final state = PersonControler();
 
   @override
   void initState() {
     super.initState();
-    state.loadata();
     timer = Timer.periodic(const Duration(seconds: 5), (timer) {
       if (currentIndex < imageUrls.length + 1) {
         setState(() {
@@ -38,7 +36,7 @@ class _HomeState extends State<Home> {
         });
       } else {
         setState(() {
-          currentIndex = 0;
+          currentIndex = 1;
         });
       }
     });
@@ -47,147 +45,140 @@ class _HomeState extends State<Home> {
   @override
   void dispose() {
     timer.cancel();
-    state.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    final state = Provider.of<PersonControler>(context);
-    return MaterialApp(
-        debugShowCheckedModeBanner: false,
-        home: Scaffold(
-          drawer: const MainDrawer(),
-          body: SingleChildScrollView(
-            child: Container(
-              color: Colors.black,
-              child: Stack(children: [
-                Container(
-                  margin: const EdgeInsets.only(top: 2),
-                  color: Colors.amber,
-                  // color: const Color.fromARGB(255, 247, 234, 234),
-                  child: Column(
-                    children: [
-                      Container(
-                        width: 420,
-                        height: 350,
-                        margin: const EdgeInsets.only(bottom: 0),
-                        decoration: const BoxDecoration(
-                            color: Colors.black,
-                            borderRadius: BorderRadius.only(
-                                bottomRight: Radius.circular(130))),
-                        child: ListView(
-                            padding: EdgeInsets.zero,
-                            //carrossel
-                            children: [
-                              Container(
-                                  color: Colors.black,
-                                  width: 420,
-                                  height: 180,
-                                  child: PageView.builder(
-                                    controller: PageController(
-                                        initialPage: currentIndex,
-                                        viewportFraction: 0.9),
-                                    itemCount: imageUrls.length,
-                                    itemBuilder: (context, index) {
-                                      return TransactionImage(
-                                        imageUrl: imageUrls[index],
-                                        onTap: () {},
-                                        width: 350,
-                                        height: 160,
-                                      );
-                                    },
-                                  )),
-                              Padding(
-                                padding: const EdgeInsets.all(40),
-                                child: Column(
+    final state = Provider.of<PersonControler>(context, listen: true);
+    return Scaffold(
+      drawer: const MainDrawer(),
+      body: SingleChildScrollView(
+        child: Container(
+          color: Colors.black,
+          child: Stack(children: [
+            Container(
+              margin: const EdgeInsets.only(top: 2),
+              color: Colors.amber,
+              child: Column(
+                children: [
+                  Container(
+                    width: 420,
+                    height: 350,
+                    margin: const EdgeInsets.only(bottom: 0),
+                    decoration: const BoxDecoration(
+                        color: Colors.black,
+                        borderRadius: BorderRadius.only(
+                            bottomRight: Radius.circular(130))),
+                    child: ListView(
+                        padding: EdgeInsets.zero,
+                        //                                              carrossel
+                        children: [
+                          Container(
+                              color: Colors.black,
+                              width: 420,
+                              height: 180,
+                              child: PageView.builder(
+                                controller: PageController(
+                                    initialPage: currentIndex,
+                                    viewportFraction: 0.9),
+                                itemCount: imageUrls.length,
+                                itemBuilder: (context, index) {
+                                  return TransactionImage(
+                                    imageUrl: imageUrls[index],
+                                    onTap: () {},
+                                    width: 350,
+                                    height: 160,
+                                  );
+                                },
+                              )),
+                          Padding(
+                            padding: const EdgeInsets.all(40),
+                            child: Column(
+                              children: [
+                                Row(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        'óla ${state.nameuser}',
+                                        style: const TextStyle(
+                                            color: Colors.white, fontSize: 25),
+                                      ),
+                                    ]),
+                                const Row(
+                                  mainAxisAlignment: MainAxisAlignment.start,
                                   children: [
-                                    Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.start,
-                                        children: [
-                                          Text(
-                                            state.nameuser,
-                                            style: const TextStyle(
-                                                color: Colors.deepOrange,
-                                                fontSize: 25),
-                                          ),
-                                        ]),
-                                    const Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.start,
-                                      children: [
-                                        Text(
-                                          'Ultimo login 23/07/2023 as 17:50',
-                                          style: TextStyle(color: Colors.white),
-                                        )
-                                      ],
+                                    Text(
+                                      'Ultimo login 23/07/2023 as 17:50 ',
+                                      style: TextStyle(color: Colors.white),
                                     )
                                   ],
-                                ),
-                              )
-                            ]),
-                      ),
-                      Container(
-                        color: Colors.black,
-                        child: Column(
-                          children: [
-                            Container(
-                              width: 420,
-                              height: 571,
-                              margin: const EdgeInsets.only(bottom: 2),
-                              decoration: const BoxDecoration(
-                                  color: Colors.amber,
-                                  borderRadius: BorderRadius.only(
-                                      topLeft: Radius.circular(90))),
-                              child: GridView(
-                                padding: const EdgeInsets.all(35),
-                                gridDelegate:
-                                    // ignore: lines_longer_than_80_chars
-                                    const SliverGridDelegateWithMaxCrossAxisExtent(
-                                  maxCrossAxisExtent: 200,
-                                  childAspectRatio: 4 / 3,
-                                  crossAxisSpacing: 25,
-                                  mainAxisSpacing: 25,
-                                ),
-                                children: [
-                                  Cards(
-                                    text: 'Relatorio \nde vendas ',
-                                    icon: Icons.wallet,
-                                    ontap: () {},
-                                  ),
-                                  Cards(
-                                    text: 'ultimas\ntransaçoes',
-                                    icon: Icons.access_time,
-                                    ontap: () {},
-                                  ),
-                                  Cards(
-                                    text: 'cadastrar \nusuarios ',
-                                    icon: Icons.list_alt_outlined,
-                                    ontap: () {
-                                      Navigator.of(context).pushReplacement(
-                                          MaterialPageRoute(
-                                              builder: (context) =>
-                                                  const SignUp()));
-                                    },
-                                  ),
-                                  Cards(
-                                    text: 'Cadastrar\n novos carros',
-                                    icon: Icons.car_crash_sharp,
-                                    ontap: () {},
-                                  ),
-                                ],
-                              ),
+                                )
+                              ],
                             ),
-                          ],
-                        ),
-                      ),
-                    ],
+                          )
+                        ]),
                   ),
-                ),
-              ]),
+                  Container(
+                    color: Colors.black,
+                    child: Column(
+                      children: [
+                        Container(
+                          width: 420,
+                          height: 571,
+                          margin: const EdgeInsets.only(bottom: 2),
+                          decoration: const BoxDecoration(
+                              color: Colors.amber,
+                              borderRadius: BorderRadius.only(
+                                  topLeft: Radius.circular(90))),
+                          child: GridView(
+                            padding: const EdgeInsets.all(35),
+                            gridDelegate:
+                                // ignore: lines_longer_than_80_chars
+                                const SliverGridDelegateWithMaxCrossAxisExtent(
+                              maxCrossAxisExtent: 200,
+                              childAspectRatio: 4 / 3,
+                              crossAxisSpacing: 25,
+                              mainAxisSpacing: 25,
+                            ),
+                            children: [
+                              Cards(
+                                text: 'Relatorio \nde vendas ',
+                                icon: Icons.wallet,
+                                ontap: () {},
+                              ),
+                              Cards(
+                                text: 'ultimas\ntransaçoes',
+                                icon: Icons.access_time,
+                                ontap: () {},
+                              ),
+                              Cards(
+                                text: 'cadastrar \nusuarios ',
+                                icon: Icons.list_alt_outlined,
+                                ontap: () {
+                                  Navigator.of(context).pushReplacement(
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                              const SignUp()));
+                                },
+                              ),
+                              Cards(
+                                text: 'Cadastrar\n novos carros',
+                                icon: Icons.car_crash_sharp,
+                                ontap: () {},
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
             ),
-          ),
-        ));
+          ]),
+        ),
+      ),
+    );
   }
 }

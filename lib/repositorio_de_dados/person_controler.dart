@@ -34,6 +34,7 @@ class PersonControler extends ChangeNotifier {
     controllerName.clear();
     controllerNivel.clear();
     controllerSenha.clear();
+    notifyListeners();
   }
 
   Future<void> loadata() async {
