@@ -30,7 +30,7 @@ class _HomeState extends State<Home> {
   void initState() {
     super.initState();
     timer = Timer.periodic(const Duration(seconds: 5), (timer) {
-      if (currentIndex < imageUrls.length + 1) {
+      if (currentIndex < imageUrls.length - 1) {
         setState(() {
           currentIndex++;
         });
@@ -72,7 +72,7 @@ class _HomeState extends State<Home> {
                             bottomRight: Radius.circular(130))),
                     child: ListView(
                         padding: EdgeInsets.zero,
-                        //                                              carrossel
+                        //                                             carrossel
                         children: [
                           Container(
                               color: Colors.black,
@@ -125,7 +125,7 @@ class _HomeState extends State<Home> {
                       children: [
                         Container(
                           width: 420,
-                          height: 571,
+                          height: 401,
                           margin: const EdgeInsets.only(bottom: 2),
                           decoration: const BoxDecoration(
                               color: Colors.amber,
@@ -161,6 +161,16 @@ class _HomeState extends State<Home> {
                                           builder: (context) =>
                                               const SignUp()));
                                 },
+                              ),
+                              Cards(
+                                text: 'Cadastrar\n novos carros',
+                                icon: Icons.car_crash_sharp,
+                                ontap: () {},
+                              ),
+                              Cards(
+                                text: 'Cadastrar\n novos carros',
+                                icon: Icons.car_crash_sharp,
+                                ontap: () {},
                               ),
                               Cards(
                                 text: 'Cadastrar\n novos carros',

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../entidades/person_login.dart';
+import '../entidades/person.dart';
 import 'db.dart';
 
 class PersonControler extends ChangeNotifier {
@@ -11,17 +11,20 @@ class PersonControler extends ChangeNotifier {
   final constroller = PessoaControler();
   final _listaPeople = <Person>[];
   List<Person> get listaPeople => _listaPeople;
+  final formKey = GlobalKey<FormState>();
   final _controllerId = TextEditingController();
   final _controllerCnpj = TextEditingController();
   final _controllerName = TextEditingController();
   final _controllerNivel = TextEditingController();
   final _controllerSenha = TextEditingController();
+  final _controlerNivel = TextEditingController();
 
   TextEditingController get controllerCnpj => _controllerCnpj;
   TextEditingController get controllerName => _controllerName;
   TextEditingController get controllerNivel => _controllerNivel;
   TextEditingController get controllerSenha => _controllerSenha;
   TextEditingController get controllerid => _controllerId;
+  TextEditingController get controlerNivel => _controlerNivel;
 
   Future<void> insert() async {
     final people = Person(
@@ -56,7 +59,6 @@ class PersonControler extends ChangeNotifier {
       final item = result.first;
       nameuser = item[PersonTable.nomeloja];
 
-      print(' nome do usuario: $nameuser');
       return Person(
         id: item[PersonTable.id],
         cnpj: item[PersonTable.cnpj],

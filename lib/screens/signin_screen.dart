@@ -10,7 +10,6 @@ class SignIn extends StatelessWidget {
   const SignIn({super.key});
   @override
   Widget build(BuildContext context) {
-    final formKey = GlobalKey<FormState>();
     final state = Provider.of<PersonControler>(context, listen: true);
     return Scaffold(
       appBar: AppBar(
@@ -19,7 +18,7 @@ class SignIn extends StatelessWidget {
       ),
       backgroundColor: Colors.amber,
       body: Form(
-        key: formKey,
+        key: state.formKey,
         child: Center(
           child: Container(
             width: 340,
@@ -81,7 +80,7 @@ class SignIn extends StatelessWidget {
                           final username = state.controllerCnpj.text;
                           final password = state.controllerSenha.text;
                           final user = await state.getUserByUsername(username);
-                          if (formKey.currentState!.validate()) {
+                          if (state.formKey.currentState!.validate()) {
                             if (user != null && user.senha == password) {
                               await Navigator.of(context)
                                   .pushReplacementNamed('/Homepage');
@@ -90,9 +89,16 @@ class SignIn extends StatelessWidget {
                                 context: context,
                                 builder: (context) {
                                   return AlertDialog(
-                                    title: const Text('Erro de Login'),
-                                    content:
-                                        const Text('CNPJ ou senha incorretos.'),
+                                    title: const Text('Erro de Login',
+                                        style: TextStyle(
+                                            fontSize: 20,
+                                            fontWeight: FontWeight.bold)),
+                                    content: const Text(
+                                      'CNPJ ou senha incorretos.',
+                                      style: TextStyle(
+                                          fontSize: 20,
+                                          fontWeight: FontWeight.bold),
+                                    ),
                                     actions: [
                                       TextButton(
                                         onPressed: () {
@@ -107,12 +113,19 @@ class SignIn extends StatelessWidget {
                             }
                           }
                         },
-                        child: const Text('Entrar'),
-                      ),
-                      const Center(
-                        child: Text(
-                          '',
-                          style: TextStyle(color: Colors.white),
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.blue,
+                          shape: RoundedRectangleBorder(
+                            borderRadius:
+                                BorderRadius.circular(10), // Borda arredondada
+                          ),
+                        ),
+                        child: const Text(
+                          'Entrar',
+                          style: TextStyle(
+                              color: Colors.black,
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold),
                         ),
                       )
                     ],

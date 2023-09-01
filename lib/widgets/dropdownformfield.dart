@@ -1,5 +1,4 @@
 // import 'package:flutter/material.dart';
-// import 'package:jscar/entidades/person_login.dart';
 
 // class MyForm extends StatefulWidget {
 //   @override
@@ -7,7 +6,7 @@
 // }
 
 // class _MyFormState extends State<MyForm> {
-//   final List<String> dropdownItems =<Nivelautonomia>[] ;
+//   final List<String> dropdownItems = <Nivelautonomia>[];
 //   String? selectedValue;
 
 //   @override
@@ -50,3 +49,5 @@
 //     );
 //   }
 // }
+
+

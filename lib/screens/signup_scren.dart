@@ -8,7 +8,6 @@ class SignUp extends StatelessWidget {
   const SignUp({super.key});
   @override
   Widget build(BuildContext context) {
-    final formKey = GlobalKey<FormState>();
     final state = Provider.of<PersonControler>(context, listen: false);
     return Scaffold(
       appBar: AppBar(
@@ -42,7 +41,7 @@ class SignUp extends StatelessWidget {
             ],
           ),
           child: Form(
-            key: formKey,
+            key: state.formKey,
             child: Column(
               children: [
                 const Padding(
@@ -101,11 +100,20 @@ class SignUp extends StatelessWidget {
                     children: [
                       ElevatedButton(
                         onPressed: () async {
-                          if (formKey.currentState!.validate()) {
+                          if (state.formKey.currentState!.validate()) {
                             await state.insert();
                           }
                         },
-                        child: const Text('Cadastrar'),
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.blue,
+                          shape: RoundedRectangleBorder(
+                            borderRadius:
+                                BorderRadius.circular(10), // Borda arredondada
+                          ),
+                        ),
+                        child: const Text('Cadastrar',
+                            style: TextStyle(
+                                fontSize: 20, fontWeight: FontWeight.bold)),
                       ),
                     ],
                   ),
