@@ -156,21 +156,9 @@ class _HomeState extends State<Home> {
                                 text: 'cadastrar \nusuarios ',
                                 icon: Icons.list_alt_outlined,
                                 ontap: () {
-                                  Navigator.of(context).pushReplacement(
-                                      MaterialPageRoute(
-                                          builder: (context) =>
-                                              const SignUp()));
+                                  Navigator.of(context).push(MaterialPageRoute(
+                                      builder: (context) => const SignUp()));
                                 },
-                              ),
-                              Cards(
-                                text: 'Cadastrar\n novos carros',
-                                icon: Icons.car_crash_sharp,
-                                ontap: () {},
-                              ),
-                              Cards(
-                                text: 'Cadastrar\n novos carros',
-                                icon: Icons.car_crash_sharp,
-                                ontap: () {},
                               ),
                               Cards(
                                 text: 'Cadastrar\n novos carros',

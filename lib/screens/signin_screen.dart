@@ -1,8 +1,5 @@
-// ignore_for_file: use_build_context_synchronously
-
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-
 import '../repositorio_de_dados/person_controler.dart';
 import '../widgets/form_pagelogs.dart';
 
@@ -10,7 +7,7 @@ class SignIn extends StatelessWidget {
   const SignIn({super.key});
   @override
   Widget build(BuildContext context) {
-    final state = Provider.of<PersonControler>(context, listen: true);
+    final state = Provider.of<PersonControler>(context);
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
@@ -81,7 +78,9 @@ class SignIn extends StatelessWidget {
                           final password = state.controllerSenha.text;
                           final user = await state.getUserByUsername(username);
                           if (state.formKey.currentState!.validate()) {
-                            if (user != null && user.senha == password) {
+                            if (user != null &&
+                                user.senha == password &&
+                                context.mounted) {
                               await Navigator.of(context)
                                   .pushReplacementNamed('/Homepage');
                             } else {

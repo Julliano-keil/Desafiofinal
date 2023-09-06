@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-
+import 'repositorio_de_dados/autonomy_level.dart';
 import 'repositorio_de_dados/person_controler.dart';
+import 'screens/autonomy_screen.dart';
 import 'screens/botton_navigator_bar.dart';
 import 'screens/category_screen.dart';
 import 'screens/registered_people_screen.dart';
@@ -11,9 +12,16 @@ import 'screens/signup_scren.dart';
 
 void main() {
   runApp(
-    ChangeNotifierProvider<PersonControler>(
-      create: (context) =>
-          PersonControler(), // Ou qualquer lógica de inicialização necessária
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider<PersonControler>(
+          create: (context) => PersonControler(),
+        ),
+        ChangeNotifierProvider<AutonomilevelControler>(
+          // ignore: null_check_always_fails
+          create: (context) => AutonomilevelControler(person: null!),
+        ),
+      ],
       child: const MyApp(),
     ),
   );
@@ -67,6 +75,16 @@ class _MyAppState extends State<MyApp> with SingleTickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      routes: {
+        '/MyApp': (context) => const MyApp(),
+        '/Homepage': (context) => const Homepage(),
+        '/Categry': (context) => const Category(),
+        '/Settings': (context) => Settings(),
+        '/SignUp': (context) => const SignUp(),
+        '/SignIn': (context) => const SignIn(),
+        '/Registerpeople': (context) => Registeredpeople(),
+        '/Autonomyedite': (context) => const Autonomyedite(),
+      },
       debugShowCheckedModeBanner: false,
       navigatorKey: navigatorKey,
       home: Center(
@@ -83,15 +101,6 @@ class _MyAppState extends State<MyApp> with SingleTickerProviderStateMixin {
           ),
         ),
       ),
-      routes: {
-        '/MyApp': (context) => const MyApp(),
-        '/Homepage': (context) => const Homepage(),
-        '/Categry': (context) => const Category(),
-        '/Settings': (context) => Settings(),
-        '/SignUp': (context) => const SignUp(),
-        '/SignIn': (context) => const SignIn(),
-        '/Registerpeople': (context) => Registeredpeople(),
-      },
     );
   }
 }

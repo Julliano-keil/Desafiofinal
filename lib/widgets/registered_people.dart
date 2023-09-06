@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '../entidades/person.dart';
 import '../repositorio_de_dados/person_controler.dart';
 
 class RegisteredList extends StatelessWidget {
@@ -8,7 +9,7 @@ class RegisteredList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final state = Provider.of<PersonControler>(context, listen: false);
+    final state = Provider.of<PersonControler>(context, listen: true);
     return ListView.builder(
       itemCount: state.listaPeople.length,
       itemBuilder: (context, index) {
@@ -18,19 +19,20 @@ class RegisteredList extends StatelessWidget {
           child: Card(
             color: Colors.white,
             elevation: 14,
-            child: InkWell(
-              onTap: () {},
-              child: ListTile(
-                trailing: IconButton(
-                  onPressed: () {},
-                  icon: const Icon(Icons.people_alt_outlined),
-                ),
-                title: Text(
-                  person.nomeloja,
-                  style: const TextStyle(fontSize: 20),
-                ),
-                subtitle: Text(person.cnpj.toString()),
+            child: ListTile(
+              trailing: IconButton(
+                onPressed: () {
+                  Navigator.of(context, rootNavigator: true)
+                      .pushReplacementNamed('/Autonomyedite',
+                          arguments: Person);
+                },
+                icon: const Icon(Icons.lock_person_outlined),
               ),
+              title: Text(
+                person.nomeloja,
+                style: const TextStyle(fontSize: 20),
+              ),
+              subtitle: Text(person.cnpj.toString()),
             ),
           ),
         );

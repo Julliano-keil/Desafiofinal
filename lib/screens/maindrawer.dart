@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import 'autonomy_screen.dart';
 import 'botton_navigator_bar.dart';
 import 'registered_people_screen.dart';
 import 'settings_screen.dart';
@@ -62,6 +63,18 @@ class MainDrawer extends StatelessWidget {
               onTap: () {
                 Navigator.of(context).pushReplacement(MaterialPageRoute(
                     builder: (context) => Registeredpeople()));
+              },
+            ),
+            ListTile(
+              leading: const Icon(Icons.lock_person_outlined),
+              iconColor: Colors.amber,
+              title: const Text(
+                'Cadastrar autonomia',
+                style: TextStyle(color: Colors.amber),
+              ),
+              onTap: () {
+                Navigator.of(context).pushReplacement(MaterialPageRoute(
+                    builder: (context) => const Autonomyedite()));
               },
             ),
           ],

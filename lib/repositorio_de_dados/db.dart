@@ -1,7 +1,7 @@
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 
-import '../entidades/autonomy_Lavel.dart';
+import '../entidades/autonomy_level.dart';
 import '../entidades/person.dart';
 
 Future<Database> getdatabase() async {
@@ -11,9 +11,9 @@ Future<Database> getdatabase() async {
     path,
     onCreate: (db, version) async {
       db.execute(PersonTable.createTable);
-      db.execute(AutonomyLaveltable.createTable);
+      db.execute(AutonomyLeveltable.createTable);
     },
-    version: 1,
+    version: 2,
   );
 }
 
@@ -74,10 +74,11 @@ class PessoaControler {
   }
 }
 
-class AutonomyLaveltable {
+class AutonomyLeveltable {
   static const String createTable = '''
     CREATE TABLE $tablename(
       $id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+      $personid INTEGER NOT NULL,
       $name TEXT NOT NULL,
       $networkPercentage REAL NOT NULL,
       $networkSecurity REAL NOT NULL,
@@ -85,8 +86,9 @@ class AutonomyLaveltable {
     );
     ''';
 
-  static const String tablename = 'autonomy_lavel';
+  static const String tablename = 'autonomy_level';
   static const String id = 'id';
+  static const String personid = 'id_person';
   static const String name = 'name';
   static const String networkSecurity = 'network_Security';
   static const String storePercentage = 'store_Percentage';
@@ -95,39 +97,41 @@ class AutonomyLaveltable {
   static Map<String, dynamic> tomap(AutonomyLevel autonomylavel) {
     final map = <String, dynamic>{};
 
-    map[AutonomyLaveltable.id] = autonomylavel.id;
-    map[AutonomyLaveltable.name] = autonomylavel.name;
-    map[AutonomyLaveltable.networkPercentage] = autonomylavel.networkPercentage;
-    map[AutonomyLaveltable.networkSecurity] = autonomylavel.networkSecurity;
-    map[AutonomyLaveltable.storePercentage] = autonomylavel.storePercentage;
+    map[AutonomyLeveltable.id] = autonomylavel.id;
+    map[AutonomyLeveltable.personid] = autonomylavel.personID;
+    map[AutonomyLeveltable.name] = autonomylavel.name;
+    map[AutonomyLeveltable.networkPercentage] = autonomylavel.networkPercentage;
+    map[AutonomyLeveltable.networkSecurity] = autonomylavel.networkSecurity;
+    map[AutonomyLeveltable.storePercentage] = autonomylavel.storePercentage;
 
     return map;
   }
 }
 
 class AutonomyControler {
-  Future<void> insert(Person person) async {
+  Future<void> insert(AutonomyLevel autonomy) async {
     final database = await getdatabase();
-    final map = PersonTable.tomap(person);
-    await database.insert(PersonTable.tablename, map);
-
-    return;
+    final map = AutonomyLeveltable.tomap(autonomy);
+    await database.insert(AutonomyLeveltable.tablename, map);
   }
 
-  Future<List<AutonomyLevel>> select() async {
+  Future<List<AutonomyLevel>> select(int personID) async {
     final database = await getdatabase();
     final List<Map<String, dynamic>> result = await database.query(
-      AutonomyLaveltable.tablename,
-    );
+        AutonomyLeveltable.tablename,
+        where: '${AutonomyLeveltable.personid} = ?',
+        whereArgs: [personID]);
 
     var list = <AutonomyLevel>[];
 
     for (var item in result) {
       list.add(AutonomyLevel(
-          name: item[AutonomyLaveltable.name],
-          networkSecurity: item[AutonomyLaveltable.networkSecurity],
-          storePercentage: item[AutonomyLaveltable.storePercentage],
-          networkPercentage: item[AutonomyLaveltable.networkPercentage]));
+          id: item[AutonomyLeveltable.id],
+          personID: item[AutonomyLeveltable.personid],
+          name: item[AutonomyLeveltable.name],
+          networkSecurity: item[AutonomyLeveltable.networkSecurity],
+          storePercentage: item[AutonomyLeveltable.storePercentage],
+          networkPercentage: item[AutonomyLeveltable.networkPercentage]));
     }
     return list;
   }

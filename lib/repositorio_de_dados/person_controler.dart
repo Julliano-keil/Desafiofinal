@@ -27,47 +27,60 @@ class PersonControler extends ChangeNotifier {
   TextEditingController get controlerNivel => _controlerNivel;
 
   Future<void> insert() async {
-    final people = Person(
-        cnpj: int.parse(_controllerCnpj.text),
-        nomeloja: _controllerName.text,
-        senha: _controllerSenha.text);
+    try {
+      final people = Person(
+          id: int.parse(_controllerId.text),
+          cnpj: int.parse(_controllerCnpj.text),
+          nomeloja: _controllerName.text,
+          senha: _controllerSenha.text);
 
-    await constroller.insert(people);
-    controllerCnpj.clear();
-    controllerName.clear();
-    controllerNivel.clear();
-    controllerSenha.clear();
-    notifyListeners();
+      await constroller.insert(people);
+      controllerCnpj.clear();
+      controllerName.clear();
+      controllerNivel.clear();
+      controllerSenha.clear();
+      loadata();
+      notifyListeners();
+    } on Exception catch (e) {
+      debugPrint(' erro no metodo insert $e');
+    }
   }
 
   Future<void> loadata() async {
-    final list = await constroller.select();
-    listaPeople.clear();
-    listaPeople.addAll(list);
-    notifyListeners();
+    try {
+      final list = await constroller.select();
+      listaPeople.clear();
+      listaPeople.addAll(list);
+      notifyListeners();
+    } on Exception catch (e) {
+      debugPrint('erro no metodo loaddata $e');
+    }
   }
 
   Future<dynamic> getUserByUsername(String username) async {
-    final database = await getdatabase();
-    final List<Map<String, dynamic>> result = await database.query(
-      PersonTable.tablename,
-      where: '${PersonTable.cnpj} = ?',
-      whereArgs: [username],
-    );
-
-    if (result.isNotEmpty) {
-      final item = result.first;
-      nameuser = item[PersonTable.nomeloja];
-
-      return Person(
-        id: item[PersonTable.id],
-        cnpj: item[PersonTable.cnpj],
-        nomeloja: item[PersonTable.nomeloja],
-        senha: item[PersonTable.senha],
+    try {
+      final database = await getdatabase();
+      final List<Map<String, dynamic>> result = await database.query(
+        PersonTable.tablename,
+        where: '${PersonTable.cnpj} = ?',
+        whereArgs: [username],
       );
-    }
 
-    notifyListeners();
-    return null;
+      if (result.isNotEmpty) {
+        final item = result.first;
+        nameuser = item[PersonTable.nomeloja];
+
+        return Person(
+          id: item[PersonTable.id],
+          cnpj: item[PersonTable.cnpj],
+          nomeloja: item[PersonTable.nomeloja],
+          senha: item[PersonTable.senha],
+        );
+      }
+      notifyListeners();
+      return null;
+    } on Exception catch (e) {
+      debugPrint('erro no metodo getUser $e');
+    }
   }
 }
