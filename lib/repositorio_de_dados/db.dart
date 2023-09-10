@@ -3,6 +3,7 @@ import 'package:sqflite/sqflite.dart';
 
 import '../entidades/autonomy_level.dart';
 import '../entidades/person.dart';
+import '../entidades/vehicle.dart';
 
 Future<Database> getdatabase() async {
   final path = join(await getDatabasesPath(), 'pessoas.db');
@@ -10,10 +11,16 @@ Future<Database> getdatabase() async {
   return openDatabase(
     path,
     onCreate: (db, version) async {
-      db.execute(PersonTable.createTable);
-      db.execute(AutonomyLeveltable.createTable);
+      await db.execute(PersonTable.createTable);
+      await db.execute(AutonomyLeveltable.createTable);
+      await db.insert('person', {
+        'cnpj': 13878352000190,
+        'nomeloja': 'Anderson',
+        'senha': 'Anderson'
+      });
+      await db.execute(VehicleRegistrationTable.createTable);
     },
-    version: 2,
+    version: 3,
   );
 }
 
@@ -27,7 +34,7 @@ class PersonTable {
     );
     ''';
 
-  static const String tablename = 'pessoa';
+  static const String tablename = 'person';
   static const String id = 'id';
   static const String cnpj = 'cnpj';
   static const String nomeloja = 'nomeloja';
@@ -40,7 +47,6 @@ class PersonTable {
     map[PersonTable.cnpj] = person.cnpj;
     map[PersonTable.nomeloja] = person.nomeloja;
     map[PersonTable.senha] = person.senha;
-
     return map;
   }
 }
@@ -50,7 +56,6 @@ class PessoaControler {
     final database = await getdatabase();
     final map = PersonTable.tomap(person);
     await database.insert(PersonTable.tablename, map);
-
     return;
   }
 
@@ -132,6 +137,75 @@ class AutonomyControler {
           networkSecurity: item[AutonomyLeveltable.networkSecurity],
           storePercentage: item[AutonomyLeveltable.storePercentage],
           networkPercentage: item[AutonomyLeveltable.networkPercentage]));
+    }
+    return list;
+  }
+}
+
+class VehicleRegistrationTable {
+  static const String createTable = '''
+    CREATE TABLE $tablename(
+    $id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+      $model              TEXT NOT NULL,
+      $brand              TEXT NOT NULL,
+      $yearManufacture    INTEGER NOT NULL,
+      $yearVehicle        INTEGER NOT NULL,
+      $image              TEXT NOT NULL,
+      $pricePaidShop      REAL NOT NULL,
+      $purchaseDate       TEXT NOT NULL
+      );
+      ''';
+
+  static const String tablename = 'Vehicle_Registration';
+  static const String id = 'id';
+  static const String model = 'model';
+  static const String brand = 'brand';
+  static const String yearManufacture = 'year_manufacture';
+  static const String yearVehicle = 'year_vehicle';
+  static const String image = 'image';
+  static const String pricePaidShop = 'price_Paid_Shop';
+  static const String purchaseDate = 'purchase_date';
+
+  static Map<String, dynamic> tomap(Vehicle vehicle) {
+    final map = <String, dynamic>{};
+
+    map[VehicleRegistrationTable.id] = vehicle.id;
+    map[VehicleRegistrationTable.model] = vehicle.model;
+    map[VehicleRegistrationTable.brand] = vehicle.brand;
+    map[VehicleRegistrationTable.yearManufacture] = vehicle.yearManufacture;
+    map[VehicleRegistrationTable.yearVehicle] = vehicle.yearVehicle;
+    map[VehicleRegistrationTable.image] = vehicle.image;
+    map[VehicleRegistrationTable.pricePaidShop] = vehicle.pricePaidShop;
+    map[VehicleRegistrationTable.purchaseDate] = vehicle.purchaseDate;
+    return map;
+  }
+}
+
+class VehicleControllerdb {
+  Future<void> insert(Vehicle vehicle) async {
+    final database = await getdatabase();
+    final map = VehicleRegistrationTable.tomap(vehicle);
+    await database.insert(VehicleRegistrationTable.tablename, map);
+  }
+
+  Future<List<Vehicle>> select() async {
+    final database = await getdatabase();
+    final List<Map<String, dynamic>> result = await database.query(
+      VehicleRegistrationTable.tablename,
+    );
+
+    var list = <Vehicle>[];
+
+    for (var item in result) {
+      list.add(Vehicle(
+          id: item[VehicleRegistrationTable.id],
+          model: item[VehicleRegistrationTable.model],
+          brand: item[VehicleRegistrationTable.brand],
+          yearManufacture: item[VehicleRegistrationTable.yearManufacture],
+          yearVehicle: item[VehicleRegistrationTable.yearVehicle],
+          image: item[VehicleRegistrationTable.image],
+          pricePaidShop: item[VehicleRegistrationTable.pricePaidShop],
+          purchaseDate: item[VehicleRegistrationTable.purchaseDate]));
     }
     return list;
   }

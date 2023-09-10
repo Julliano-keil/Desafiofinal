@@ -18,12 +18,12 @@ class _CategoryscrenState extends State<Categoryscren> {
   void _listener() {
     setState(() {
       _currentpage = _pagecontroler.page!;
-      if (_currentpage >= 0 && _currentpage < 1.7) {
+      if (_currentpage >= 0 && _currentpage < 0.7) {
         indexPage = 0;
-      } else if (_currentpage > 0.5 && -_currentpage < 1.7) {
+      } else if (_currentpage > 0.5 && _currentpage < 1.7) {
         indexPage = 1;
-      } else if (_currentpage > 1.7 && -_currentpage < 2.7) {
-        indexPage = 3;
+      } else if (_currentpage > 1.7 && _currentpage < 2.7) {
+        indexPage = 2;
       }
     });
   }

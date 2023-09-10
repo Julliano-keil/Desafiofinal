@@ -6,6 +6,7 @@ import '../widgets/home_cards.dart';
 import '../widgets/trasactonimage.dart';
 import 'maindrawer.dart';
 import 'signup_scren.dart';
+import 'vehicle_screen.dart';
 
 class Home extends StatefulWidget {
   const Home({super.key});
@@ -100,7 +101,7 @@ class _HomeState extends State<Home> {
                                     mainAxisAlignment: MainAxisAlignment.start,
                                     children: [
                                       Text(
-                                        'óla ${state.nameuser}',
+                                        'Holá ${state.nameuser}',
                                         style: const TextStyle(
                                             color: Colors.white, fontSize: 25),
                                       ),
@@ -156,15 +157,21 @@ class _HomeState extends State<Home> {
                                 text: 'cadastrar \nusuarios ',
                                 icon: Icons.list_alt_outlined,
                                 ontap: () {
-                                  Navigator.of(context).push(MaterialPageRoute(
-                                      builder: (context) => const SignUp()));
+                                  Navigator.of(context).pushReplacement(
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                              const SignUp()));
                                 },
                               ),
                               Cards(
-                                text: 'Cadastrar\n novos carros',
-                                icon: Icons.car_crash_sharp,
-                                ontap: () {},
-                              ),
+                                  text: 'Cadastrar\n novos carros',
+                                  icon: Icons.car_crash_sharp,
+                                  ontap: () {
+                                    Navigator.of(context).pushReplacement(
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                const VehicleRegister()));
+                                  })
                             ],
                           ),
                         ),

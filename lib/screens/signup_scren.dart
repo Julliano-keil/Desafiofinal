@@ -72,8 +72,10 @@ class SignUp extends StatelessWidget {
                       }
                       return null;
                     },
+                    truee: false,
                   ),
                   BaseForm(
+                    truee: false,
                     controler: state.controllerName,
                     labelText: 'Nome da Loja',
                     hintText: 'Nome da loja entre 120 caracteres',
@@ -88,6 +90,7 @@ class SignUp extends StatelessWidget {
                     },
                   ),
                   BaseForm(
+                    truee: false,
                     controler: state.controllerSenha,
                     labelText: ' Senha',
                     hintText: 'Senha com 8 digitos',

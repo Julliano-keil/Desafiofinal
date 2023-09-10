@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'repositorio_de_dados/autonomy_level.dart';
+
 import 'repositorio_de_dados/person_controler.dart';
 import 'screens/autonomy_screen.dart';
 import 'screens/botton_navigator_bar.dart';
@@ -16,10 +16,6 @@ void main() {
       providers: [
         ChangeNotifierProvider<PersonControler>(
           create: (context) => PersonControler(),
-        ),
-        ChangeNotifierProvider<AutonomilevelControler>(
-          // ignore: null_check_always_fails
-          create: (context) => AutonomilevelControler(person: null!),
         ),
       ],
       child: const MyApp(),
@@ -40,7 +36,7 @@ class _MyAppState extends State<MyApp> with SingleTickerProviderStateMixin {
   bool isZoomed = false;
 
   void initializeSplash() async {
-    await Future.delayed(const Duration(seconds: 5));
+    await Future.delayed(const Duration(seconds: 3));
     navigateToHomepage();
   }
 
@@ -55,7 +51,7 @@ class _MyAppState extends State<MyApp> with SingleTickerProviderStateMixin {
     initializeSplash();
     _controller = AnimationController(
       vsync: this,
-      duration: const Duration(seconds: 4),
+      duration: const Duration(seconds: 3),
     );
 
     _animation = Tween<double>(begin: 0, end: 1).animate(_controller);
