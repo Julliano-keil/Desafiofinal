@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import '../entidades/person.dart';
 import 'db.dart';
 
-class PersonControler extends ChangeNotifier {
-  PersonControler() {
+class SignUpController extends ChangeNotifier {
+  SignUpController() {
     loadata();
   }
   String nameuser = '';
@@ -53,33 +53,6 @@ class PersonControler extends ChangeNotifier {
       notifyListeners();
     } on Exception catch (e) {
       debugPrint('erro no metodo loaddata $e');
-    }
-  }
-
-  Future<dynamic> getUserByUsername(String username) async {
-    try {
-      final database = await getdatabase();
-      final List<Map<String, dynamic>> result = await database.query(
-        PersonTable.tablename,
-        where: '${PersonTable.cnpj} = ?',
-        whereArgs: [username],
-      );
-
-      if (result.isNotEmpty) {
-        final item = result.first;
-        nameuser = item[PersonTable.nomeloja];
-
-        return Person(
-          id: item[PersonTable.id],
-          cnpj: item[PersonTable.cnpj],
-          nomeloja: item[PersonTable.nomeloja],
-          senha: item[PersonTable.senha],
-        );
-      }
-      notifyListeners();
-      return null;
-    } on Exception catch (e) {
-      debugPrint('erro no metodo getUser $e');
     }
   }
 }
