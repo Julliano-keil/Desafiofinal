@@ -15,8 +15,10 @@ class Autonomyedite extends StatelessWidget {
   Widget build(BuildContext context) {
     final color = Settingscode();
     final person = ModalRoute.of(context)!.settings.arguments as Person?;
+    print('id ${person!.id}');
+
     return ChangeNotifierProvider(create: (context) {
-      return AutonomilevelControler(person: person ?? Person());
+      return AutonomilevelControler(person: person);
     }, child: Consumer<AutonomilevelControler>(
       builder: (_, state, __) {
         return Scaffold(
@@ -120,12 +122,21 @@ class Autonomyedite extends StatelessWidget {
                                     if (state.formkey.currentState!
                                         .validate()) {
                                       state.insert();
-                                      if (context.mounted) {
+                                      if (context.mounted &&
+                                          state.listaAutonomy.isEmpty) {
                                         CustomDialog.showSuccess(
                                             context,
                                             ' Autonomia Cadastrada',
                                             'Cadastro finalizado '
                                                 'com sucesso!');
+                                      } else {
+                                        CustomDialog.showSuccess(
+                                            context,
+                                            ' Autonomia já Cadastrada',
+                                            'Em caso de alteraçao '
+                                                'Va para aba de alterar '
+                                                'autonomia');
+                                        state.cleanController();
                                       }
                                     }
                                   },
@@ -135,21 +146,32 @@ class Autonomyedite extends StatelessWidget {
                                       borderRadius: BorderRadius.circular(10),
                                     ),
                                   ),
-                                  child: const Text('Cadastrar'),
+                                  child: const Text('Cadastrar Nivel'),
                                 ),
                               ),
                               Padding(
                                 padding: const EdgeInsets.all(80.0),
                                 child: Container(
                                   decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(10),
-                                      color: Colors.black),
+                                    borderRadius: const BorderRadius.only(
+                                        topLeft: Radius.circular(30),
+                                        bottomRight: Radius.circular(30)),
+                                    color: Colors.black,
+                                    boxShadow: [
+                                      BoxShadow(
+                                        color: Colors.black.withOpacity(0.9),
+                                        spreadRadius: 6,
+                                        blurRadius: 13,
+                                        offset: const Offset(0, 8),
+                                      ),
+                                    ],
+                                  ),
                                   child: Padding(
-                                    padding: const EdgeInsets.all(8.0),
+                                    padding: const EdgeInsets.all(8),
                                     child: Column(
                                       children: [
                                         Text(
-                                          'Nome : ${person!.nomeloja}',
+                                          'Nome : ${person.nomeloja}',
                                           style: const TextStyle(
                                               color: Colors.white,
                                               fontWeight: FontWeight.bold,

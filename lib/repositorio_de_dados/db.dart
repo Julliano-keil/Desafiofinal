@@ -59,6 +59,12 @@ class PessoaControler {
     return;
   }
 
+  Future<void> delete(Person person) async {
+    final database = await getdatabase();
+    database.delete(PersonTable.tablename,
+        where: '${PersonTable.id} = ?', whereArgs: [person.id]);
+  }
+
   Future<List<Person>> select() async {
     final database = await getdatabase();
     final List<Map<String, dynamic>> result = await database.query(
@@ -76,6 +82,20 @@ class PessoaControler {
       ));
     }
     return list;
+  }
+
+  Future<void> update(Person person) async {
+    final database = await getdatabase();
+
+    final map = PersonTable.tomap(person);
+
+    database.update(
+      PersonTable.tablename,
+      map,
+      where: '${PersonTable.id} = ?',
+      whereArgs: [person.id],
+    );
+    return;
   }
 }
 
@@ -139,6 +159,12 @@ class AutonomyControler {
           networkPercentage: item[AutonomyLeveltable.networkPercentage]));
     }
     return list;
+  }
+
+  Future<void> delete(AutonomyLevel autonomy) async {
+    final database = await getdatabase();
+    database.delete(AutonomyLeveltable.tablename,
+        where: '${AutonomyLeveltable.id} = ?', whereArgs: [autonomy.id]);
   }
 }
 

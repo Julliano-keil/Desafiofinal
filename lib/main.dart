@@ -5,6 +5,8 @@ import 'repositorio_de_dados/person_controler.dart';
 import 'screens/autonomy_screen.dart';
 import 'screens/botton_navigator_bar.dart';
 import 'screens/category_screen.dart';
+import 'screens/edit_person_screen.dart';
+import 'screens/registered_autonomy_screen.dart';
 import 'screens/registered_people_screen.dart';
 import 'screens/settings_screen.dart';
 import 'screens/signin_screen.dart';
@@ -80,6 +82,8 @@ class _MyAppState extends State<MyApp> with SingleTickerProviderStateMixin {
         '/SignIn': (context) => const SignIn(),
         '/Registerpeople': (context) => Registeredpeople(),
         '/Autonomyedite': (context) => const Autonomyedite(),
+        '/EditPerson': (context) => EditPerson(),
+        '/RegisteredAutonomy': (context) => RegisteredAutonomy()
       },
       debugShowCheckedModeBanner: false,
       navigatorKey: navigatorKey,

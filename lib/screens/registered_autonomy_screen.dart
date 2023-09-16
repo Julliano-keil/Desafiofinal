@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
 import '../Screens/maindrawer.dart';
 import '../casos_de_usos/settings_code.dart';
-import '../widgets/dialog.dart';
-import '../widgets/registered_people.dart';
-import 'registered_autonomy_screen.dart';
+import '../widgets/registered_autonomy.dart';
 
-class Registeredpeople extends StatelessWidget {
-  Registeredpeople({super.key});
+class RegisteredAutonomy extends StatelessWidget {
+  RegisteredAutonomy({super.key});
 
   final Settingscode color = Settingscode();
 
@@ -14,9 +12,10 @@ class Registeredpeople extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Scaffold(
-        drawer:
-            const MainDrawer(), //                                     <= drawer
         appBar: AppBar(
+          leading: IconButton(
+              onPressed: () => Navigator.pop(context),
+              icon: const Icon(Icons.arrow_back_outlined)),
           backgroundColor: Colors.black,
           title: const Center(
             child: Text('Associados'),
@@ -58,32 +57,7 @@ class Registeredpeople extends StatelessWidget {
                   ),
                 ),
               ),
-              const RegisteredList(),
-              const SizedBox(),
-              Positioned(
-                  top: 700,
-                  left: 340,
-                  child: PopupMenuButton<String>(
-                      icon: const Icon(
-                        Icons.list,
-                        size: 40,
-                        color: Colors.white,
-                      ),
-                      onSelected: (choice) {
-                        if (choice == 'opcao1') {
-                          Navigator.of(context).push(MaterialPageRoute(
-                            builder: (context) => RegisteredAutonomy(),
-                          ));
-                        }
-                      },
-                      itemBuilder: (context) {
-                        return <PopupMenuEntry<String>>[
-                          const PopupMenuItem<String>(
-                            value: 'opcao1',
-                            child: Text('Lista de niveis'),
-                          ),
-                        ];
-                      }))
+              const RegisteredListAutonomy()
             ],
           ),
         ),

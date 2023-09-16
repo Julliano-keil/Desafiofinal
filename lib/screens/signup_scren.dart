@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import '../casos_de_usos/form_validator.dart';
 import '../repositorio_de_dados/signup_controller.dart';
 import '../widgets/dialog.dart';
 import '../widgets/form_pagelogs.dart';
@@ -67,46 +68,26 @@ class SignUp extends StatelessWidget {
                           labelText: 'CNPJ',
                           hintText: 'Informe seu CNPJ',
                           keyboardType: TextInputType.number,
-                          validator: (value) {
-                            if (value == null || value.isEmpty) {
-                              return 'Por favor, informe um CNPJ válido.';
-                            } else if (value.length != 14) {
-                              return 'cnpj deve conter 14 digitos';
-                            }
-                            return null;
-                          },
+                          validator: (value) =>
+                              FormValidator.validateEmpty(value, 14),
                           truee: false,
                         ),
                         BaseForm(
-                          truee: false,
-                          controler: state.controllerName,
-                          labelText: 'Nome da Loja',
-                          hintText: 'Nome da loja entre 120 caracteres',
-                          keyboardType: TextInputType.text,
-                          validator: (value) {
-                            if (value == null || value.isEmpty) {
-                              return 'Por favor, informe um nome válido.';
-                            } else if (value.length > 120) {
-                              return 'Nome deve  ter menos de 120 caracteres';
-                            }
-                            return null;
-                          },
-                        ),
+                            truee: false,
+                            controler: state.controllerName,
+                            labelText: 'Nome da Loja',
+                            hintText: 'Nome da loja entre 120 caracteres',
+                            keyboardType: TextInputType.text,
+                            validator: (value) =>
+                                FormValidator.validateEmpty(value, 20)),
                         BaseForm(
-                          truee: false,
-                          controler: state.controllerSenha,
-                          labelText: ' Senha',
-                          hintText: 'Senha com 8 digitos',
-                          keyboardType: TextInputType.text,
-                          validator: (value) {
-                            if (value == null || value.isEmpty) {
-                              return 'Por favor, informe uma senha válida.';
-                            } else if (value.length > 12) {
-                              return 'senha deve  ter menos de 12 caracteres';
-                            }
-                            return null;
-                          },
-                        ),
+                            truee: false,
+                            controler: state.controllerSenha,
+                            labelText: ' Senha',
+                            hintText: 'Senha com 8 digitos',
+                            keyboardType: TextInputType.text,
+                            validator: (value) =>
+                                FormValidator.validateEmpty(value, 20)),
                         Padding(
                           padding: const EdgeInsets.all(8.0),
                           child: Column(
@@ -128,8 +109,7 @@ class SignUp extends StatelessWidget {
                                 style: ElevatedButton.styleFrom(
                                   backgroundColor: Colors.blue,
                                   shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(
-                                        10), // Borda arredondada
+                                    borderRadius: BorderRadius.circular(10),
                                   ),
                                 ),
                                 child: const Text('Cadastrar',

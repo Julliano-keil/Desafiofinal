@@ -16,14 +16,14 @@ class CustomDialog {
             style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
           ),
           actions: [
-            IconButton(
-                onPressed: () {
-                  Navigator.pop(context);
-                },
-                icon: const Icon(
-                  Icons.chevron_left_outlined,
-                  color: Colors.black,
-                ))
+            TextButton(
+              onPressed: () {
+                if (context.mounted) {
+                  Navigator.of(context).pop();
+                }
+              },
+              child: const Text('ok'),
+            ),
           ],
         );
       },

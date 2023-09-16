@@ -59,7 +59,7 @@ class VehicleRegister extends StatelessWidget {
                             const Padding(
                               padding: EdgeInsets.all(15.0),
                               child: Text(
-                                ' Inscrever-se',
+                                'Cadastrar Veiculo',
                                 style: TextStyle(
                                     fontSize: 25, color: Colors.white),
                               ),
@@ -123,7 +123,7 @@ class VehicleRegister extends StatelessWidget {
                               controler: state.controllerPurchaseDate,
                               labelText: 'Data da Compra',
                               hintText: 'xx/xx/xxxx',
-                              keyboardType: TextInputType.text,
+                              keyboardType: TextInputType.datetime,
                               validator: (value) =>
                                   FormValidator.validateEmpty(value, 10),
                             ),

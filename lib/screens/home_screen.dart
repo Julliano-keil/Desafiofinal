@@ -59,13 +59,13 @@ class _HomeState extends State<Home> {
           color: Colors.black,
           child: Stack(children: [
             Container(
-              margin: const EdgeInsets.only(top: 2),
+              margin: const EdgeInsets.only(top: 0),
               color: Colors.amber,
               child: Column(
                 children: [
                   Container(
                     width: 420,
-                    height: 350,
+                    height: 352,
                     margin: const EdgeInsets.only(bottom: 0),
                     decoration: const BoxDecoration(
                         color: Colors.black,

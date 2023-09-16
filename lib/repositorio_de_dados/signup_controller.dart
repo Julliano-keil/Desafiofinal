@@ -7,9 +7,11 @@ class SignUpController extends ChangeNotifier {
     loadata();
   }
   String nameuser = '';
+  Person? _personcurrent;
 
-  final constroller = PessoaControler();
+  final controller = PessoaControler();
   final _listaPeople = <Person>[];
+  final formkey = GlobalKey<FormState>();
   List<Person> get listaPeople => _listaPeople;
   final formKey = GlobalKey<FormState>();
   final _controllerId = TextEditingController();
@@ -26,6 +28,16 @@ class SignUpController extends ChangeNotifier {
   TextEditingController get controllerid => _controllerId;
   TextEditingController get controlerNivel => _controlerNivel;
 
+  Future<void> delete(Person person) async {
+    try {
+      await controller.delete(person);
+      await loadata();
+      notifyListeners();
+    } on Exception catch (e) {
+      debugPrint(' erro no metodo delet $e');
+    }
+  }
+
   Future<void> insert() async {
     try {
       final people = Person(
@@ -33,7 +45,7 @@ class SignUpController extends ChangeNotifier {
           nomeloja: _controllerName.text,
           senha: _controllerSenha.text);
 
-      await constroller.insert(people);
+      await controller.insert(people);
       controllerCnpj.clear();
       controllerName.clear();
       controllerNivel.clear();
@@ -47,12 +59,46 @@ class SignUpController extends ChangeNotifier {
 
   Future<void> loadata() async {
     try {
-      final list = await constroller.select();
+      final list = await controller.select();
       listaPeople.clear();
       listaPeople.addAll(list);
       notifyListeners();
     } on Exception catch (e) {
       debugPrint('erro no metodo loaddata $e');
+    }
+  }
+
+  void updatePerson(Person person) {
+    _controllerCnpj.text = person.cnpj.toString();
+    _controllerName.text = person.nomeloja ?? '';
+    _controllerSenha.text = person.senha ?? '';
+
+    _personcurrent = Person(
+        id: person.id,
+        cnpj: person.cnpj,
+        nomeloja: person.nomeloja,
+        senha: person.senha);
+    loadata();
+    notifyListeners();
+  }
+
+  Future<void> update() async {
+    try {
+      final person = Person(
+          id: _personcurrent?.id,
+          cnpj: int.parse(_controllerCnpj.text),
+          nomeloja: _controllerName.text,
+          senha: _controllerSenha.text);
+
+      await controller.update(person);
+      controllerCnpj.clear();
+      controllerName.clear();
+      controllerNivel.clear();
+      controllerSenha.clear();
+      loadata();
+      notifyListeners();
+    } on Exception catch (e) {
+      debugPrint(' erro no metodo insert $e');
     }
   }
 }

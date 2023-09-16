@@ -77,6 +77,8 @@ class SignIn extends StatelessWidget {
                     children: [
                       ElevatedButton(
                         onPressed: () async {
+                          Navigator.of(context)
+                              .pushReplacementNamed('/Homepage');
                           final username = state.controllerCnpj.text;
                           final password = state.controllerSenha.text;
                           final user = await state.getUserByUsername(username);
