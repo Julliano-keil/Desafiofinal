@@ -166,6 +166,20 @@ class AutonomyControler {
     database.delete(AutonomyLeveltable.tablename,
         where: '${AutonomyLeveltable.id} = ?', whereArgs: [autonomy.id]);
   }
+
+  Future<void> update(AutonomyLevel autonomy) async {
+    final database = await getdatabase();
+
+    final map = AutonomyLeveltable.tomap(autonomy);
+
+    database.update(
+      AutonomyLeveltable.tablename,
+      map,
+      where: '${AutonomyLeveltable.id} = ?',
+      whereArgs: [autonomy.id],
+    );
+    return;
+  }
 }
 
 class VehicleRegistrationTable {

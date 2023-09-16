@@ -4,19 +4,21 @@ import '../casos_de_usos/form_validator.dart';
 import '../casos_de_usos/settings_code.dart';
 
 import '../entidades/person.dart';
+import '../repositorio_de_dados/autonomy_level_controller.dart';
 import '../repositorio_de_dados/signup_controller.dart';
 import '../widgets/form_pagelogs.dart';
 
-class EditPerson extends StatelessWidget {
-  EditPerson({super.key});
+class EditAutonomy extends StatelessWidget {
+  EditAutonomy({super.key});
 
   final Settingscode color = Settingscode();
 
   @override
   Widget build(BuildContext context) {
     final person = ModalRoute.of(context)!.settings.arguments as Person?;
-    return ChangeNotifierProvider<SignUpController>(
-        create: (context) => SignUpController(),
+    print(person);
+    return ChangeNotifierProvider<AutonomilevelControler>(
+        create: (context) => AutonomilevelControler(person: person ?? Person()),
         child: Consumer<SignUpController>(builder: (_, state, __) {
           return Scaffold(
               backgroundColor: Colors.amber,

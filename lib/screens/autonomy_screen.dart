@@ -15,10 +15,8 @@ class Autonomyedite extends StatelessWidget {
   Widget build(BuildContext context) {
     final color = Settingscode();
     final person = ModalRoute.of(context)!.settings.arguments as Person?;
-    print('id ${person!.id}');
-
     return ChangeNotifierProvider(create: (context) {
-      return AutonomilevelControler(person: person);
+      return AutonomilevelControler(person: person ?? Person());
     }, child: Consumer<AutonomilevelControler>(
       builder: (_, state, __) {
         return Scaffold(
@@ -171,7 +169,7 @@ class Autonomyedite extends StatelessWidget {
                                     child: Column(
                                       children: [
                                         Text(
-                                          'Nome : ${person.nomeloja}',
+                                          'Nome : ${person!.nomeloja}',
                                           style: const TextStyle(
                                               color: Colors.white,
                                               fontWeight: FontWeight.bold,

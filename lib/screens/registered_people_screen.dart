@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import '../Screens/maindrawer.dart';
 import '../casos_de_usos/settings_code.dart';
-import '../widgets/dialog.dart';
 import '../widgets/registered_people.dart';
-import 'registered_autonomy_screen.dart';
 
 class Registeredpeople extends StatelessWidget {
   Registeredpeople({super.key});
@@ -12,80 +10,78 @@ class Registeredpeople extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: Scaffold(
-        drawer:
-            const MainDrawer(), //                                     <= drawer
-        appBar: AppBar(
-          backgroundColor: Colors.black,
-          title: const Center(
-            child: Text('Associados'),
-          ),
+    return Scaffold(
+      drawer:
+          const MainDrawer(), //                                     <= drawer
+      appBar: AppBar(
+        backgroundColor: Colors.black,
+        title: const Center(
+          child: Text('Associados'),
         ),
-        body: Container(
-          width: double.infinity,
-          height: double.infinity,
-          color: color.cor,
-          child: Stack(
-            children: [
-              Container(
-                color: color.cor,
+      ),
+      body: Container(
+        width: double.infinity,
+        height: double.infinity,
+        color: color.cor,
+        child: Stack(
+          children: [
+            Container(
+              color: color.cor,
+              width: 430,
+              height: 400,
+              child: Container(
+                width: 420,
+                height: 382,
+                decoration: const BoxDecoration(
+                    color: Colors.amber,
+                    borderRadius:
+                        BorderRadius.only(bottomRight: Radius.circular(200))),
+                //
+              ),
+            ),
+            Positioned(
+              top: 400,
+              child: Container(
+                color: Colors.amber,
                 width: 430,
-                height: 400,
+                height: 411,
                 child: Container(
                   width: 420,
-                  height: 382,
+                  height: 400,
                   decoration: const BoxDecoration(
-                      color: Colors.amber,
+                      color: Colors.black,
                       borderRadius:
-                          BorderRadius.only(bottomRight: Radius.circular(200))),
-                  //
+                          BorderRadius.only(topLeft: Radius.circular(150))),
                 ),
               ),
-              Positioned(
-                top: 400,
-                child: Container(
-                  color: Colors.amber,
-                  width: 430,
-                  height: 411,
-                  child: Container(
-                    width: 420,
-                    height: 400,
-                    decoration: const BoxDecoration(
-                        color: Colors.black,
-                        borderRadius:
-                            BorderRadius.only(topLeft: Radius.circular(150))),
-                  ),
-                ),
-              ),
-              const RegisteredList(),
-              const SizedBox(),
-              Positioned(
-                  top: 700,
-                  left: 340,
-                  child: PopupMenuButton<String>(
-                      icon: const Icon(
-                        Icons.list,
-                        size: 40,
-                        color: Colors.white,
-                      ),
-                      onSelected: (choice) {
-                        if (choice == 'opcao1') {
-                          Navigator.of(context).push(MaterialPageRoute(
-                            builder: (context) => RegisteredAutonomy(),
-                          ));
-                        }
-                      },
-                      itemBuilder: (context) {
-                        return <PopupMenuEntry<String>>[
-                          const PopupMenuItem<String>(
-                            value: 'opcao1',
-                            child: Text('Lista de niveis'),
-                          ),
-                        ];
-                      }))
-            ],
-          ),
+            ),
+            const RegisteredList(),
+            const SizedBox(),
+            // Positioned(
+            //     top: 700,
+            //     left: 340,
+            //     child: PopupMenuButton<String>(
+            //         icon: const Icon(
+            //           Icons.list,
+            //           size: 40,
+            //           color: Colors.white,
+            //         ),
+            //         onSelected: (choice) {
+            //           if (choice == 'opcao1') {
+            //             Navigator.of(context, rootNavigator: true)
+            //                 .pushReplacementNamed('/RegisteredAutonomy',
+            //                     arguments: person);
+            //           }
+            //         },
+            //         itemBuilder: (context) {
+            //           return <PopupMenuEntry<String>>[
+            //             const PopupMenuItem<String>(
+            //               value: 'opcao1',
+            //               child: Text('Lista de niveis'),
+            //             ),
+            //           ];
+            //         }))
+          ],
         ),
       ),
     );

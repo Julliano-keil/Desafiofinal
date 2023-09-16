@@ -29,7 +29,6 @@ class RegisteredList extends StatelessWidget {
                             Navigator.of(context, rootNavigator: true)
                                 .pushReplacementNamed('/Autonomyedite',
                                     arguments: person);
-                            print(person.id);
                           } else if (choice == 'Opção 2') {
                             Navigator.of(context, rootNavigator: true)
                                 .pushReplacementNamed('/EditPerson',
@@ -77,6 +76,10 @@ class RegisteredList extends StatelessWidget {
                                 );
                               },
                             );
+                          } else if (choice == 'Opção 4') {
+                            Navigator.of(context, rootNavigator: true)
+                                .pushReplacementNamed('/RegisteredAutonomy',
+                                    arguments: person);
                           }
                         },
                         itemBuilder: (context) {
@@ -93,11 +96,15 @@ class RegisteredList extends StatelessWidget {
                               value: 'Opção 3',
                               child: Text('Deletar Usuario'),
                             ),
+                            const PopupMenuItem<String>(
+                              value: 'Opção 4',
+                              child: Text('lista de niveis'),
+                            ),
                           ];
                         },
                       ),
                       title: Text(
-                        person.id.toString(),
+                        person.nomeloja.toString(),
                         style: const TextStyle(fontSize: 20),
                       ),
                       subtitle: Text(person.cnpj.toString()),

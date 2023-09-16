@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:path/path.dart';
+
 import '../entidades/autonomy_level.dart';
 import '../entidades/person.dart';
 
-import '../widgets/dialog.dart';
 import 'db.dart';
 
 class AutonomilevelControler extends ChangeNotifier {
@@ -12,6 +11,7 @@ class AutonomilevelControler extends ChangeNotifier {
   }
 
   final Person person;
+  AutonomyLevel? _autonomyCurrent;
   final controller = AutonomyControler();
   final formkey = GlobalKey<FormState>();
   final _listaAutonomy = <AutonomyLevel>[];
@@ -32,7 +32,7 @@ class AutonomilevelControler extends ChangeNotifier {
   Future<void> insert() async {
     try {
       if (listaAutonomy.isNotEmpty) {
-        print('ja cadastrado! ');
+        debugPrint('ja cadastrado! ');
       } else if (person.id != null) {
         final autonomy = AutonomyLevel(
           name: _controllerNameNivel.text,
@@ -41,16 +41,15 @@ class AutonomilevelControler extends ChangeNotifier {
           networkPercentage: double.parse(_controllerNetworkPercentage.text),
           personID: person.id ?? 0,
         );
-        print('id 1 ${autonomy.personID}');
-        print('id 2${person.id}');
+
         await controller.insert(autonomy);
-        print(autonomy.networkPercentage);
+
         controllerNameNivel.clear();
         controllerNetworkPercentage.clear();
         controllerNetworkSecurity.clear();
         controllerStorePercentag.clear();
         loadata();
-        print('id 3${autonomy.personID}');
+
         notifyListeners();
       }
     } on Exception catch (e) {
@@ -63,9 +62,44 @@ class AutonomilevelControler extends ChangeNotifier {
 
     listaAutonomy.clear();
     listaAutonomy.addAll(list);
-    print('lista -- ${list.length}');
 
     notifyListeners();
+  }
+
+  void updatePerson(AutonomyLevel autonomy) {
+    _controllerNameNivel.text = autonomy.name;
+    _controllerNetworkPercentage.text = autonomy.networkPercentage.toString();
+    _controllerNetworkSecurity.text = autonomy.networkSecurity.toString();
+    _controllerStorePercentage.text = autonomy.storePercentage.toString();
+
+    _autonomyCurrent = AutonomyLevel(
+        name: autonomy.name,
+        networkSecurity: autonomy.networkSecurity,
+        storePercentage: autonomy.storePercentage,
+        networkPercentage: autonomy.storePercentage,
+        personID: person.id ?? 0);
+    loadata();
+    notifyListeners();
+  }
+
+  Future<void> update() async {
+    try {
+      final autonomy = AutonomyLevel(
+        id: _autonomyCurrent!.id,
+        name: _controllerNameNivel.text,
+        networkSecurity: double.parse(_controllerNetworkSecurity.text),
+        storePercentage: double.parse(_controllerStorePercentage.text),
+        networkPercentage: double.parse(_controllerNetworkPercentage.text),
+        personID: person.id ?? 0,
+      );
+
+      await controller.update(autonomy);
+      cleanController();
+      loadata();
+      notifyListeners();
+    } on Exception catch (e) {
+      debugPrint(' erro no metodo insert $e');
+    }
   }
 
   void cleanController() {
