@@ -59,8 +59,9 @@ class MainDrawer extends StatelessWidget {
                 style: TextStyle(color: Colors.amber),
               ),
               onTap: () {
-                Navigator.of(context).pushReplacement(MaterialPageRoute(
-                    builder: (context) => Registeredpeople()));
+                Navigator.of(context).pushReplacement(
+                  MaterialPageRoute(builder: (context) => Registeredpeople()),
+                );
               },
             ),
           ],

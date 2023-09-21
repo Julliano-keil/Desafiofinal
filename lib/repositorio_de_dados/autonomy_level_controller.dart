@@ -16,6 +16,9 @@ class AutonomilevelControler extends ChangeNotifier {
   final formkey = GlobalKey<FormState>();
   final _listaAutonomy = <AutonomyLevel>[];
   List<AutonomyLevel> get listaAutonomy => _listaAutonomy;
+  final _listaAutonomyComplete = <AutonomyLevel>[];
+  List<AutonomyLevel> get listComplete => _listaAutonomyComplete;
+
   final _controllerNameNivel = TextEditingController();
   final _controllerNetworkSecurity = TextEditingController();
   final _controllerStorePercentage = TextEditingController();
@@ -73,6 +76,7 @@ class AutonomilevelControler extends ChangeNotifier {
     _controllerStorePercentage.text = autonomy.storePercentage.toString();
 
     _autonomyCurrent = AutonomyLevel(
+        id: autonomy.id,
         name: autonomy.name,
         networkSecurity: autonomy.networkSecurity,
         storePercentage: autonomy.storePercentage,
@@ -85,20 +89,19 @@ class AutonomilevelControler extends ChangeNotifier {
   Future<void> update() async {
     try {
       final autonomy = AutonomyLevel(
-        id: _autonomyCurrent!.id,
-        name: _controllerNameNivel.text,
-        networkSecurity: double.parse(_controllerNetworkSecurity.text),
-        storePercentage: double.parse(_controllerStorePercentage.text),
-        networkPercentage: double.parse(_controllerNetworkPercentage.text),
-        personID: person.id ?? 0,
-      );
+          id: _autonomyCurrent?.id,
+          name: _controllerNameNivel.text,
+          networkSecurity: double.parse(_controllerNetworkSecurity.text),
+          storePercentage: double.parse(_controllerStorePercentage.text),
+          networkPercentage: double.parse(_controllerNetworkPercentage.text),
+          personID: person.id ?? 0);
 
       await controller.update(autonomy);
       cleanController();
       loadata();
       notifyListeners();
     } on Exception catch (e) {
-      debugPrint(' erro no metodo insert $e');
+      debugPrint(' erro no metodo update $e');
     }
   }
 

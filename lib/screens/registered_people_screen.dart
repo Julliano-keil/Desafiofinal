@@ -56,31 +56,6 @@ class Registeredpeople extends StatelessWidget {
               ),
             ),
             const RegisteredList(),
-            const SizedBox(),
-            // Positioned(
-            //     top: 700,
-            //     left: 340,
-            //     child: PopupMenuButton<String>(
-            //         icon: const Icon(
-            //           Icons.list,
-            //           size: 40,
-            //           color: Colors.white,
-            //         ),
-            //         onSelected: (choice) {
-            //           if (choice == 'opcao1') {
-            //             Navigator.of(context, rootNavigator: true)
-            //                 .pushReplacementNamed('/RegisteredAutonomy',
-            //                     arguments: person);
-            //           }
-            //         },
-            //         itemBuilder: (context) {
-            //           return <PopupMenuEntry<String>>[
-            //             const PopupMenuItem<String>(
-            //               value: 'opcao1',
-            //               child: Text('Lista de niveis'),
-            //             ),
-            //           ];
-            //         }))
           ],
         ),
       ),

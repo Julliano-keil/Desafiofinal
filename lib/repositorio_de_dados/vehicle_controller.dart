@@ -29,8 +29,8 @@ class VehicleController extends ChangeNotifier {
     final vehicle = Vehicle(
         model: _constrollermodel.text,
         brand: _controllerbrand.text,
-        yearManufacture: int.parse(_controllerYearManufacture.text),
-        yearVehicle: int.parse(_controlleryearVehicle.text),
+        yearManufacture: _controllerYearManufacture.text,
+        yearVehicle: _controlleryearVehicle.text,
         image: _controllerImage.text,
         pricePaidShop: double.parse(_controllerPricePaidShop.text),
         purchaseDate: _controllerPurchaseDate.text);
@@ -42,5 +42,14 @@ class VehicleController extends ChangeNotifier {
     controllerPurchaseDate.clear();
     controllerYearManufacture.clear();
     controllerPurchaseDate.clear();
+  }
+
+  Future<void> loadata() async {
+    final list = await controller.select();
+
+    listvehicle.clear();
+    listvehicle.addAll(list);
+
+    notifyListeners();
   }
 }

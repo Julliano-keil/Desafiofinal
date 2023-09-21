@@ -84,6 +84,7 @@ class Autonomyedite extends StatelessWidget {
                             keyboardType: TextInputType.name,
                           ),
                           BaseForm(
+                            formatter: '##.###',
                             truee: false,
                             controler: state.controllerStorePercentag,
                             labelText: 'Pecentual de ganho da matriz',
@@ -93,6 +94,7 @@ class Autonomyedite extends StatelessWidget {
                             keyboardType: TextInputType.number,
                           ),
                           BaseForm(
+                            formatter: '##.###',
                             truee: false,
                             controler: state.controllerNetworkPercentage,
                             labelText: 'Percentual de ganho da rede',
@@ -102,6 +104,7 @@ class Autonomyedite extends StatelessWidget {
                             keyboardType: TextInputType.number,
                           ),
                           BaseForm(
+                            formatter: '##.###',
                             truee: false,
                             controler: state.controllerNetworkSecurity,
                             labelText: 'caixa de segurança',

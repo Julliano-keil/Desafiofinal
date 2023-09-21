@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../Screens/maindrawer.dart';
 import '../casos_de_usos/settings_code.dart';
+
 import '../widgets/registered_people.dart';
 
 class Registeredpeople extends StatelessWidget {

@@ -188,8 +188,8 @@ class VehicleRegistrationTable {
     $id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
       $model              TEXT NOT NULL,
       $brand              TEXT NOT NULL,
-      $yearManufacture    INTEGER NOT NULL,
-      $yearVehicle        INTEGER NOT NULL,
+      $yearManufacture    TEXT NOT NULL,
+      $yearVehicle        TEXT NOT NULL,
       $image              TEXT NOT NULL,
       $pricePaidShop      REAL NOT NULL,
       $purchaseDate       TEXT NOT NULL

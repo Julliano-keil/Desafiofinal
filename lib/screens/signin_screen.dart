@@ -56,6 +56,7 @@ class SignIn extends StatelessWidget {
                     }
                     return null;
                   },
+                  formatter: '###.###.###.###-##',
                 ),
                 BaseForm(
                   controler: state.controllerSenha,
@@ -69,6 +70,7 @@ class SignIn extends StatelessWidget {
                     return null;
                   },
                   truee: true,
+                  formatter: '',
                 ),
                 Padding(
                   padding: const EdgeInsets.all(8.0),

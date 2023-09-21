@@ -39,9 +39,7 @@ class VehicleRegister extends StatelessWidget {
                     height: 850,
                     decoration: BoxDecoration(
                       color: Colors.black,
-                      borderRadius: const BorderRadius.only(
-                          bottomRight: Radius.circular(90),
-                          topLeft: Radius.circular(90)),
+                      borderRadius: const BorderRadius.all(Radius.circular(20)),
                       boxShadow: [
                         BoxShadow(
                           color: Colors.black.withOpacity(0.8),
@@ -65,6 +63,7 @@ class VehicleRegister extends StatelessWidget {
                               ),
                             ),
                             BaseForm(
+                              formatter: '',
                               controler: state.constrollermodel,
                               labelText: 'Modelo',
                               hintText: 'Modelo do carro',
@@ -74,6 +73,7 @@ class VehicleRegister extends StatelessWidget {
                               truee: false,
                             ),
                             BaseForm(
+                              formatter: '',
                               truee: false,
                               controler: state.controllerbrand,
                               labelText: 'Marca',
@@ -83,6 +83,7 @@ class VehicleRegister extends StatelessWidget {
                                   FormValidator.validateEmpty(value, 15),
                             ),
                             BaseForm(
+                              formatter: '##/##/####',
                               truee: false,
                               controler: state.controllerYearManufacture,
                               labelText: ' Data de fabricaçao',
@@ -92,24 +93,27 @@ class VehicleRegister extends StatelessWidget {
                                   FormValidator.validateEmpty(value, 10),
                             ),
                             BaseForm(
+                              formatter: '#######',
                               truee: false,
                               controler: state.controlleryearVehicle,
-                              labelText: ' Data do veiculo',
-                              hintText: 'xx/xx/xxxx',
+                              labelText: ' Placa do veiculo',
+                              hintText: 'Ex:QQU8H23',
                               keyboardType: TextInputType.datetime,
                               validator: (value) =>
                                   FormValidator.validateEmpty(value, 10),
                             ),
                             BaseForm(
+                              formatter: '',
                               truee: false,
                               controler: state.controllerImage,
                               labelText: ' foto do veiculo',
                               hintText: 'xx/xx/xxxx',
-                              keyboardType: TextInputType.number,
+                              keyboardType: TextInputType.url,
                               validator: (value) =>
                                   FormValidator.validateEmpty(value, 10),
                             ),
                             BaseForm(
+                              formatter: '###.###.###',
                               truee: false,
                               controler: state.controllerPricePaidShop,
                               labelText: 'Preço do veiculo',
@@ -119,6 +123,7 @@ class VehicleRegister extends StatelessWidget {
                                   FormValidator.validateEmpty(value, 10),
                             ),
                             BaseForm(
+                              formatter: '##/##/####',
                               truee: false,
                               controler: state.controllerPurchaseDate,
                               labelText: 'Data da Compra',

@@ -9,7 +9,7 @@ class CustomDialog {
         return AlertDialog(
           title: Text(
             primarytext,
-            style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+            style: const TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
           ),
           content: Text(
             secondtext,
@@ -22,7 +22,10 @@ class CustomDialog {
                   Navigator.of(context).pop();
                 }
               },
-              child: const Text('ok'),
+              child: const Text(
+                'ok',
+                style: TextStyle(fontSize: 20),
+              ),
             ),
           ],
         );

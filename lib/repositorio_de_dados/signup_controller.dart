@@ -12,6 +12,7 @@ class SignUpController extends ChangeNotifier {
   final controller = PessoaControler();
   final _listaPeople = <Person>[];
   final formkey = GlobalKey<FormState>();
+  final bool animed = false;
   List<Person> get listaPeople => _listaPeople;
   final formKey = GlobalKey<FormState>();
   final _controllerId = TextEditingController();

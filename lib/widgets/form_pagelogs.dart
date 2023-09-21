@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 
 class BaseForm extends StatelessWidget {
   final String labelText;
   final String hintText;
   final bool truee;
+  final String? formatter;
   final TextInputType keyboardType;
   final String? Function(String?)? validator;
   final TextEditingController? controler;
@@ -15,7 +17,8 @@ class BaseForm extends StatelessWidget {
       required this.keyboardType,
       this.validator,
       this.controler,
-      required this.truee});
+      required this.truee,
+      this.formatter});
 
   @override
   Widget build(BuildContext context) {
@@ -26,6 +29,8 @@ class BaseForm extends StatelessWidget {
         controller: controler,
         style: const TextStyle(color: Colors.white),
         keyboardType: keyboardType,
+        inputFormatters: [MaskTextInputFormatter(mask: formatter)],
+        magnifierConfiguration: TextMagnifierConfiguration.disabled,
         decoration: InputDecoration(
           labelText: labelText,
           hintStyle: const TextStyle(color: Colors.white, fontSize: 17),

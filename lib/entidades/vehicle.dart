@@ -2,8 +2,8 @@ class Vehicle {
   final int? id;
   final String model;
   final String brand;
-  final int yearManufacture;
-  final int yearVehicle;
+  final String yearManufacture;
+  final String yearVehicle;
   final String image;
   final double pricePaidShop;
   final String purchaseDate;

@@ -73,6 +73,7 @@ class EditPerson extends StatelessWidget {
                                 ),
                               ),
                               BaseForm(
+                                formatter: '###.###.###.###-##',
                                 controler: state.controllerCnpj,
                                 labelText: 'CNPJ',
                                 hintText: 'Informe seu CNPJ',
@@ -82,6 +83,7 @@ class EditPerson extends StatelessWidget {
                                 truee: false,
                               ),
                               BaseForm(
+                                  formatter: '###.###.###.###-##',
                                   truee: false,
                                   controler: state.controllerName,
                                   labelText: 'Nome da Loja',
@@ -90,6 +92,7 @@ class EditPerson extends StatelessWidget {
                                   validator: (value) =>
                                       FormValidator.validateEmpty(value, 20)),
                               BaseForm(
+                                  formatter: '###.###.###.###-##',
                                   truee: false,
                                   controler: state.controllerSenha,
                                   labelText: ' Senha',
