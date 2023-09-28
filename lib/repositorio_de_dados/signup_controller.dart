@@ -42,7 +42,7 @@ class SignUpController extends ChangeNotifier {
   Future<void> insert() async {
     try {
       final people = Person(
-          cnpj: int.parse(_controllerCnpj.text),
+          cnpj: _controllerCnpj.text,
           nomeloja: _controllerName.text,
           senha: _controllerSenha.text);
 
@@ -87,7 +87,7 @@ class SignUpController extends ChangeNotifier {
     try {
       final person = Person(
           id: _personcurrent?.id,
-          cnpj: int.parse(_controllerCnpj.text),
+          cnpj: _controllerCnpj.text,
           nomeloja: _controllerName.text,
           senha: _controllerSenha.text);
 

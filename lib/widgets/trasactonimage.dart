@@ -29,8 +29,8 @@ class TransactionImage extends StatelessWidget {
             Stack(children: [
               ClipRRect(
                 borderRadius: const BorderRadius.all(Radius.circular(10)),
-                child: Image.network(
-                  imageUrl,
+                child: Image.asset(
+                  'imagens/image_carro.png',
                   width: width,
                   height: height,
                   fit: BoxFit.cover,

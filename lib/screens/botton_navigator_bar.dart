@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import '../Screens/maindrawer.dart';
+import 'package:flutter_zoom_drawer/flutter_zoom_drawer.dart';
+
 import 'category_screen.dart';
 import 'home_screen.dart';
 
@@ -24,9 +25,14 @@ class _HomepageState extends State<Homepage> {
       debugShowCheckedModeBanner: false,
       home: SafeArea(
         child: Scaffold(
-          drawer: const MainDrawer(),
           appBar: AppBar(
             backgroundColor: Colors.black,
+            leading: IconButton(
+              icon: const Icon(Icons.menu),
+              onPressed: () {
+                ZoomDrawer.of(context)!.toggle();
+              },
+            ),
           ),
           body: _getBodyWidget(),
           bottomNavigationBar: BottomNavigationBar(

@@ -12,6 +12,7 @@ import 'screens/registered_people_screen.dart';
 import 'screens/settings_screen.dart';
 import 'screens/signin_screen.dart';
 import 'screens/signup_scren.dart';
+import 'widgets/zoondrauwer.dart';
 
 void main() {
   runApp(
@@ -76,12 +77,12 @@ class _MyAppState extends State<MyApp> with SingleTickerProviderStateMixin {
     return MaterialApp(
       routes: {
         '/MyApp': (context) => const MyApp(),
-        '/Homepage': (context) => const Homepage(),
+        '/Homepage': (context) => const Zoom(mainScreen: Homepage()),
         '/Categry': (context) => const Category(),
         '/Settings': (context) => Settings(),
         '/SignUp': (context) => const SignUp(),
         '/SignIn': (context) => const SignIn(),
-        '/Registerpeople': (context) => Registeredpeople(),
+        '/Registerpeople': (context) => Zoom(mainScreen: Registeredpeople()),
         '/Autonomyedite': (context) => const Autonomyedite(),
         '/EditPerson': (context) => EditPerson(),
         '/RegisteredAutonomy': (context) => RegisteredAutonomy(),

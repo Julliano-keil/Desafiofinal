@@ -4,7 +4,6 @@ import 'package:provider/provider.dart';
 import '../repositorio_de_dados/person_controler.dart';
 import '../widgets/home_cards.dart';
 import '../widgets/trasactonimage.dart';
-import 'maindrawer.dart';
 import 'signup_scren.dart';
 import 'vehicle_screen.dart';
 
@@ -16,11 +15,10 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-  final List<String> imageUrls = [
-    'https://assets-cdn.static-gm.com/Assets/a646d2ba-887d-4fcc-8e51-87fdcfec8da4/14538a9d-cc9c-44c3-a110-410d1c4d2639/v-1643915900/Desktop.webp',
-    'https://assets-cdn.static-gm.com/Assets/a646d2ba-887d-4fcc-8e51-87fdcfec8da4/14538a9d-cc9c-44c3-a110-410d1c4d2639/v-1643915900/Desktop.webp',
-    'https://assets-cdn.static-gm.com/Assets/a646d2ba-887d-4fcc-8e51-87fdcfec8da4/14538a9d-cc9c-44c3-a110-410d1c4d2639/v-1643915900/Desktop.webp',
-    'https://assets-cdn.static-gm.com/Assets/a646d2ba-887d-4fcc-8e51-87fdcfec8da4/14538a9d-cc9c-44c3-a110-410d1c4d2639/v-1643915900/Desktop.webp',
+  final List<String> image = [
+    'imagens/image_carro.png',
+    'imagens/image_carro.png',
+    'imagens/image_carro.png'
   ];
 
   int currentIndex = 0;
@@ -31,7 +29,7 @@ class _HomeState extends State<Home> {
   void initState() {
     super.initState();
     timer = Timer.periodic(const Duration(seconds: 5), (timer) {
-      if (currentIndex < imageUrls.length - 1) {
+      if (currentIndex < image.length - 1) {
         setState(() {
           currentIndex++;
         });
@@ -53,7 +51,6 @@ class _HomeState extends State<Home> {
   Widget build(BuildContext context) {
     final state = Provider.of<PersonControler>(context, listen: true);
     return Scaffold(
-      drawer: const MainDrawer(),
       body: SingleChildScrollView(
         child: Container(
           color: Colors.black,
@@ -83,10 +80,10 @@ class _HomeState extends State<Home> {
                                 controller: PageController(
                                     initialPage: currentIndex,
                                     viewportFraction: 0.9),
-                                itemCount: imageUrls.length,
+                                itemCount: image.length,
                                 itemBuilder: (context, index) {
                                   return TransactionImage(
-                                    imageUrl: imageUrls[index],
+                                    imageUrl: image[index],
                                     onTap: () {},
                                     width: 350,
                                     height: 160,

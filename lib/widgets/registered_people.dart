@@ -89,9 +89,6 @@ class _RegisteredListState extends State<RegisteredList> {
                                     },
                                   );
                                 } else if (choice == 'Opção 4') {
-                                  // Navigator.of(context, rootNavigator: true)
-                                  //     .pushReplacementNamed('/RegisteredAutonomy',
-                                  //         arguments: person);
                                   setState(() {
                                     _status = !_status;
                                   });
@@ -101,6 +98,9 @@ class _RegisteredListState extends State<RegisteredList> {
                                       '⚠️',
                                       'O usuario ${person.nomeloja}'
                                           ' nao pode ser excluido');
+                                }
+                                if (choice == 'Opção 5') {
+                                  debugPrint('not');
                                 }
                               },
                               itemBuilder: (context) {
@@ -113,14 +113,15 @@ class _RegisteredListState extends State<RegisteredList> {
                                     value: 'Opção 2',
                                     child: Text('Editar Usuario'),
                                   ),
-                                  const PopupMenuItem<String>(
-                                    value: 'Opção 3',
-                                    child: Text('Deletar Usuario'),
-                                  ),
-                                  const PopupMenuItem<String>(
-                                    value: 'Opção 4',
-                                    child: Text('Editar ou deletar nivel'),
-                                  ),
+                                  person.id == 1
+                                      ? const PopupMenuItem<String>(
+                                          value: 'Opção 4',
+                                          child:
+                                              Text('Editar ou deletar nivel'),
+                                        )
+                                      : const PopupMenuItem<String>(
+                                          value: 'Opção 3',
+                                          child: Text('Deletar')),
                                 ];
                               },
                             ),
@@ -128,7 +129,7 @@ class _RegisteredListState extends State<RegisteredList> {
                               person.nomeloja.toString(),
                               style: const TextStyle(fontSize: 20),
                             ),
-                            subtitle: Text(person.cnpj.toString()),
+                            subtitle: Text('Cnpj: ${person.cnpj.toString()}'),
                           ),
                           Visibility(
                             visible: !_status,

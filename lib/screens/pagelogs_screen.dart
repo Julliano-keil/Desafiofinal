@@ -20,8 +20,10 @@ class Pagelogs extends StatelessWidget {
                 Image.asset('imagens/logojk.png'),
                 Buttonnavigator(
                     onpresed: () => Navigator.of(context).pushReplacement(
-                        MaterialPageRoute(
-                            builder: (context) => const SignIn())),
+                          MaterialPageRoute(
+                            builder: (context) => const SignIn(),
+                          ),
+                        ),
                     text: 'Entrar'),
               ],
             ),

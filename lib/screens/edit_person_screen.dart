@@ -36,6 +36,7 @@ class EditPerson extends StatelessWidget {
                         color: Colors.black, fontWeight: FontWeight.bold),
                   ),
                 ),
+                centerTitle: true,
               ),
               body: ListView(
                 scrollDirection: Axis.vertical,

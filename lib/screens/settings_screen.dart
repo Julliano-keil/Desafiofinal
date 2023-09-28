@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
-
 import '../casos_de_usos/settings_code.dart';
 import '../widgets/thema_colors.dart';
-import 'maindrawer.dart';
 
 class Settings extends StatelessWidget {
   Settings({super.key});
@@ -12,9 +10,12 @@ class Settings extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Scaffold(
-        drawer:
-            const MainDrawer(), //                                     <= drawer
         appBar: AppBar(
+          leading: IconButton(
+            onPressed: () =>
+                Navigator.of(context).pushReplacementNamed('/Homepage'),
+            icon: const Icon(Icons.arrow_back),
+          ),
           backgroundColor: Colors.black,
           title: const Center(
             child: Text('Configuraçoes'),

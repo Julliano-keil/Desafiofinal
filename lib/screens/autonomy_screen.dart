@@ -29,6 +29,7 @@ class Autonomyedite extends StatelessWidget {
                 onPressed: () => Navigator.of(context, rootNavigator: true)
                     .pushReplacementNamed('/Registerpeople'),
                 icon: const Icon(Icons.arrow_back_sharp)),
+            centerTitle: true,
           ),
           body: Container(
             width: double.infinity,

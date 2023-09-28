@@ -1,17 +1,30 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+
 import '../casos_de_usos/form_validator.dart';
+import '../entidades/vehicle.dart';
 import '../repositorio_de_dados/vehicle_controller.dart';
+import '../widgets/autocomplite.dart';
 import '../widgets/dialog.dart';
 import '../widgets/form_pagelogs.dart';
 import 'botton_navigator_bar.dart';
 
-class VehicleRegister extends StatelessWidget {
+class VehicleRegister extends StatefulWidget {
   const VehicleRegister({super.key});
+
+  @override
+  State<VehicleRegister> createState() => _VehicleRegisterState();
+}
+
+class _VehicleRegisterState extends State<VehicleRegister> {
   @override
   Widget build(BuildContext context) {
+    final arguments = ModalRoute.of(context)!.settings.arguments as Vehicle?;
+
     return ChangeNotifierProvider<VehicleController>(
-        create: (context) => VehicleController(),
+        create: (context) => VehicleController(
+              vehicle: arguments,
+            ),
         child: Consumer<VehicleController>(
           builder: (_, state, __) {
             return Scaffold(
@@ -62,25 +75,13 @@ class VehicleRegister extends StatelessWidget {
                                     fontSize: 25, color: Colors.white),
                               ),
                             ),
-                            BaseForm(
-                              formatter: '',
-                              controler: state.constrollermodel,
-                              labelText: 'Modelo',
-                              hintText: 'Modelo do carro',
-                              keyboardType: TextInputType.text,
-                              validator: (value) =>
-                                  FormValidator.validateEmpty(value, 15),
-                              truee: false,
+                            const Padding(
+                              padding: EdgeInsets.all(8.0),
+                              child: _BrandTextField(),
                             ),
-                            BaseForm(
-                              formatter: '',
-                              truee: false,
-                              controler: state.controllerbrand,
-                              labelText: 'Marca',
-                              hintText: '',
-                              keyboardType: TextInputType.text,
-                              validator: (value) =>
-                                  FormValidator.validateEmpty(value, 15),
+                            const Padding(
+                              padding: EdgeInsets.all(8.0),
+                              child: _ModelTextField(),
                             ),
                             BaseForm(
                               formatter: '##/##/####',
@@ -102,16 +103,7 @@ class VehicleRegister extends StatelessWidget {
                               validator: (value) =>
                                   FormValidator.validateEmpty(value, 10),
                             ),
-                            BaseForm(
-                              formatter: '',
-                              truee: false,
-                              controler: state.controllerImage,
-                              labelText: ' foto do veiculo',
-                              hintText: 'xx/xx/xxxx',
-                              keyboardType: TextInputType.url,
-                              validator: (value) =>
-                                  FormValidator.validateEmpty(value, 10),
-                            ),
+                            //////////// image
                             BaseForm(
                               formatter: '###.###.###',
                               truee: false,
@@ -173,5 +165,50 @@ class VehicleRegister extends StatelessWidget {
                 ));
           },
         ));
+  }
+}
+
+class _BrandTextField extends StatelessWidget {
+  const _BrandTextField();
+
+  String? validator(String? value) {
+    if (value!.isEmpty) {
+      return 'Este campo é obrigatório.';
+    }
+    return null;
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final state = Provider.of<VehicleController>(context, listen: true);
+    return AppTextFieldAutoComplete(
+      labeltext: ' marca do carro',
+      controller: state.controllerbrand,
+      validator: validator,
+      focusNode: state.brandFieldFocusNode,
+      suggestions: state.allBrands,
+    );
+  }
+}
+
+class _ModelTextField extends StatelessWidget {
+  const _ModelTextField();
+
+  String? validator(String? value) {
+    if (value!.isEmpty) {
+      return 'Este campo é obrigatório.';
+    }
+    return null;
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final state = Provider.of<VehicleController>(context, listen: true);
+    return AppTextFieldAutoComplete(
+      labeltext: ' Modelo do carro',
+      controller: state.constrollermodel,
+      validator: validator,
+      suggestions: state.allModels,
+    );
   }
 }

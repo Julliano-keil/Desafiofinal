@@ -1,7 +1,9 @@
+import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../repositorio_de_dados/person_controler.dart';
+import '../widgets/dialog.dart';
 import '../widgets/form_pagelogs.dart';
 
 class SignIn extends StatelessWidget {
@@ -51,7 +53,7 @@ class SignIn extends StatelessWidget {
                   hintText: 'Informe seu CNPJ',
                   keyboardType: TextInputType.number,
                   validator: (value) {
-                    if (value == null || value.isEmpty || value.length != 14) {
+                    if (value == null || value.isEmpty || value.length != 18) {
                       return 'Por favor, informe um CNPJ válido.';
                     }
                     return null;
@@ -84,39 +86,50 @@ class SignIn extends StatelessWidget {
                           final username = state.controllerCnpj.text;
                           final password = state.controllerSenha.text;
                           final user = await state.getUserByUsername(username);
-                          if (state.formKey.currentState!.validate()) {
-                            if (user != null &&
-                                user.senha == password &&
-                                context.mounted) {
-                              await Navigator.of(context)
-                                  .pushReplacementNamed('/Homepage');
-                            } else {
-                              await showDialog(
-                                context: context,
-                                builder: (context) {
-                                  return AlertDialog(
-                                    title: const Text('Erro de Login',
+                          final connectivityResult =
+                              await (Connectivity().checkConnectivity());
+                          if (connectivityResult == ConnectivityResult.wifi &&
+                              context.mounted) {
+                            if (state.formKey.currentState!.validate()) {
+                              if (user != null &&
+                                  user.senha == password &&
+                                  context.mounted) {
+                                state.controllerCnpj.clear();
+                                state.controllerSenha.clear();
+                                await Navigator.of(context)
+                                    .pushReplacementNamed('/Homepage');
+                              } else {
+                                await showDialog(
+                                  context: context,
+                                  builder: (context) {
+                                    return AlertDialog(
+                                      title: const Text('Erro de Login',
+                                          style: TextStyle(
+                                              fontSize: 20,
+                                              fontWeight: FontWeight.bold)),
+                                      content: const Text(
+                                        'CNPJ ou senha incorretos.',
                                         style: TextStyle(
                                             fontSize: 20,
-                                            fontWeight: FontWeight.bold)),
-                                    content: const Text(
-                                      'CNPJ ou senha incorretos.',
-                                      style: TextStyle(
-                                          fontSize: 20,
-                                          fontWeight: FontWeight.bold),
-                                    ),
-                                    actions: [
-                                      TextButton(
-                                        onPressed: () {
-                                          Navigator.of(context).pop();
-                                        },
-                                        child: const Text('OK'),
+                                            fontWeight: FontWeight.bold),
                                       ),
-                                    ],
-                                  );
-                                },
-                              );
+                                      actions: [
+                                        TextButton(
+                                          onPressed: () {
+                                            Navigator.of(context).pop();
+                                          },
+                                          child: const Text('OK'),
+                                        ),
+                                      ],
+                                    );
+                                  },
+                                );
+                              }
                             }
+                          } else if (connectivityResult ==
+                              ConnectivityResult.none) {
+                            CustomDialog.showSuccess(context, 'Sem Internet',
+                                'Você não possui conexão de rede.');
                           }
                         },
                         style: ElevatedButton.styleFrom(

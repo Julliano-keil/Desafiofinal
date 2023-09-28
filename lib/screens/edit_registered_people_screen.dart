@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import '../Screens/maindrawer.dart';
 import '../casos_de_usos/settings_code.dart';
-
 import '../widgets/registered_people.dart';
 
 class Registeredpeople extends StatelessWidget {
@@ -13,13 +11,12 @@ class Registeredpeople extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Scaffold(
-        drawer:
-            const MainDrawer(), //                                     <= drawer
         appBar: AppBar(
           backgroundColor: Colors.black,
           title: const Center(
             child: Text('Associados'),
           ),
+          centerTitle: true,
         ),
         body: Container(
           width: double.infinity,

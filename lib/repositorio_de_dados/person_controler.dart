@@ -30,7 +30,7 @@ class PersonControler extends ChangeNotifier {
     try {
       final people = Person(
           id: null,
-          cnpj: int.parse(_controllerCnpj.text),
+          cnpj: _controllerCnpj.text,
           nomeloja: _controllerName.text,
           senha: _controllerSenha.text);
 
@@ -82,5 +82,13 @@ class PersonControler extends ChangeNotifier {
     } on Exception catch (e) {
       debugPrint('erro no metodo getUser $e');
     }
+  }
+
+  Person? _loggedUser;
+  Person? get loggedUser => _loggedUser;
+
+  void setLoggedUser(Person? user) {
+    _loggedUser = user;
+    notifyListeners();
   }
 }

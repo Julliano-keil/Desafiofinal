@@ -1,6 +1,6 @@
 class Person {
   final int? id;
-  final int? cnpj;
+  final String? cnpj;
   final String? nomeloja;
   final String? senha;
 

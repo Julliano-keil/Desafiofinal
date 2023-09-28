@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import '../Screens/maindrawer.dart';
 import '../casos_de_usos/settings_code.dart';
 import '../widgets/registered_people.dart';
 
@@ -11,13 +10,14 @@ class Registeredpeople extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      drawer:
-          const MainDrawer(), //                                     <= drawer
       appBar: AppBar(
+        leading: IconButton(
+            onPressed: () => Navigator.of(context, rootNavigator: true)
+                .pushReplacementNamed('/Homepage'),
+            icon: const Icon(Icons.arrow_back)),
         backgroundColor: Colors.black,
-        title: const Center(
-          child: Text('Associados'),
-        ),
+        title: const Text('Associados'),
+        centerTitle: true,
       ),
       body: Container(
         width: double.infinity,

@@ -3,6 +3,7 @@ import 'package:sqflite/sqflite.dart';
 
 import '../entidades/autonomy_level.dart';
 import '../entidades/person.dart';
+import '../entidades/sales.dart';
 import '../entidades/vehicle.dart';
 
 Future<Database> getdatabase() async {
@@ -14,7 +15,7 @@ Future<Database> getdatabase() async {
       await db.execute(PersonTable.createTable);
       await db.execute(AutonomyLeveltable.createTable);
       await db.insert('person', {
-        'cnpj': 13878352000190,
+        'cnpj': '138.783.520.001-90',
         'nomeloja': 'Anderson',
         'senha': 'Anderson'
       });
@@ -28,7 +29,7 @@ class PersonTable {
   static const String createTable = '''
     CREATE TABLE $tablename(
       $id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
-      $cnpj INTEGER NOT NULL,
+      $cnpj TEXT NOT NULL,
       $nomeloja TEXT NOT NULL,
       $senha  TEXT NOT NULL 
     );
@@ -228,10 +229,12 @@ class VehicleControllerdb {
     await database.insert(VehicleRegistrationTable.tablename, map);
   }
 
-  Future<List<Vehicle>> select() async {
+  Future<List<Vehicle>> select(int vehicleId) async {
     final database = await getdatabase();
     final List<Map<String, dynamic>> result = await database.query(
       VehicleRegistrationTable.tablename,
+      where: '${VehicleRegistrationTable.id} = ?',
+      whereArgs: [vehicleId],
     );
 
     var list = <Vehicle>[];
@@ -248,5 +251,207 @@ class VehicleControllerdb {
           purchaseDate: item[VehicleRegistrationTable.purchaseDate]));
     }
     return list;
+  }
+
+  Future<void> delete(Vehicle vehicle) async {
+    final database = await getdatabase();
+
+    await database.transaction(
+      (txn) async {
+        final batch = txn.batch();
+
+        batch.delete(
+          VehicleRegistrationTable.tablename,
+          where: '${VehicleRegistrationTable.id} = ?',
+          whereArgs: [vehicle.id],
+        );
+
+        batch.delete(
+          SalesTable.tableName,
+          where: '${SalesTable.vehicleId} = ?',
+          whereArgs: [vehicle.id],
+        );
+
+        await batch.commit();
+      },
+    );
+
+    return;
+  }
+}
+
+class SalesTable {
+  static const String createTable = '''
+    CREATE TABLE $tableName(
+      $id             INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+      $customerCpf    INTEGER NOT NULL,
+      $customerName   TEXT NOT NULL,
+      $soldWhen       TEXT NOT NULL,
+      $priceSold      REAL NOT NULL,
+      $dealershipCut  REAL NOT NULL,
+      $businessCut    REAL NOT NULL,
+      $safetyCut      REAL NOT NULL,
+      $vehicleId      INTERGER NOT NULL,
+      $dealershipId   INTEGER NOT NULL,
+      $userId         INTEGER NOT NULL
+    );
+  ''';
+
+  static const String tableName = 'sale';
+  static const String id = 'id';
+  static const String customerCpf = 'customer_cpf';
+  static const String customerName = 'customer_name';
+  static const String soldWhen = 'sold_when';
+  static const String priceSold = 'price_sold';
+  static const String dealershipCut = 'dealership_cut';
+  static const String businessCut = 'business_cut';
+  static const String safetyCut = 'safety_cut';
+  static const String vehicleId = 'vehicle_id';
+  static const String dealershipId = 'dealership_id';
+  static const String userId = 'user_id';
+
+  static Map<String, dynamic> toMap(Sale sale) {
+    final map = <String, dynamic>{};
+
+    map[SalesTable.id] = sale.id;
+    map[SalesTable.customerCpf] = sale.customerCpf;
+    map[SalesTable.customerName] = sale.customerName;
+    // map[SalesTable.soldWhen] = DateFormat('dd/MM/yyyy').format(sale.soldWhen);
+    map[SalesTable.priceSold] = sale.priceSold;
+    map[SalesTable.dealershipCut] = sale.dealershipPercentage;
+    map[SalesTable.businessCut] = sale.businessPercentage;
+    map[SalesTable.safetyCut] = sale.safetyPercentage;
+    map[SalesTable.vehicleId] = sale.vehicleId;
+    map[SalesTable.dealershipId] = sale.dealershipId;
+    map[SalesTable.userId] = sale.userId;
+
+    return map;
+  }
+}
+
+class SaleTableController {
+  Future<void> insert(Sale sale) async {
+    final database = await getdatabase();
+    final map = SalesTable.toMap(sale);
+
+    database.transaction(
+      (txn) async {
+        final batch = txn.batch();
+
+        batch.insert(
+          SalesTable.tableName,
+          map,
+        );
+
+        await batch.commit();
+      },
+    );
+
+    return;
+  }
+
+  Future<void> delete(Sale sale) async {
+    final database = await getdatabase();
+
+    database.transaction(
+      (txn) async {
+        final batch = txn.batch();
+
+        batch.delete(
+          SalesTable.tableName,
+          where: '${SalesTable.id} = ?',
+          whereArgs: [sale.id],
+        );
+
+        await batch.commit();
+      },
+    );
+
+    return;
+  }
+
+  Future<List<Sale>> selectByDealership(int dealershipId) async {
+    final database = await getdatabase();
+
+    final List<Map<String, dynamic>> result = await database.query(
+      SalesTable.tableName,
+      where: '${SalesTable.dealershipId} = ?',
+      whereArgs: [dealershipId],
+    );
+
+    var list = <Sale>[];
+
+    for (final item in result) {
+      list.add(
+        Sale(
+          id: item[SalesTable.id],
+          customerCpf: item[SalesTable.customerCpf],
+          customerName: item[SalesTable.customerName],
+          soldWhen: item[SalesTable.soldWhen],
+          priceSold: item[SalesTable.priceSold],
+          dealershipPercentage: item[SalesTable.dealershipCut],
+          businessPercentage: item[SalesTable.businessCut],
+          safetyPercentage: item[SalesTable.safetyCut],
+          vehicleId: item[SalesTable.vehicleId],
+          dealershipId: item[SalesTable.dealershipId],
+          userId: item[SalesTable.userId],
+        ),
+      );
+    }
+    return list;
+  }
+
+  Future<List<Sale>> selectByVehicle(int vehicleId) async {
+    final database = await getdatabase();
+
+    final List<Map<String, dynamic>> result = await database.query(
+      SalesTable.tableName,
+      where: '${SalesTable.vehicleId} = ?',
+      whereArgs: [vehicleId],
+    );
+
+    var list = <Sale>[];
+
+    for (final item in result) {
+      list.add(
+        Sale(
+          id: item[SalesTable.id],
+          customerCpf: item[SalesTable.customerCpf],
+          customerName: item[SalesTable.customerName],
+          soldWhen: item[SalesTable.soldWhen],
+          priceSold: item[SalesTable.priceSold],
+          dealershipPercentage: item[SalesTable.dealershipCut],
+          businessPercentage: item[SalesTable.businessCut],
+          safetyPercentage: item[SalesTable.safetyCut],
+          vehicleId: item[SalesTable.vehicleId],
+          dealershipId: item[SalesTable.dealershipId],
+          userId: item[SalesTable.userId],
+        ),
+      );
+    }
+    return list;
+  }
+
+  Future<void> update(Sale sale) async {
+    final database = await getdatabase();
+
+    final map = SalesTable.toMap(sale);
+
+    database.transaction(
+      (txn) async {
+        final batch = txn.batch();
+
+        batch.update(
+          SalesTable.tableName,
+          map,
+          where: '${SalesTable.tableName} = ?',
+          whereArgs: [sale.id],
+        );
+
+        await batch.commit();
+      },
+    );
+
+    return;
   }
 }
