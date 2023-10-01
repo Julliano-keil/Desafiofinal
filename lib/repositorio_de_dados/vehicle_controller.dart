@@ -1,25 +1,31 @@
+import 'dart:async';
+import 'dart:io';
 import 'package:flutter/widgets.dart';
+import 'package:image_picker/image_picker.dart';
 import '../entidades/vehicle.dart';
 import 'db.dart';
+import 'images.dart';
 import 'vehicle_http.dart';
 
 class VehicleController extends ChangeNotifier {
-  VehicleController({
-    this.vehicle,
-  }) {
-    init(vehicle);
+  VehicleController() {
+    init();
+    loadData();
   }
-  final controller = VehicleControllerdb();
-  final _listaVehicle = <Vehicle>[];
+
+  String? _controllerImage;
+
   bool editing = false;
+  final _listvehicle = <Vehicle>[];
+  List<Vehicle> get listavehicle => _listvehicle;
+
+  final vehicleController = VehicleControllerdb();
   Vehicle? vehicle;
-  List<Vehicle> get listvehicle => _listaVehicle;
   final formkey = GlobalKey<FormState>();
   final _constrollermodel = TextEditingController();
   final _controllerbrand = TextEditingController();
   final _controllerYearManufacture = TextEditingController();
   final _controlleryearVehicle = TextEditingController();
-  final _controllerImage = TextEditingController();
   final _controllerPricePaidShop = TextEditingController();
   final _controllerPurchaseDate = TextEditingController();
 
@@ -28,9 +34,9 @@ class VehicleController extends ChangeNotifier {
   TextEditingController get controllerYearManufacture =>
       _controllerYearManufacture;
   TextEditingController get controlleryearVehicle => _controlleryearVehicle;
-  TextEditingController get controllerImage => _controllerImage;
   TextEditingController get controllerPricePaidShop => _controllerPricePaidShop;
   TextEditingController get controllerPurchaseDate => _controllerPurchaseDate;
+  String? get controllerImage => _controllerImage;
 
   Future<void> insert() async {
     final vehicle = Vehicle(
@@ -38,27 +44,19 @@ class VehicleController extends ChangeNotifier {
         brand: _controllerbrand.text,
         yearManufacture: _controllerYearManufacture.text,
         yearVehicle: _controlleryearVehicle.text,
-        image: _controllerImage.text,
-        pricePaidShop: double.parse(_controllerPricePaidShop.text),
+        image: _controllerImage,
+        pricePaidShop: double.parse(
+            _controllerPricePaidShop.text.replaceAll(RegExp(r','), '')),
         purchaseDate: _controllerPurchaseDate.text);
-    await controller.insert(vehicle);
+    await vehicleController.insert(vehicle);
+    await loadData();
     constrollermodel.clear();
-    controllerImage.clear();
     controllerbrand.clear();
     controllerPricePaidShop.clear();
     controllerPurchaseDate.clear();
     controllerYearManufacture.clear();
     controllerPurchaseDate.clear();
-  }
-
-  Future<void> loadData(int vehicleId) async {
-    final result = await controller.select(vehicleId);
-    if (result.length == 1) {
-      vehicle = result.first;
-      notifyListeners();
-    } else {
-      throw Exception('The select method returned more than one vehicle');
-    }
+    _controllerImage = null;
   }
 
   final brandFieldFocusNode = FocusNode();
@@ -66,17 +64,22 @@ class VehicleController extends ChangeNotifier {
   final allBrands = <String>[];
   final allModels = <String>[];
 
-  void init(Vehicle? vehicle) async {
+  void init() async {
     editing = false;
+    final result = await getBrandNames();
+    allBrands.addAll(result ?? []);
+    showModels();
+    editing = true;
+  }
 
-    if (vehicle == null) {
-      final result = await getBrandNames();
-
-      allBrands.addAll(result ?? []);
-
-      showModels();
-    } else {
-      editing = true;
+  Future<void> loadData() async {
+    try {
+      final list = await vehicleController.selectlist();
+      listavehicle.clear();
+      listavehicle.addAll(list);
+      notifyListeners();
+    } on Exception catch (e) {
+      debugPrint('erro no metodo loaddata $e');
     }
   }
 
@@ -117,5 +120,35 @@ class VehicleController extends ChangeNotifier {
       }
     }
     return modelNames;
+  }
+
+  Future pickImage() async {
+    {
+      final image = await ImagePicker().pickImage(source: ImageSource.gallery);
+      if (image == null) return;
+
+      _controllerImage = image.path;
+    }
+    notifyListeners();
+  }
+
+  Future takePhoto() async {
+    {
+      final image = await ImagePicker().pickImage(source: ImageSource.camera);
+      if (image == null) return;
+
+      _controllerImage = image.path;
+      notifyListeners();
+    }
+  }
+
+  Future<File> loadVehicleImage(String imageName) async {
+    final result = await LocalStorage().loadImageLocal(imageName);
+    return result;
+  }
+
+  void setPickedDate(String date) {
+    _controllerPurchaseDate.text = date;
+    notifyListeners();
   }
 }

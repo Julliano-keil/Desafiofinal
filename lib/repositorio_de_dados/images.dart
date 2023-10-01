@@ -1,8 +1,10 @@
 import 'dart:io';
 
+import 'package:path_provider/path_provider.dart';
+
 class LocalStorage {
   Future<File> _getLocalImage(String imageName) async {
-    var dir = await getApplicationDocumentsDirectory();
+    var dir = await getApplicationCacheDirectory();
     return File('${dir.path}/$imageName');
   }
 
@@ -19,6 +21,4 @@ class LocalStorage {
     }
     return file;
   }
-
-  getApplicationDocumentsDirectory() {}
 }

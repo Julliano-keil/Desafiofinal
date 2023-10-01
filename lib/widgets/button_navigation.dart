@@ -1,21 +1,39 @@
 import 'package:flutter/material.dart';
 
 class Buttonnavigator extends StatelessWidget {
-  final Function() onpresed;
-  final String text;
+  const Buttonnavigator({
+    super.key,
+    this.text,
+    this.padding,
+    required this.onPressed,
+  });
 
-  const Buttonnavigator(
-      {super.key, required this.onpresed, required this.text});
+  final void Function()? onPressed;
+  final String? text;
+  final double? padding;
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(10.0),
-      child: ElevatedButton(
-        onPressed: onpresed,
-        child: Text(text,
-            style: const TextStyle(color: Colors.white, fontSize: 20)),
+    return ElevatedButton(
+      onPressed: onPressed,
+      style: ElevatedButton.styleFrom(
+        maximumSize: Size(
+          MediaQuery.of(context).size.width / 1.26,
+          MediaQuery.of(context).size.height / 16,
+        ),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(15),
+        ),
+        padding: padding != null
+            ? EdgeInsets.only(
+                left: padding!,
+                right: padding!,
+              )
+            : null,
+        backgroundColor: Colors.blue,
+        foregroundColor: Colors.white,
       ),
+      child: Text(text ?? ''),
     );
   }
 }

@@ -1,29 +1,31 @@
 import 'dart:io';
 
-import 'package:flutter/material.dart';
+import 'package:flutter/cupertino.dart';
+
 import '../entidades/vehicle.dart';
 import 'db.dart';
 import 'images.dart';
 
-class VehicleOptionsState with ChangeNotifier {
-  VehicleOptionsState(int vehicleId) {
-    loadData(vehicleId);
+class Vehiclelist with ChangeNotifier {
+  Vehiclelist() {
+    loadData();
   }
 
   bool loading = true;
+  final _listvehicle = <Vehicle>[];
+  List<Vehicle> get listavehicle => _listvehicle;
 
   final vehicleController = VehicleControllerdb();
-  late Vehicle vehicle;
+  Vehicle? vehicle;
 
-  Future<void> loadData(int vehicleId) async {
-    loading = true;
-    final result = await vehicleController.select(vehicleId);
-    if (result.length == 1) {
-      vehicle = result.first;
-      loading = false;
+  Future<void> loadData() async {
+    try {
+      final list = await vehicleController.selectlist();
+      listavehicle.clear();
+      listavehicle.addAll(list);
       notifyListeners();
-    } else {
-      throw Exception('The select method returned more than one vehicle');
+    } on Exception catch (e) {
+      debugPrint('erro no metodo loaddata $e');
     }
   }
 

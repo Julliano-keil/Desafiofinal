@@ -81,8 +81,6 @@ class SignIn extends StatelessWidget {
                     children: [
                       ElevatedButton(
                         onPressed: () async {
-                          Navigator.of(context)
-                              .pushReplacementNamed('/Homepage');
                           final username = state.controllerCnpj.text;
                           final password = state.controllerSenha.text;
                           final user = await state.getUserByUsername(username);
@@ -97,7 +95,8 @@ class SignIn extends StatelessWidget {
                                 state.controllerCnpj.clear();
                                 state.controllerSenha.clear();
                                 await Navigator.of(context)
-                                    .pushReplacementNamed('/Homepage');
+                                    .pushReplacementNamed('/Homepage',
+                                        arguments: state.controllerid);
                               } else {
                                 await showDialog(
                                   context: context,

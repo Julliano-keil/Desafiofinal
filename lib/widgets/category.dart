@@ -1,5 +1,7 @@
+import 'dart:io';
 import 'package:flutter/material.dart';
-import '../casos_de_usos/car.dart';
+import 'package:provider/provider.dart';
+import '../repositorio_de_dados/vehicle_controller.dart';
 
 class Categoryscren extends StatefulWidget {
   const Categoryscren({
@@ -18,12 +20,20 @@ class _CategoryscrenState extends State<Categoryscren> {
   void _listener() {
     setState(() {
       _currentpage = _pagecontroler.page!;
-      if (_currentpage >= 0 && _currentpage < 0.7) {
-        indexPage = 0;
-      } else if (_currentpage > 0.5 && _currentpage < 1.7) {
-        indexPage = 1;
-      } else if (_currentpage > 1.7 && _currentpage < 2.7) {
-        indexPage = 2;
+
+      const precision = 0.1;
+
+      for (var i = 0; i <= 25; i++) {
+        if ((_currentpage - i) < precision) {
+          indexPage = i.toDouble();
+          break;
+        }
+      }
+      for (var i = 0; i < 6; i++) {
+        if (_currentpage >= i.toDouble() && _currentpage <= (i + 0.7)) {
+          indexPage = i.toDouble();
+          break;
+        }
       }
     });
   }
@@ -42,84 +52,125 @@ class _CategoryscrenState extends State<Categoryscren> {
 
   @override
   Widget build(BuildContext context) {
-    return Expanded(
-      child: PageView.builder(
-        controller: _pagecontroler,
-        physics: const BouncingScrollPhysics(),
-        itemCount: cars.length,
-        itemBuilder: (context, index) {
-          final car = cars[index];
-          return Padding(
-            padding: EdgeInsets.only(right: index == indexPage ? 30 : 50),
-            child: Transform.translate(
-              offset: Offset(index == indexPage ? 0 : 20, 0),
-              child: LayoutBuilder(builder: (context, constraints) {
-                return AnimatedContainer(
-                  duration: const Duration(milliseconds: 250),
-                  margin: EdgeInsets.only(
-                      top: index == indexPage ? 30 : 50, bottom: 30),
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(36),
-                      color: Colors.amber),
-                  child: Stack(
-                    clipBehavior: Clip.none,
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 20.0, vertical: 40),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.stretch,
+    return ChangeNotifierProvider<VehicleController>(
+      create: (context) => VehicleController(),
+      child: Consumer<VehicleController>(
+        builder: (_, state, __) {
+          return Expanded(
+            child: PageView.builder(
+              controller: _pagecontroler,
+              physics: const BouncingScrollPhysics(),
+              itemCount: state.listavehicle.length,
+              itemBuilder: (context, index) {
+                final car = state.listavehicle[index];
+                return Padding(
+                  padding: EdgeInsets.only(right: index == indexPage ? 30 : 50),
+                  child: Transform.translate(
+                    offset: Offset(index == indexPage ? 0 : 20, 0),
+                    child: LayoutBuilder(builder: (context, constraints) {
+                      return AnimatedContainer(
+                        duration: const Duration(milliseconds: 250),
+                        margin: EdgeInsets.only(
+                            top: index == indexPage ? 30 : 50, bottom: 30),
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(36),
+                            color: Colors.amber),
+                        child: Stack(
+                          clipBehavior: Clip.none,
                           children: [
-                            Text(
-                              car.tipo,
-                              style: const TextStyle(
-                                  fontSize: 16,
-                                  color: Colors.black,
-                                  fontWeight: FontWeight.w600),
-                            ),
-                            Text(
-                              car.name,
-                              style: const TextStyle(
-                                  fontSize: 35,
-                                  color: Colors.black,
-                                  fontWeight: FontWeight.w800),
-                            ),
-                            SizedBox(
-                                child: Text(
-                              car.price,
-                              style: const TextStyle(
-                                  fontSize: 18,
-                                  fontWeight: FontWeight.w600,
-                                  color: Colors.black),
-                            )),
-                            const SizedBox(
-                              width: 4,
-                              child: FittedBox(
-                                child: Text('JK \n Automoveis',
-                                    style: TextStyle(
-                                        color: Colors.grey,
-                                        fontWeight: FontWeight.bold)),
+                            Padding(
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 20.0, vertical: 40),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.stretch,
+                                children: [
+                                  Text(
+                                    car.brand.toUpperCase(),
+                                    style: const TextStyle(
+                                        fontSize: 20,
+                                        color: Colors.black,
+                                        fontWeight: FontWeight.w600),
+                                  ),
+                                  Text(
+                                    car.model.toUpperCase(),
+                                    style: const TextStyle(
+                                        fontSize: 35,
+                                        color: Colors.black,
+                                        fontWeight: FontWeight.w800),
+                                  ),
+                                  SizedBox(
+                                      child: Text(
+                                    car.pricePaidShop.toString(),
+                                    style: const TextStyle(
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.w600,
+                                        color: Colors.black),
+                                  )),
+                                  const SizedBox(
+                                    width: 4,
+                                    child: FittedBox(
+                                      child: Text('JK \n Automoveis',
+                                          style: TextStyle(
+                                              color: Colors.grey,
+                                              fontWeight: FontWeight.bold)),
+                                    ),
+                                  ),
+                                ],
                               ),
                             ),
+                            Positioned(
+                              top: constraints.maxHeight * 0.3,
+                              left: -constraints.maxHeight * 0.0,
+                              right: -constraints.maxHeight * 0.0,
+                              bottom: constraints.maxHeight * 0.2,
+                              child: Image.file(
+                                File(
+                                  car.image!,
+                                ),
+                              ),
+                            ),
+                            Positioned(
+                              top: 502,
+                              right: 1,
+                              child: Container(
+                                width: 120,
+                                height: 100,
+                                decoration: BoxDecoration(
+                                  color: Colors.black,
+                                  borderRadius: const BorderRadius.only(
+                                      bottomRight: Radius.circular(35),
+                                      topLeft: Radius.circular(30)),
+                                  boxShadow: [
+                                    BoxShadow(
+                                      color: Colors.black.withOpacity(0.8),
+                                      spreadRadius: 5,
+                                      blurRadius: 10,
+                                      offset: const Offset(0, 3),
+                                    ),
+                                  ],
+                                ),
+                                child: GestureDetector(
+                                  onTap: () {
+                                    //form
+                                  },
+                                  child: const Padding(
+                                    padding: EdgeInsets.all(16.0),
+                                    child: Text(
+                                      'Comprar Vehiculo',
+                                      style: TextStyle(
+                                          color: Colors.white, fontSize: 20),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            )
                           ],
                         ),
-                      ),
-                      Positioned(
-                        top: constraints.maxHeight * 0.3,
-                        left: -constraints.maxHeight * 0.0,
-                        right: -constraints.maxHeight * 0.1,
-                        bottom: constraints.maxHeight * 0.2,
-                        child: Image.asset(
-                          'imagens/mustang.png',
-                          width: constraints.maxWidth +
-                              constraints.maxHeight * 0.3,
-                          fit: BoxFit.cover,
-                        ),
-                      )
-                    ],
+                      );
+                    }),
                   ),
                 );
-              }),
+              },
             ),
           );
         },

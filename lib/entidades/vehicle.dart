@@ -4,7 +4,7 @@ class Vehicle {
   final String brand;
   final String yearManufacture;
   final String yearVehicle;
-  final String image;
+  final String? image;
   final double pricePaidShop;
   final String purchaseDate;
   bool favorite = false;

@@ -253,6 +253,27 @@ class VehicleControllerdb {
     return list;
   }
 
+  Future<List<Vehicle>> selectlist() async {
+    final database = await getdatabase();
+    final List<Map<String, dynamic>> result =
+        await database.query(VehicleRegistrationTable.tablename);
+
+    var list = <Vehicle>[];
+
+    for (var item in result) {
+      list.add(Vehicle(
+          id: item[VehicleRegistrationTable.id],
+          model: item[VehicleRegistrationTable.model],
+          brand: item[VehicleRegistrationTable.brand],
+          yearManufacture: item[VehicleRegistrationTable.yearManufacture],
+          yearVehicle: item[VehicleRegistrationTable.yearVehicle],
+          image: item[VehicleRegistrationTable.image],
+          pricePaidShop: item[VehicleRegistrationTable.pricePaidShop],
+          purchaseDate: item[VehicleRegistrationTable.purchaseDate]));
+    }
+    return list;
+  }
+
   Future<void> delete(Vehicle vehicle) async {
     final database = await getdatabase();
 
@@ -316,7 +337,7 @@ class SalesTable {
     map[SalesTable.id] = sale.id;
     map[SalesTable.customerCpf] = sale.customerCpf;
     map[SalesTable.customerName] = sale.customerName;
-    // map[SalesTable.soldWhen] = DateFormat('dd/MM/yyyy').format(sale.soldWhen);
+    map[SalesTable.soldWhen] = sale.soldWhen;
     map[SalesTable.priceSold] = sale.priceSold;
     map[SalesTable.dealershipCut] = sale.dealershipPercentage;
     map[SalesTable.businessCut] = sale.businessPercentage;

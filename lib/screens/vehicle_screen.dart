@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-
 import '../casos_de_usos/form_validator.dart';
-import '../entidades/vehicle.dart';
 import '../repositorio_de_dados/vehicle_controller.dart';
 import '../widgets/autocomplite.dart';
+import '../widgets/button_navigation.dart';
 import '../widgets/dialog.dart';
 import '../widgets/form_pagelogs.dart';
+import '../widgets/image_list.dart';
 import 'botton_navigator_bar.dart';
 
 class VehicleRegister extends StatefulWidget {
@@ -19,12 +19,8 @@ class VehicleRegister extends StatefulWidget {
 class _VehicleRegisterState extends State<VehicleRegister> {
   @override
   Widget build(BuildContext context) {
-    final arguments = ModalRoute.of(context)!.settings.arguments as Vehicle?;
-
     return ChangeNotifierProvider<VehicleController>(
-        create: (context) => VehicleController(
-              vehicle: arguments,
-            ),
+        create: (context) => VehicleController(),
         child: Consumer<VehicleController>(
           builder: (_, state, __) {
             return Scaffold(
@@ -99,11 +95,20 @@ class _VehicleRegisterState extends State<VehicleRegister> {
                               controler: state.controlleryearVehicle,
                               labelText: ' Placa do veiculo',
                               hintText: 'Ex:QQU8H23',
-                              keyboardType: TextInputType.datetime,
+                              keyboardType: TextInputType.text,
                               validator: (value) =>
                                   FormValidator.validateEmpty(value, 10),
                             ),
-                            //////////// image
+                            Padding(
+                              padding: const EdgeInsets.all(8),
+                              child: state.controllerImage != null
+                                  ? const PhotosList()
+                                  : Container(),
+                            ),
+                            const Padding(
+                              padding: EdgeInsets.all(8),
+                              child: _ChooseOrTakePhoto(),
+                            ),
                             BaseForm(
                               formatter: '###.###.###',
                               truee: false,
@@ -209,6 +214,102 @@ class _ModelTextField extends StatelessWidget {
       controller: state.constrollermodel,
       validator: validator,
       suggestions: state.allModels,
+    );
+  }
+}
+
+class _ChooseOrTakePhoto extends StatelessWidget {
+  const _ChooseOrTakePhoto();
+
+  @override
+  Widget build(BuildContext context) {
+    final state = Provider.of<VehicleController>(context, listen: true);
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Buttonnavigator(
+          onPressed: () async {
+            showDialog(
+              context: context,
+              builder: (context) {
+                return AlertDialog(
+                  title: const Text(
+                    'Performace visual',
+                    style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
+                  ),
+                  content: const Text(
+                    'Para melhor performace visual evite fotos com fundo\n\n'
+                    'Dica : Va para um editor de foto e retire o fundo '
+                    'caso queria',
+                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                  ),
+                  actions: [
+                    TextButton(
+                      onPressed: () async {
+                        await state.pickImage();
+                        if (context.mounted) {
+                          Navigator.of(context).pop();
+                        }
+                      },
+                      child: const Text('continuar'),
+                    ),
+                    TextButton(
+                      onPressed: () async {
+                        if (context.mounted) {
+                          Navigator.of(context).pop();
+                        }
+                      },
+                      child: const Text('cancelar'),
+                    ),
+                  ],
+                );
+              },
+            );
+          },
+          text: 'Abrir Galeria',
+        ),
+        Buttonnavigator(
+          onPressed: () async {
+            showDialog(
+              context: context,
+              builder: (context) {
+                return AlertDialog(
+                  title: const Text(
+                    'Performace visual',
+                    style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
+                  ),
+                  content: const Text(
+                    'Para melhor performace visual evite fotos com fundo \n\n'
+                    'Dica : Va para um editor de foto e retire o fundo '
+                    'caso queria',
+                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                  ),
+                  actions: [
+                    TextButton(
+                      onPressed: () async {
+                        await state.takePhoto();
+                        if (context.mounted) {
+                          Navigator.of(context).pop();
+                        }
+                      },
+                      child: const Text('continuar'),
+                    ),
+                    TextButton(
+                      onPressed: () async {
+                        if (context.mounted) {
+                          Navigator.of(context).pop();
+                        }
+                      },
+                      child: const Text('cancelar'),
+                    ),
+                  ],
+                );
+              },
+            );
+          },
+          text: 'Abrir camera',
+        ),
+      ],
     );
   }
 }
