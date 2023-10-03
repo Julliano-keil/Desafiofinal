@@ -10,7 +10,7 @@ import 'vehicle_http.dart';
 class VehicleController extends ChangeNotifier {
   VehicleController() {
     init();
-    loadData();
+    unawaited(loadData());
   }
 
   String? _controllerImage;

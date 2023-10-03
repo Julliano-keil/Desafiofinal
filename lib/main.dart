@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -9,6 +11,7 @@ import 'screens/category_screen.dart';
 import 'screens/edit_person_screen.dart';
 import 'screens/registered_autonomy_screen.dart';
 import 'screens/registered_people_screen.dart';
+import 'screens/sale_vehicle_screen.dart';
 import 'screens/settings_screen.dart';
 import 'screens/signin_screen.dart';
 import 'screens/signup_scren.dart';
@@ -45,8 +48,8 @@ class _MyAppState extends State<MyApp> with SingleTickerProviderStateMixin {
   }
 
   void navigateToHomepage() {
-    navigatorKey.currentState!.pushReplacement(
-        MaterialPageRoute(builder: (context) => const SignIn()));
+    unawaited(navigatorKey.currentState!.pushReplacement(
+        MaterialPageRoute(builder: (context) => const SignIn())));
   }
 
   @override
@@ -77,7 +80,11 @@ class _MyAppState extends State<MyApp> with SingleTickerProviderStateMixin {
     return MaterialApp(
       routes: {
         '/MyApp': (context) => const MyApp(),
-        '/Homepage': (context) => const Zoom(mainScreen: Homepage()),
+        '/Homepage': (context) => const Zoom(
+                mainScreen: Homepage(
+              category: Category(),
+            )),
+        // ignore: null_check_always_fails
         '/Categry': (context) => const Category(),
         '/Settings': (context) => Settings(),
         '/SignUp': (context) => const SignUp(),
@@ -85,8 +92,8 @@ class _MyAppState extends State<MyApp> with SingleTickerProviderStateMixin {
         '/Registerpeople': (context) => Zoom(mainScreen: Registeredpeople()),
         '/Autonomyedite': (context) => const Autonomyedite(),
         '/EditPerson': (context) => EditPerson(),
-        '/RegisteredAutonomy': (context) => RegisteredAutonomy(),
-        // '/EditAutonomy': (context) => const EditAutonomy(),
+        // '/RegisteredAutonomy': (context) => RegisteredAutonomy(),
+        '/SaleVehicle': (context) => const SaleVehicle(),
       },
       debugShowCheckedModeBanner: false,
       navigatorKey: navigatorKey,

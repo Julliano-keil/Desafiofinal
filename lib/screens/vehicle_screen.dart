@@ -28,11 +28,9 @@ class _VehicleRegisterState extends State<VehicleRegister> {
                   backgroundColor: Colors.amber,
                   elevation: 0,
                   leading: IconButton(
-                    onPressed: () {
-                      Navigator.of(context).pushReplacement(
-                        MaterialPageRoute(
-                            builder: (context) => const Homepage()),
-                      );
+                    onPressed: () async {
+                      await Navigator.of(context, rootNavigator: true)
+                          .pushReplacementNamed('/Homepage');
                     },
                     icon: const Icon(
                       Icons.arrow_back,
@@ -229,7 +227,7 @@ class _ChooseOrTakePhoto extends StatelessWidget {
       children: [
         Buttonnavigator(
           onPressed: () async {
-            showDialog(
+            await showDialog(
               context: context,
               builder: (context) {
                 return AlertDialog(
@@ -240,7 +238,8 @@ class _ChooseOrTakePhoto extends StatelessWidget {
                   content: const Text(
                     'Para melhor performace visual evite fotos com fundo\n\n'
                     'Dica : Va para um editor de foto e retire o fundo '
-                    'caso queria',
+                    'caso queria \n\n'
+                    'Exemplo de Editor web : romove.bg',
                     style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                   ),
                   actions: [
@@ -270,7 +269,7 @@ class _ChooseOrTakePhoto extends StatelessWidget {
         ),
         Buttonnavigator(
           onPressed: () async {
-            showDialog(
+            await showDialog(
               context: context,
               builder: (context) {
                 return AlertDialog(
@@ -281,7 +280,8 @@ class _ChooseOrTakePhoto extends StatelessWidget {
                   content: const Text(
                     'Para melhor performace visual evite fotos com fundo \n\n'
                     'Dica : Va para um editor de foto e retire o fundo '
-                    'caso queria',
+                    'caso queria \n\n'
+                    'Exemplo de Editor web : romove.bg',
                     style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                   ),
                   actions: [

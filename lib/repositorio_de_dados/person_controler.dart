@@ -1,10 +1,12 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import '../entidades/person.dart';
 import 'db.dart';
 
 class PersonControler extends ChangeNotifier {
   PersonControler() {
-    loadata();
+    unawaited(loadata());
   }
   String nameuser = '';
 
@@ -39,7 +41,7 @@ class PersonControler extends ChangeNotifier {
       controllerName.clear();
       controllerNivel.clear();
       controllerSenha.clear();
-      loadata();
+      await loadata();
       notifyListeners();
     } on Exception catch (e) {
       debugPrint(' erro no metodo insert $e');

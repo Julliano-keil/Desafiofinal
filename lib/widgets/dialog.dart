@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 
 class CustomDialog {
   static void showSuccess(
-      BuildContext context, String primarytext, String secondtext) {
-    showDialog(
+      BuildContext context, String primarytext, String secondtext) async {
+    await showDialog(
       context: context,
       builder: (context) {
         return AlertDialog(

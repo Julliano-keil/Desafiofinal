@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 
@@ -28,10 +30,10 @@ Future<Database> getdatabase() async {
 class PersonTable {
   static const String createTable = '''
     CREATE TABLE $tablename(
-      $id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
-      $cnpj TEXT NOT NULL,
-      $nomeloja TEXT NOT NULL,
-      $senha  TEXT NOT NULL 
+      $id                INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+      $cnpj              TEXT NOT NULL,
+      $nomeloja          TEXT NOT NULL,
+      $senha             TEXT NOT NULL 
     );
     ''';
 
@@ -62,8 +64,8 @@ class PessoaControler {
 
   Future<void> delete(Person person) async {
     final database = await getdatabase();
-    database.delete(PersonTable.tablename,
-        where: '${PersonTable.id} = ?', whereArgs: [person.id]);
+    unawaited(database.delete(PersonTable.tablename,
+        where: '${PersonTable.id} = ?', whereArgs: [person.id]));
   }
 
   Future<List<Person>> select() async {
@@ -90,12 +92,12 @@ class PessoaControler {
 
     final map = PersonTable.tomap(person);
 
-    database.update(
+    unawaited(database.update(
       PersonTable.tablename,
       map,
       where: '${PersonTable.id} = ?',
       whereArgs: [person.id],
-    );
+    ));
     return;
   }
 }
@@ -103,12 +105,12 @@ class PessoaControler {
 class AutonomyLeveltable {
   static const String createTable = '''
     CREATE TABLE $tablename(
-      $id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
-      $personid INTEGER NOT NULL,
-      $name TEXT NOT NULL,
-      $networkPercentage REAL NOT NULL,
-      $networkSecurity REAL NOT NULL,
-      $storePercentage  REAL NOT NULL 
+      $id                 INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+      $personid           INTEGER NOT NULL,
+      $name               TEXT NOT NULL,
+      $networkPercentage  REAL NOT NULL,
+      $networkSecurity    REAL NOT NULL,
+      $storePercentage    REAL NOT NULL 
     );
     ''';
 
@@ -164,7 +166,7 @@ class AutonomyControler {
 
   Future<void> delete(AutonomyLevel autonomy) async {
     final database = await getdatabase();
-    database.delete(AutonomyLeveltable.tablename,
+    await database.delete(AutonomyLeveltable.tablename,
         where: '${AutonomyLeveltable.id} = ?', whereArgs: [autonomy.id]);
   }
 
@@ -173,7 +175,7 @@ class AutonomyControler {
 
     final map = AutonomyLeveltable.tomap(autonomy);
 
-    database.update(
+    await database.update(
       AutonomyLeveltable.tablename,
       map,
       where: '${AutonomyLeveltable.id} = ?',
@@ -305,7 +307,7 @@ class SalesTable {
   static const String createTable = '''
     CREATE TABLE $tableName(
       $id             INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
-      $customerCpf    INTEGER NOT NULL,
+      $customerCpf    TEXT NOT NULL,
       $customerName   TEXT NOT NULL,
       $soldWhen       TEXT NOT NULL,
       $priceSold      REAL NOT NULL,
@@ -355,7 +357,7 @@ class SaleTableController {
     final database = await getdatabase();
     final map = SalesTable.toMap(sale);
 
-    database.transaction(
+    await database.transaction(
       (txn) async {
         final batch = txn.batch();
 
@@ -374,7 +376,7 @@ class SaleTableController {
   Future<void> delete(Sale sale) async {
     final database = await getdatabase();
 
-    database.transaction(
+    await database.transaction(
       (txn) async {
         final batch = txn.batch();
 
@@ -391,45 +393,11 @@ class SaleTableController {
     return;
   }
 
-  Future<List<Sale>> selectByDealership(int dealershipId) async {
+  Future<List<Sale>> select() async {
     final database = await getdatabase();
 
-    final List<Map<String, dynamic>> result = await database.query(
-      SalesTable.tableName,
-      where: '${SalesTable.dealershipId} = ?',
-      whereArgs: [dealershipId],
-    );
-
-    var list = <Sale>[];
-
-    for (final item in result) {
-      list.add(
-        Sale(
-          id: item[SalesTable.id],
-          customerCpf: item[SalesTable.customerCpf],
-          customerName: item[SalesTable.customerName],
-          soldWhen: item[SalesTable.soldWhen],
-          priceSold: item[SalesTable.priceSold],
-          dealershipPercentage: item[SalesTable.dealershipCut],
-          businessPercentage: item[SalesTable.businessCut],
-          safetyPercentage: item[SalesTable.safetyCut],
-          vehicleId: item[SalesTable.vehicleId],
-          dealershipId: item[SalesTable.dealershipId],
-          userId: item[SalesTable.userId],
-        ),
-      );
-    }
-    return list;
-  }
-
-  Future<List<Sale>> selectByVehicle(int vehicleId) async {
-    final database = await getdatabase();
-
-    final List<Map<String, dynamic>> result = await database.query(
-      SalesTable.tableName,
-      where: '${SalesTable.vehicleId} = ?',
-      whereArgs: [vehicleId],
-    );
+    final List<Map<String, dynamic>> result =
+        await database.query(SalesTable.tableName);
 
     var list = <Sale>[];
 
@@ -458,7 +426,7 @@ class SaleTableController {
 
     final map = SalesTable.toMap(sale);
 
-    database.transaction(
+    await database.transaction(
       (txn) async {
         final batch = txn.batch();
 

@@ -1,9 +1,9 @@
 // Constructor for the Sale object
 class Sale {
   final int? id;
-  final int customerCpf;
+  final String customerCpf;
   final String customerName;
-  final DateTime soldWhen;
+  final String soldWhen;
   final double priceSold;
   final double dealershipPercentage;
   final double businessPercentage;

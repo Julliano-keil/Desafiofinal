@@ -16,51 +16,53 @@ class EditPerson extends StatelessWidget {
   Widget build(BuildContext context) {
     final person = ModalRoute.of(context)!.settings.arguments as Person?;
     return ChangeNotifierProvider<SignUpController>(
-        create: (context) => SignUpController(),
-        child: Consumer<SignUpController>(builder: (_, state, __) {
+      create: (context) => SignUpController(),
+      child: Consumer<SignUpController>(
+        builder: (_, state, __) {
           return Scaffold(
+            backgroundColor: Colors.amber,
+            appBar: AppBar(
+              elevation: 0,
               backgroundColor: Colors.amber,
-              appBar: AppBar(
-                elevation: 0,
-                backgroundColor: Colors.amber,
-                leading: IconButton(
-                    onPressed: () {
-                      Navigator.of(context)
-                          .pushReplacementNamed('/Registerpeople');
-                    },
-                    icon: const Icon(Icons.arrow_back_outlined)),
-                title: const Center(
-                  child: Text(
-                    'Editar Usuarios',
-                    style: TextStyle(
-                        color: Colors.black, fontWeight: FontWeight.bold),
-                  ),
+              leading: IconButton(
+                  onPressed: () async {
+                    await Navigator.of(context)
+                        .pushReplacementNamed('/Registerpeople');
+                  },
+                  icon: const Icon(Icons.arrow_back_outlined)),
+              title: const Center(
+                child: Text(
+                  'Editar Usuarios',
+                  style: TextStyle(
+                      color: Colors.black, fontWeight: FontWeight.bold),
                 ),
-                centerTitle: true,
               ),
-              body: ListView(
-                scrollDirection: Axis.vertical,
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.all(25.0),
-                    child: Container(
-                      width: 340,
-                      height: 500,
-                      decoration: BoxDecoration(
-                        color: Colors.black,
-                        borderRadius: const BorderRadius.only(
-                            bottomRight: Radius.circular(90),
-                            topLeft: Radius.circular(90)),
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.black.withOpacity(0.8),
-                            spreadRadius: 6,
-                            blurRadius: 13,
-                            offset: const Offset(0, 8),
-                          ),
-                        ],
-                      ),
-                      child: Column(children: [
+              centerTitle: true,
+            ),
+            body: ListView(
+              scrollDirection: Axis.vertical,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.all(25.0),
+                  child: Container(
+                    width: 340,
+                    height: 500,
+                    decoration: BoxDecoration(
+                      color: Colors.black,
+                      borderRadius: const BorderRadius.only(
+                          bottomRight: Radius.circular(90),
+                          topLeft: Radius.circular(90)),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black.withOpacity(0.8),
+                          spreadRadius: 6,
+                          blurRadius: 13,
+                          offset: const Offset(0, 8),
+                        ),
+                      ],
+                    ),
+                    child: Column(
+                      children: [
                         Form(
                           key: state.formKey,
                           child: Column(
@@ -112,7 +114,7 @@ class EditPerson extends StatelessWidget {
                                         await state.update();
 
                                         if (context.mounted) {
-                                          showDialog(
+                                          await showDialog(
                                             context: context,
                                             builder: (context) {
                                               return AlertDialog(
@@ -158,23 +160,28 @@ class EditPerson extends StatelessWidget {
                                               fontWeight: FontWeight.bold)),
                                     ),
                                     IconButton.filled(
-                                        onPressed: () =>
-                                            state.updatePerson(person!),
-                                        icon: const Icon(
-                                          Icons.edit,
-                                          color: Colors.amber,
-                                        ))
+                                      onPressed: () =>
+                                          state.updatePerson(person!),
+                                      icon: const Icon(
+                                        Icons.edit,
+                                        color: Colors.amber,
+                                      ),
+                                    )
                                   ],
                                 ),
                               ),
                             ],
                           ),
                         ),
-                      ]),
+                      ],
                     ),
                   ),
-                ],
-              ));
-        }));
+                ),
+              ],
+            ),
+          );
+        },
+      ),
+    );
   }
 }

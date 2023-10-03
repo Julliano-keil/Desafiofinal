@@ -96,7 +96,7 @@ class SignIn extends StatelessWidget {
                                 state.controllerSenha.clear();
                                 await Navigator.of(context)
                                     .pushReplacementNamed('/Homepage',
-                                        arguments: state.controllerid);
+                                        arguments: user);
                               } else {
                                 await showDialog(
                                   context: context,

@@ -52,8 +52,8 @@ class Zoom extends StatelessWidget {
                   'Configurações',
                   style: TextStyle(color: Colors.amber),
                 ),
-                onTap: () {
-                  Navigator.of(context).pushReplacement(
+                onTap: () async {
+                  await Navigator.of(context).pushReplacement(
                       MaterialPageRoute(builder: (context) => Settings()));
                 },
               ),
@@ -64,8 +64,8 @@ class Zoom extends StatelessWidget {
                   'Lista de associados',
                   style: TextStyle(color: Colors.amber),
                 ),
-                onTap: () {
-                  Navigator.of(context).pushReplacement(
+                onTap: () async {
+                  await Navigator.of(context).pushReplacement(
                     MaterialPageRoute(builder: (context) => Registeredpeople()),
                   );
                 },
@@ -77,8 +77,8 @@ class Zoom extends StatelessWidget {
                   'Sair',
                   style: TextStyle(color: Colors.amber),
                 ),
-                onTap: () {
-                  Navigator.of(context).pushReplacement(
+                onTap: () async {
+                  await Navigator.of(context).pushReplacement(
                     MaterialPageRoute(builder: (context) => const SignIn()),
                   );
                 },

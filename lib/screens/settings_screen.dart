@@ -12,7 +12,7 @@ class Settings extends StatelessWidget {
       home: Scaffold(
         appBar: AppBar(
           leading: IconButton(
-            onPressed: () =>
+            onPressed: () async =>
                 Navigator.of(context).pushReplacementNamed('/Homepage'),
             icon: const Icon(Icons.arrow_back),
           ),

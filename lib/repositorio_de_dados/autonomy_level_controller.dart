@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 
 import '../entidades/autonomy_level.dart';
@@ -7,10 +9,10 @@ import 'db.dart';
 
 class AutonomilevelControler extends ChangeNotifier {
   AutonomilevelControler({required this.person}) {
-    loadata();
+    unawaited(loadata());
   }
 
-  final Person person;
+  Person person;
   AutonomyLevel? _autonomyCurrent;
   final controller = AutonomyControler();
   final formkey = GlobalKey<FormState>();
@@ -51,7 +53,8 @@ class AutonomilevelControler extends ChangeNotifier {
         controllerNetworkPercentage.clear();
         controllerNetworkSecurity.clear();
         controllerStorePercentag.clear();
-        loadata();
+
+        unawaited(loadata());
 
         notifyListeners();
       }
@@ -82,7 +85,7 @@ class AutonomilevelControler extends ChangeNotifier {
         storePercentage: autonomy.storePercentage,
         networkPercentage: autonomy.storePercentage,
         personID: person.id ?? 0);
-    loadata();
+    unawaited(loadata());
     notifyListeners();
   }
 
@@ -98,7 +101,7 @@ class AutonomilevelControler extends ChangeNotifier {
 
       await controller.update(autonomy);
       cleanController();
-      loadata();
+      unawaited(loadata());
       notifyListeners();
     } on Exception catch (e) {
       debugPrint(' erro no metodo update $e');
@@ -110,7 +113,7 @@ class AutonomilevelControler extends ChangeNotifier {
     controllerNetworkPercentage.clear();
     controllerNetworkSecurity.clear();
     controllerStorePercentag.clear();
-    loadata();
+    unawaited(loadata());
     notifyListeners();
   }
 

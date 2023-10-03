@@ -20,7 +20,7 @@ class RegisteredAutonomy extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
-          onPressed: () =>
+          onPressed: () async =>
               Navigator.of(context).pushReplacement(MaterialPageRoute(
             builder: (context) => Registeredpeople(),
           )),
@@ -113,20 +113,22 @@ class RegisteredListAutonomy extends StatelessWidget {
                       trailing: PopupMenuButton<String>(
                         onSelected: (choice) async {
                           if (choice == 'Opção 2') {
-                            Navigator.of(context, rootNavigator: true)
+                            await Navigator.of(context, rootNavigator: true)
                                 .pushReplacement(MaterialPageRoute(
                               builder: (context) => EditAutonomy(
                                 person: person,
                                 autonomy: autonomy,
                               ),
                             ));
-                            CustomDialog.showSuccess(
-                                context,
-                                ' ',
-                                'Popule (🖋️)o formulario'
-                                    ' para alterar');
+                            if (context.mounted) {
+                              CustomDialog.showSuccess(
+                                  context,
+                                  ' ',
+                                  'Popule (🖋️)o formulario'
+                                      ' para alterar');
+                            }
                           } else if (choice == 'Opção 3' && person.id != 1) {
-                            showDialog(
+                            await showDialog(
                               context: context,
                               builder: (context) {
                                 return AlertDialog(
@@ -219,9 +221,9 @@ class EditAutonomy extends StatelessWidget {
                 elevation: 0,
                 backgroundColor: Colors.amber,
                 leading: IconButton(
-                    onPressed: () {
-                      Navigator.of(context).pushReplacementNamed(
-                          '/RegisteredAutonomy',
+                    onPressed: () async {
+                      await Navigator.of(context).pushReplacementNamed(
+                          '/Registerpeople',
                           arguments: person);
                     },
                     icon: const Icon(Icons.arrow_back_outlined)),
@@ -316,7 +318,7 @@ class EditAutonomy extends StatelessWidget {
                                         await state.update();
 
                                         if (context.mounted) {
-                                          showDialog(
+                                          await showDialog(
                                             context: context,
                                             builder: (context) {
                                               return AlertDialog(

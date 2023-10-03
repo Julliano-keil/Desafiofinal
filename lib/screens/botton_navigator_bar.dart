@@ -1,11 +1,15 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_zoom_drawer/flutter_zoom_drawer.dart';
 
-import 'category_screen.dart';
+import '../entidades/person.dart';
 import 'home_screen.dart';
+import 'settings_screen.dart';
 
 class Homepage extends StatefulWidget {
-  const Homepage({super.key});
+  const Homepage({super.key, required this.category});
+  final Widget category;
 
   @override
   State<Homepage> createState() => _HomepageState();
@@ -66,13 +70,18 @@ class _HomepageState extends State<Homepage> {
   }
 
   _getBodyWidget() {
+    final person = ModalRoute.of(context)!.settings.arguments as Person?;
     if (_selectedIndex == 0) {
       return const Home();
     } else if (_selectedIndex == 1) {
-      return const Category();
+      Future.delayed(Duration.zero, () {
+        return unawaited(Navigator.of(context, rootNavigator: true)
+            .pushReplacementNamed('/Categry', arguments: person));
+      });
+      return const LinearProgressIndicator();
     } else if (_selectedIndex == 2) {
-      return const Category();
+      return Settings();
     }
-    return Container();
+    return const LinearProgressIndicator();
   }
 }

@@ -1,10 +1,12 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import '../entidades/person.dart';
 import 'db.dart';
 
 class SignUpController extends ChangeNotifier {
   SignUpController() {
-    loadata();
+    unawaited(loadata());
   }
   String nameuser = '';
   Person? _personcurrent;
@@ -51,7 +53,7 @@ class SignUpController extends ChangeNotifier {
       controllerName.clear();
       controllerNivel.clear();
       controllerSenha.clear();
-      loadata();
+      await loadata();
       notifyListeners();
     } on Exception catch (e) {
       debugPrint(' erro no metodo insert $e');
@@ -69,7 +71,7 @@ class SignUpController extends ChangeNotifier {
     }
   }
 
-  void updatePerson(Person person) {
+  void updatePerson(Person person) async {
     _controllerCnpj.text = person.cnpj.toString();
     _controllerName.text = person.nomeloja ?? '';
     _controllerSenha.text = person.senha ?? '';
@@ -79,7 +81,7 @@ class SignUpController extends ChangeNotifier {
         cnpj: person.cnpj,
         nomeloja: person.nomeloja,
         senha: person.senha);
-    loadata();
+    await loadata();
     notifyListeners();
   }
 
@@ -96,7 +98,7 @@ class SignUpController extends ChangeNotifier {
       controllerName.clear();
       controllerNivel.clear();
       controllerSenha.clear();
-      loadata();
+      await loadata();
       notifyListeners();
     } on Exception catch (e) {
       debugPrint(' erro no metodo insert $e');

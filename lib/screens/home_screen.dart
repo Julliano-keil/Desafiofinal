@@ -49,7 +49,7 @@ class _HomeState extends State<Home> {
 
   @override
   Widget build(BuildContext context) {
-    final state = Provider.of<PersonControler>(context, listen: true);
+    final state = Provider.of<PersonControler>(context);
     return Scaffold(
       body: SingleChildScrollView(
         child: Container(
@@ -153,8 +153,8 @@ class _HomeState extends State<Home> {
                               Cards(
                                 text: 'cadastrar \nusuarios ',
                                 icon: Icons.list_alt_outlined,
-                                ontap: () {
-                                  Navigator.of(context).pushReplacement(
+                                ontap: () async {
+                                  await Navigator.of(context).pushReplacement(
                                       MaterialPageRoute(
                                           builder: (context) =>
                                               const SignUp()));
@@ -163,8 +163,8 @@ class _HomeState extends State<Home> {
                               Cards(
                                   text: 'Cadastrar\n novos carros',
                                   icon: Icons.car_crash_sharp,
-                                  ontap: () {
-                                    Navigator.of(context).pushReplacement(
+                                  ontap: () async {
+                                    await Navigator.of(context).pushReplacement(
                                         MaterialPageRoute(
                                             builder: (context) =>
                                                 const VehicleRegister()));

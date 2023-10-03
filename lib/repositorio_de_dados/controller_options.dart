@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
@@ -8,7 +9,7 @@ import 'images.dart';
 
 class Vehiclelist with ChangeNotifier {
   Vehiclelist() {
-    loadData();
+    unawaited(loadData());
   }
 
   bool loading = true;

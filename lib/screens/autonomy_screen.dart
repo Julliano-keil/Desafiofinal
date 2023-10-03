@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../casos_de_usos/form_validator.dart';
@@ -26,8 +28,9 @@ class Autonomyedite extends StatelessWidget {
               child: Text('Cadastro de Autonomia'),
             ),
             leading: IconButton(
-                onPressed: () => Navigator.of(context, rootNavigator: true)
-                    .pushReplacementNamed('/Registerpeople'),
+                onPressed: () async => Navigator.of(context,
+                        rootNavigator: true)
+                    .pushReplacementNamed('/Registerpeople', arguments: person),
                 icon: const Icon(Icons.arrow_back_sharp)),
             centerTitle: true,
           ),
@@ -123,7 +126,7 @@ class Autonomyedite extends StatelessWidget {
                                   onPressed: () {
                                     if (state.formkey.currentState!
                                         .validate()) {
-                                      state.insert();
+                                      unawaited(state.insert());
                                       if (context.mounted &&
                                           state.listaAutonomy.isEmpty) {
                                         CustomDialog.showSuccess(
