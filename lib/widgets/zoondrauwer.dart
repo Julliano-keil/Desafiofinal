@@ -1,7 +1,11 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_zoom_drawer/flutter_zoom_drawer.dart';
+import 'package:provider/provider.dart';
 import '../Screens/registered_people_screen.dart';
 import '../Screens/settings_screen.dart';
+import '../repositorio_de_dados/person_controler.dart';
 import '../screens/signin_screen.dart';
 
 final ZoomDrawerController z = ZoomDrawerController();
@@ -12,20 +16,26 @@ class Zoom extends StatelessWidget {
   final Widget mainScreen;
   @override
   Widget build(BuildContext context) {
+    final state = Provider.of<PersonControler>(context, listen: true);
     return ZoomDrawer(
       controller: z,
       borderRadius: 50,
       showShadow: true,
+      boxShadow: const [BoxShadow(color: Colors.black)],
       shadowLayer1Color: Colors.white12,
       shadowLayer2Color: Colors.white10,
+      closeCurve: Curves.fastOutSlowIn,
       openCurve: Curves.fastOutSlowIn,
+      overlayBlend: BlendMode.hue,
+      androidCloseOnBackTap: true,
+      menuScreenWidth: 245,
       mainScreenScale: 0.2,
-      slideWidth: MediaQuery.of(context).size.width * 0.65,
+      slideWidth: MediaQuery.of(context).size.width * 0.60,
       duration: const Duration(milliseconds: 500),
       angle: -8.0,
       menuBackgroundColor: Colors.black,
       mainScreen: mainScreen,
-      moveMenuScreen: false,
+      moveMenuScreen: true,
       menuScreen: Scaffold(
         backgroundColor: Colors.white,
         body: Container(
@@ -78,6 +88,7 @@ class Zoom extends StatelessWidget {
                   style: TextStyle(color: Colors.amber),
                 ),
                 onTap: () async {
+                  unawaited(state.clearUserInfo());
                   await Navigator.of(context).pushReplacement(
                     MaterialPageRoute(builder: (context) => const SignIn()),
                   );

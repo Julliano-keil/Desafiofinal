@@ -18,7 +18,7 @@ class Registeredpeople extends StatelessWidget {
       appBar: AppBar(
         leading: IconButton(
             onPressed: () async => Navigator.of(context, rootNavigator: true)
-                .pushReplacementNamed('/Homepage', arguments: person),
+                .pushNamed('/Homepage', arguments: person),
             icon: const Icon(Icons.arrow_back)),
         backgroundColor: Colors.black,
         title: const Text('Associados'),

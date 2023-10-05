@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import '../entidades/autonomy_level.dart';
 import '../entidades/person.dart';
 
-import 'db.dart';
+import 'database/db.dart';
 
 class AutonomilevelControler extends ChangeNotifier {
   AutonomilevelControler({required this.person}) {

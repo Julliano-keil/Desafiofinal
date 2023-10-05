@@ -12,8 +12,8 @@ class Settings extends StatelessWidget {
       home: Scaffold(
         appBar: AppBar(
           leading: IconButton(
-            onPressed: () async =>
-                Navigator.of(context).pushReplacementNamed('/Homepage'),
+            onPressed: () async => Navigator.of(context, rootNavigator: true)
+                .pushNamed('/Homepage'),
             icon: const Icon(Icons.arrow_back),
           ),
           backgroundColor: Colors.black,

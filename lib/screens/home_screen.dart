@@ -50,6 +50,7 @@ class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     final state = Provider.of<PersonControler>(context);
+    final username = state.loggedUser!.nomeloja;
     return Scaffold(
       body: SingleChildScrollView(
         child: Container(
@@ -69,53 +70,54 @@ class _HomeState extends State<Home> {
                         borderRadius: BorderRadius.only(
                             bottomRight: Radius.circular(130))),
                     child: ListView(
-                        padding: EdgeInsets.zero,
-                        //                                             carrossel
-                        children: [
-                          Container(
-                              color: Colors.black,
-                              width: 420,
-                              height: 180,
-                              child: PageView.builder(
-                                controller: PageController(
-                                    initialPage: currentIndex,
-                                    viewportFraction: 0.9),
-                                itemCount: image.length,
-                                itemBuilder: (context, index) {
-                                  return TransactionImage(
-                                    imageUrl: image[index],
-                                    onTap: () {},
-                                    width: 350,
-                                    height: 160,
-                                  );
-                                },
-                              )),
-                          Padding(
-                            padding: const EdgeInsets.all(40),
-                            child: Column(
-                              children: [
-                                Row(
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    children: [
-                                      Text(
-                                        'Holá ${state.nameuser}',
-                                        style: const TextStyle(
-                                            color: Colors.white, fontSize: 25),
-                                      ),
-                                    ]),
-                                const Row(
+                      padding: EdgeInsets.zero,
+                      //                                             carrossel
+                      children: [
+                        Container(
+                            color: Colors.black,
+                            width: 420,
+                            height: 180,
+                            child: PageView.builder(
+                              controller: PageController(
+                                  initialPage: currentIndex,
+                                  viewportFraction: 0.9),
+                              itemCount: image.length,
+                              itemBuilder: (context, index) {
+                                return TransactionImage(
+                                  imageUrl: image[index],
+                                  onTap: () {},
+                                  width: 350,
+                                  height: 160,
+                                );
+                              },
+                            )),
+                        Padding(
+                          padding: const EdgeInsets.all(40),
+                          child: Column(
+                            children: [
+                              Row(
                                   mainAxisAlignment: MainAxisAlignment.start,
                                   children: [
                                     Text(
-                                      'Ultimo login 23/07/2023 as 17:50 ',
-                                      style: TextStyle(color: Colors.white),
-                                    )
-                                  ],
-                                )
-                              ],
-                            ),
-                          )
-                        ]),
+                                      'Olá $username',
+                                      style: const TextStyle(
+                                          color: Colors.white, fontSize: 25),
+                                    ),
+                                  ]),
+                              const Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    'Ultimo login 23/07/2023 as 17:50 ',
+                                    style: TextStyle(color: Colors.white),
+                                  )
+                                ],
+                              )
+                            ],
+                          ),
+                        )
+                      ],
+                    ),
                   ),
                   Container(
                     color: Colors.black,

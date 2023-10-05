@@ -22,7 +22,8 @@ class SignUp extends StatelessWidget {
               elevation: 0,
               leading: IconButton(
                 onPressed: () async {
-                  await Navigator.of(context).pushReplacementNamed('/Homepage');
+                  await Navigator.of(context, rootNavigator: true)
+                      .pushNamed('/Homepage');
                 },
                 icon: const Icon(
                   Icons.arrow_back,

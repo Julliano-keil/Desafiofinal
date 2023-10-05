@@ -30,7 +30,7 @@ class _VehicleRegisterState extends State<VehicleRegister> {
                   leading: IconButton(
                     onPressed: () async {
                       await Navigator.of(context, rootNavigator: true)
-                          .pushReplacementNamed('/Homepage');
+                          .pushNamed('/Homepage');
                     },
                     icon: const Icon(
                       Icons.arrow_back,

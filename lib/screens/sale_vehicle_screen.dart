@@ -1,22 +1,35 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import '../casos_de_usos/autonomy_data.dart';
 import '../casos_de_usos/form_validator.dart';
+import '../entidades/vehicle.dart';
+import '../repositorio_de_dados/person_controler.dart';
 import '../repositorio_de_dados/sales_controller.dart';
 import '../widgets/dialog.dart';
 import '../widgets/form_pagelogs.dart';
+import 'category_screen.dart';
 
 class SaleVehicle extends StatelessWidget {
   const SaleVehicle({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final arguments =
-        ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
-    final vehicle = arguments['args'];
-    final person = arguments['args1'];
+    final autonomyProvider = Provider.of<AutonomyProvider>(context);
+    final autonomyData = autonomyProvider.userAutonomy;
 
+    if (autonomyData != null) {
+      // Agora você pode usar os dados da autonomia, por exemplo:
+      print('Nível de Autonomia: ${autonomyData.name}');
+      print(
+          'Porcentagem de Segurança de Rede: ${autonomyData.networkSecurity}');
+      print('Porcentagem de Loja: ${autonomyData.storePercentage}');
+      print('Porcentagem de Rede: ${autonomyData.networkPercentage}');
+    }
+    final vehicle = ModalRoute.of(context)!.settings.arguments as Vehicle?;
+    final state = Provider.of<PersonControler>(context);
+    final userid = state.loggedUser!.id;
     return ChangeNotifierProvider<SaleController>(
-      create: (context) => SaleController(vehicle: vehicle, person: person),
+      create: (context) => SaleController(vehicle: vehicle!),
       child: Consumer<SaleController>(
         builder: (_, state, __) {
           return Scaffold(
@@ -24,9 +37,8 @@ class SaleVehicle extends StatelessWidget {
               backgroundColor: Colors.amber,
               elevation: 0,
               leading: IconButton(
-                onPressed: () async {
-                  await Navigator.of(context)
-                      .pushReplacementNamed('/Homepage', arguments: person);
+                onPressed: () {
+                  Navigator.of(context).pop();
                 },
                 icon: const Icon(
                   Icons.arrow_back,

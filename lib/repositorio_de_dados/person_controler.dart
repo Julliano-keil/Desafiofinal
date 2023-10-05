@@ -1,18 +1,24 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import '../entidades/autonomy_level.dart';
 import '../entidades/person.dart';
-import 'db.dart';
+import 'database/db.dart';
 
 class PersonControler extends ChangeNotifier {
   PersonControler() {
     unawaited(loadata());
+    unawaited(loadUserInfo());
   }
   String nameuser = '';
 
   final constroller = PessoaControler();
+  final controllerAutonomy = AutonomyControler();
   final _listaPeople = <Person>[];
+  final _listAutomomydata = <AutonomyLevel>[];
   List<Person> get listaPeople => _listaPeople;
+  List<AutonomyLevel> get listAutonomydata => _listAutomomydata;
   final formKey = GlobalKey<FormState>();
   final _controllerId = TextEditingController();
   final _controllerCnpj = TextEditingController();
@@ -46,6 +52,13 @@ class PersonControler extends ChangeNotifier {
     } on Exception catch (e) {
       debugPrint(' erro no metodo insert $e');
     }
+  }
+
+  dataAutonomy(int idperson) async {
+    final list = await controllerAutonomy.select(idperson);
+
+    listAutonomydata.clear();
+    listAutonomydata.addAll(list);
   }
 
   Future<void> loadata() async {
@@ -92,5 +105,36 @@ class PersonControler extends ChangeNotifier {
   void setLoggedUser(Person? user) {
     _loggedUser = user;
     notifyListeners();
+  }
+
+  Future<void> saveUserInfo(int userId, String userName) async {
+    await loadata();
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setInt('userId', userId);
+    await prefs.setString('userName', userName);
+  }
+
+  Future<void> loadUserInfo() async {
+    await loadata();
+    final prefs = await SharedPreferences.getInstance();
+    final userId = prefs.getInt('userId');
+    final userName = prefs.getString('userName');
+
+    if (userId != null && userName != null) {
+      _loggedUser = Person(
+        id: userId,
+        cnpj: '',
+        nomeloja: userName,
+        senha: '',
+      );
+
+      notifyListeners();
+    }
+  }
+
+  Future<void> clearUserInfo() async {
+    await loadata();
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.clear();
   }
 }

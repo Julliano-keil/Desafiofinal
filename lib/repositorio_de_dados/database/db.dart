@@ -3,10 +3,10 @@ import 'dart:async';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 
-import '../entidades/autonomy_level.dart';
-import '../entidades/person.dart';
-import '../entidades/sales.dart';
-import '../entidades/vehicle.dart';
+import '../../entidades/autonomy_level.dart';
+import '../../entidades/person.dart';
+import '../../entidades/sales.dart';
+import '../../entidades/vehicle.dart';
 
 Future<Database> getdatabase() async {
   final path = join(await getDatabasesPath(), 'pessoas.db');
@@ -22,6 +22,7 @@ Future<Database> getdatabase() async {
         'senha': 'Anderson'
       });
       await db.execute(VehicleRegistrationTable.createTable);
+      await db.execute(SalesTable.createTable);
     },
     version: 3,
   );
@@ -356,21 +357,7 @@ class SaleTableController {
   Future<void> insert(Sale sale) async {
     final database = await getdatabase();
     final map = SalesTable.toMap(sale);
-
-    await database.transaction(
-      (txn) async {
-        final batch = txn.batch();
-
-        batch.insert(
-          SalesTable.tableName,
-          map,
-        );
-
-        await batch.commit();
-      },
-    );
-
-    return;
+    await database.insert(SalesTable.tableName, map);
   }
 
   Future<void> delete(Sale sale) async {

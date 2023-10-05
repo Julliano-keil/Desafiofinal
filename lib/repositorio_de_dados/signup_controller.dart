@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import '../entidades/person.dart';
-import 'db.dart';
+import 'database/db.dart';
 
 class SignUpController extends ChangeNotifier {
   SignUpController() {

@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import 'casos_de_usos/autonomy_data.dart';
 import 'repositorio_de_dados/person_controler.dart';
 import 'screens/autonomy_screen.dart';
 import 'screens/botton_navigator_bar.dart';
@@ -23,6 +24,9 @@ void main() {
       providers: [
         ChangeNotifierProvider<PersonControler>(
           create: (context) => PersonControler(),
+        ),
+        ChangeNotifierProvider<AutonomyProvider>(
+          create: (context) => AutonomyProvider(),
         ),
       ],
       child: const MyApp(),
@@ -80,12 +84,8 @@ class _MyAppState extends State<MyApp> with SingleTickerProviderStateMixin {
     return MaterialApp(
       routes: {
         '/MyApp': (context) => const MyApp(),
-        '/Homepage': (context) => const Zoom(
-                mainScreen: Homepage(
-              category: Category(),
-            )),
-        // ignore: null_check_always_fails
-        '/Categry': (context) => const Category(),
+        '/Homepage': (context) => const Zoom(mainScreen: Homepage()),
+        '/Category': (context) => const Categorys(),
         '/Settings': (context) => Settings(),
         '/SignUp': (context) => const SignUp(),
         '/SignIn': (context) => const SignIn(),

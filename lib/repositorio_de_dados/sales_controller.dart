@@ -3,13 +3,13 @@ import 'dart:async';
 import 'package:flutter/widgets.dart';
 
 import '../entidades/autonomy_level.dart';
-import '../entidades/person.dart';
+
 import '../entidades/sales.dart';
 import '../entidades/vehicle.dart';
-import 'db.dart';
+import 'database/db.dart';
 
 class SaleController extends ChangeNotifier {
-  SaleController({required this.person, required this.vehicle}) {
+  SaleController({required this.vehicle}) {
     unawaited(loadData());
   }
 
@@ -18,8 +18,8 @@ class SaleController extends ChangeNotifier {
 
   final saleController = SaleTableController();
   final Vehicle vehicle;
-  final Person person;
-  AutonomyLevel? autonomy;
+
+  late AutonomyLevel autonomy;
   final formkey = GlobalKey<FormState>();
   final _customerCpf = TextEditingController();
   final _custumerName = TextEditingController();
@@ -50,12 +50,12 @@ class SaleController extends ChangeNotifier {
         customerName: _custumerName.text,
         soldWhen: _soldwhen.text,
         priceSold: double.parse(_priceSold.text),
-        dealershipPercentage: double.parse(_dealershipPercentage.text),
-        businessPercentage: double.parse(_bussinessPercetenge.text),
-        safetyPercentage: double.parse(_safetyPercentage.text),
+        dealershipPercentage: autonomy.storePercentage,
+        businessPercentage: autonomy.networkPercentage,
+        safetyPercentage: autonomy.networkSecurity,
         vehicleId: vehicle.id ?? 0,
-        dealershipId: autonomy!.id ?? 0,
-        userId: person.id ?? 0,
+        dealershipId: autonomy.id ?? 0,
+        userId: autonomy.personID,
       );
 
       await saleController.insert(saleVehicle);

@@ -4,23 +4,25 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../entidades/person.dart';
+import '../repositorio_de_dados/person_controler.dart';
 import '../repositorio_de_dados/vehicle_controller.dart';
 
 import '../widgets/horizontal_tabbar.dart';
 
-class Category extends StatefulWidget {
-  const Category({super.key});
+class Categorys extends StatefulWidget {
+  const Categorys({super.key});
 
   @override
-  State<Category> createState() => _CategoryState();
+  State<Categorys> createState() => _CategorysState();
 }
 
-class _CategoryState extends State<Category> {
+class _CategorysState extends State<Categorys> {
   String selectedtalbar = 'CLASSICOS';
 
   @override
   Widget build(BuildContext context) {
-    final person = ModalRoute.of(context)!.settings.arguments as Person?;
+    final state = Provider.of<PersonControler>(context);
+    final userid = state.loggedUser!.id;
     var size = MediaQuery.of(context).size;
     return SafeArea(
       child: DefaultTabController(
@@ -46,7 +48,7 @@ class _CategoryState extends State<Category> {
                       });
                     },
                   ),
-                  Categoryscren(person: person!),
+                  Categoryscren(person: userid),
                 ]),
               ),
             ],
@@ -72,7 +74,7 @@ class _CategoryState extends State<Category> {
 
 class Categoryscren extends StatefulWidget {
   Categoryscren({super.key, required this.person});
-  Person person;
+  int? person;
   @override
   State<Categoryscren> createState() => CategoryscrenState();
 }
@@ -222,11 +224,8 @@ class CategoryscrenState extends State<Categoryscren> {
                                     onTap: () async {
                                       await Navigator.of(context,
                                               rootNavigator: true)
-                                          .pushReplacementNamed('/SaleVehicle',
-                                              arguments: {
-                                            'args': car,
-                                            'args1': widget.person
-                                          });
+                                          .pushNamed('/SaleVehicle',
+                                              arguments: car);
                                     },
                                     child: const Padding(
                                       padding: EdgeInsets.all(16.0),
