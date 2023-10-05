@@ -77,16 +77,7 @@ class Autonomyedite extends StatelessWidget {
                       key: state.formkey,
                       child: Column(
                         children: [
-                          BaseForm(
-                            truee: false,
-                            controler: state.controllerNameNivel,
-                            labelText: 'nivel do usuario',
-                            hintText: 'EX :iniciante ,intermediario, Avançado'
-                                ' e especial',
-                            validator: (value) =>
-                                FormValidator.validateEmpty(value, 20),
-                            keyboardType: TextInputType.name,
-                          ),
+                          _Dropdown(controller: state.controllerNameNivel),
                           BaseForm(
                             formatter: '##.###',
                             truee: false,
@@ -209,5 +200,79 @@ class Autonomyedite extends StatelessWidget {
         );
       },
     ));
+  }
+}
+
+class _Dropdown extends StatefulWidget {
+  const _Dropdown({required this.controller});
+
+  final TextEditingController controller;
+  @override
+  State<_Dropdown> createState() => _DropdownState();
+}
+
+class _DropdownState extends State<_Dropdown> {
+  final List<String> _items = [
+    'Iniciante',
+    'Intermediario',
+    'Avançado',
+    'Especial'
+  ];
+  String? _selectedItem;
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Form(
+          child: Column(
+            children: [
+              DropdownButtonFormField<String>(
+                value: _selectedItem,
+                items: _items.map((item) {
+                  return DropdownMenuItem<String>(
+                    value: item,
+                    child: Text(
+                      item,
+                    ),
+                  );
+                }).toList(),
+                selectedItemBuilder: (BuildContext context) {
+                  return _items.map<Widget>((item) {
+                    return Text(
+                      item,
+                      style: const TextStyle(
+                        color:
+                            Colors.white, // Define a cor do texto selecionado
+                        fontSize: 18,
+                      ),
+                    );
+                  }).toList();
+                },
+                style: const TextStyle(
+                  color: Colors
+                      .black, // Define a cor do texto selecionado quando a lista está aberta
+                  fontSize: 20,
+                ),
+                onChanged: (value) {
+                  setState(() {
+                    _selectedItem = value;
+                    value = widget.controller.text;
+                  });
+                },
+                decoration: const InputDecoration(
+                    labelText: 'Escolha uma Autonomia',
+                    hintStyle: TextStyle(color: Colors.white),
+                    floatingLabelStyle: TextStyle(color: Colors.white),
+                    border: OutlineInputBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(16))),
+                    labelStyle: TextStyle(color: Colors.white, fontSize: 20)),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
   }
 }
