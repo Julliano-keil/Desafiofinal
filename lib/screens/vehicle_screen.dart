@@ -7,7 +7,6 @@ import '../widgets/button_navigation.dart';
 import '../widgets/dialog.dart';
 import '../widgets/form_pagelogs.dart';
 import '../widgets/image_list.dart';
-import 'botton_navigator_bar.dart';
 
 class VehicleRegister extends StatefulWidget {
   const VehicleRegister({super.key});
@@ -88,7 +87,6 @@ class _VehicleRegisterState extends State<VehicleRegister> {
                                   FormValidator.validateEmpty(value, 10),
                             ),
                             BaseForm(
-                              formatter: '#######',
                               truee: false,
                               controler: state.controlleryearVehicle,
                               labelText: ' Placa do veiculo',
@@ -108,7 +106,6 @@ class _VehicleRegisterState extends State<VehicleRegister> {
                               child: _ChooseOrTakePhoto(),
                             ),
                             BaseForm(
-                              formatter: '###.###.###',
                               truee: false,
                               controler: state.controllerPricePaidShop,
                               labelText: 'Preço do veiculo',
@@ -137,6 +134,7 @@ class _VehicleRegisterState extends State<VehicleRegister> {
                                       if (state.formkey.currentState!
                                           .validate()) {
                                         await state.insert();
+                                        state.clearcontroller();
                                         if (context.mounted) {
                                           CustomDialog.showSuccess(
                                               context,

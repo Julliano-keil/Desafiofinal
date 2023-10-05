@@ -3,7 +3,6 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../entidades/person.dart';
 import '../repositorio_de_dados/person_controler.dart';
 import '../repositorio_de_dados/vehicle_controller.dart';
 
@@ -72,6 +71,7 @@ class _CategorysState extends State<Categorys> {
   }
 }
 
+// ignore: must_be_immutable
 class Categoryscren extends StatefulWidget {
   Categoryscren({super.key, required this.person});
   int? person;

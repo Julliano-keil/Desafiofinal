@@ -1,12 +1,8 @@
-import 'dart:async';
-
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../casos_de_usos/autonomy_data.dart';
-import '../entidades/autonomy_level.dart';
-import '../repositorio_de_dados/database/db.dart';
 import '../repositorio_de_dados/person_controler.dart';
 import '../widgets/dialog.dart';
 import '../widgets/form_pagelogs.dart';
@@ -107,19 +103,17 @@ class SignIn extends StatelessWidget {
                                     Provider.of<AutonomyProvider>(context,
                                         listen: false);
 
-                                final autonomyData =
-                                    await state.dataAutonomy(user.id);
+                                await state.dataAutonomy(user.id);
 
-                                autonomyProvider.userAutonomy;
-
-                                if (autonomyData != null) {
-                                  autonomyProvider
-                                      .setUserAutonomy(autonomyData);
+                                final autonomyDataList =
+                                    autonomyProvider.userAutonomyList;
+                                if (autonomyDataList != null &&
+                                    context.mounted) {
+                                  print(autonomyDataList);
                                 }
-                                print(autonomyData);
-                                // ignore: unawaited_futures, use_build_context_synchronously
-                                Navigator.of(context)
+                                await Navigator.of(context)
                                     .pushReplacementNamed('/Homepage');
+                                print(autonomyDataList);
                               } else {
                                 await showDialog(
                                   context: context,

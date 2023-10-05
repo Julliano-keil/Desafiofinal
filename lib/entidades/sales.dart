@@ -9,7 +9,7 @@ class Sale {
   final double businessPercentage;
   final double safetyPercentage;
   final int vehicleId;
-  final int dealershipId;
+
   final int userId;
 
   Sale({
@@ -22,7 +22,6 @@ class Sale {
     required this.businessPercentage,
     required this.safetyPercentage,
     required this.vehicleId,
-    required this.dealershipId,
     required this.userId,
   });
 

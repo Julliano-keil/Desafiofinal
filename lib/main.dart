@@ -10,7 +10,6 @@ import 'screens/botton_navigator_bar.dart';
 import 'screens/category_screen.dart';
 
 import 'screens/edit_person_screen.dart';
-import 'screens/registered_autonomy_screen.dart';
 import 'screens/registered_people_screen.dart';
 import 'screens/sale_vehicle_screen.dart';
 import 'screens/settings_screen.dart';
@@ -26,7 +25,7 @@ void main() {
           create: (context) => PersonControler(),
         ),
         ChangeNotifierProvider<AutonomyProvider>(
-          create: (context) => AutonomyProvider(),
+          create: (context) => AutonomyProvider([]),
         ),
       ],
       child: const MyApp(),

@@ -51,6 +51,7 @@ class _HomeState extends State<Home> {
   Widget build(BuildContext context) {
     final state = Provider.of<PersonControler>(context);
     final username = state.loggedUser!.nomeloja;
+    final userid = state.loggedUser!.id;
     return Scaffold(
       body: SingleChildScrollView(
         child: Container(
@@ -152,16 +153,18 @@ class _HomeState extends State<Home> {
                                 icon: Icons.access_time,
                                 ontap: () {},
                               ),
-                              Cards(
-                                text: 'cadastrar \nusuarios ',
-                                icon: Icons.list_alt_outlined,
-                                ontap: () async {
-                                  await Navigator.of(context).pushReplacement(
-                                      MaterialPageRoute(
-                                          builder: (context) =>
-                                              const SignUp()));
-                                },
-                              ),
+                              userid == 1
+                                  ? Cards(
+                                      text: 'cadastrar \nusuarios ',
+                                      icon: Icons.list_alt_outlined,
+                                      ontap: () async {
+                                        await Navigator.of(context)
+                                            .pushReplacement(MaterialPageRoute(
+                                                builder: (context) =>
+                                                    const SignUp()));
+                                      },
+                                    )
+                                  : Container(),
                               Cards(
                                   text: 'Cadastrar\n novos carros',
                                   icon: Icons.car_crash_sharp,

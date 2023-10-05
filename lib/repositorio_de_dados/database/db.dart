@@ -24,7 +24,7 @@ Future<Database> getdatabase() async {
       await db.execute(VehicleRegistrationTable.createTable);
       await db.execute(SalesTable.createTable);
     },
-    version: 3,
+    version: 5,
   );
 }
 
@@ -316,7 +316,6 @@ class SalesTable {
       $businessCut    REAL NOT NULL,
       $safetyCut      REAL NOT NULL,
       $vehicleId      INTERGER NOT NULL,
-      $dealershipId   INTEGER NOT NULL,
       $userId         INTEGER NOT NULL
     );
   ''';
@@ -331,7 +330,6 @@ class SalesTable {
   static const String businessCut = 'business_cut';
   static const String safetyCut = 'safety_cut';
   static const String vehicleId = 'vehicle_id';
-  static const String dealershipId = 'dealership_id';
   static const String userId = 'user_id';
 
   static Map<String, dynamic> toMap(Sale sale) {
@@ -346,7 +344,6 @@ class SalesTable {
     map[SalesTable.businessCut] = sale.businessPercentage;
     map[SalesTable.safetyCut] = sale.safetyPercentage;
     map[SalesTable.vehicleId] = sale.vehicleId;
-    map[SalesTable.dealershipId] = sale.dealershipId;
     map[SalesTable.userId] = sale.userId;
 
     return map;
@@ -400,7 +397,6 @@ class SaleTableController {
           businessPercentage: item[SalesTable.businessCut],
           safetyPercentage: item[SalesTable.safetyCut],
           vehicleId: item[SalesTable.vehicleId],
-          dealershipId: item[SalesTable.dealershipId],
           userId: item[SalesTable.userId],
         ),
       );

@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import '../casos_de_usos/autonomy_data.dart';
 import '../entidades/autonomy_level.dart';
 import '../entidades/person.dart';
 import 'database/db.dart';
@@ -18,6 +19,7 @@ class PersonControler extends ChangeNotifier {
   final _listaPeople = <Person>[];
   final _listAutomomydata = <AutonomyLevel>[];
   List<Person> get listaPeople => _listaPeople;
+  final autonomyProvider = AutonomyProvider([]);
   List<AutonomyLevel> get listAutonomydata => _listAutomomydata;
   final formKey = GlobalKey<FormState>();
   final _controllerId = TextEditingController();
@@ -54,11 +56,22 @@ class PersonControler extends ChangeNotifier {
     }
   }
 
-  dataAutonomy(int idperson) async {
-    final list = await controllerAutonomy.select(idperson);
+  Future<void> dataAutonomy(int idperson) async {
+    try {
+      final list = await controllerAutonomy.select(idperson);
+      print('list person $list');
+      print('id person $idperson');
 
-    listAutonomydata.clear();
-    listAutonomydata.addAll(list);
+      if (list.isNotEmpty) {
+        autonomyProvider.setUserAutonomyList(list);
+      }
+      // print('Nome: ${list[0].name}');
+      // print('Porcentagem de Segurança de Rede: ${list[0].networkSecurity}');
+      // print('Porcentagem de Loja: ${list[0].storePercentage}');
+      // print('Porcentagem de Rede: ${list[0].networkPercentage}');
+    } on Exception catch (e) {
+      print('erro no metodo de listauto $e');
+    }
   }
 
   Future<void> loadata() async {

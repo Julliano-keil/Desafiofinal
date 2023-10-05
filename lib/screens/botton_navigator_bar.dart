@@ -1,12 +1,7 @@
-import 'dart:async';
 
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_zoom_drawer/flutter_zoom_drawer.dart';
-import 'package:provider/provider.dart';
 
-import '../entidades/person.dart';
-import '../repositorio_de_dados/person_controler.dart';
 import 'category_screen.dart';
 import 'home_screen.dart';
 import 'settings_screen.dart';

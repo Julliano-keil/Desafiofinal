@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:flutter/services.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_zoom_drawer/flutter_zoom_drawer.dart';
@@ -16,7 +17,8 @@ class Zoom extends StatelessWidget {
   final Widget mainScreen;
   @override
   Widget build(BuildContext context) {
-    final state = Provider.of<PersonControler>(context, listen: true);
+    final state = Provider.of<PersonControler>(context);
+    final userid = state.loggedUser!.id;
     return ZoomDrawer(
       controller: z,
       borderRadius: 50,
@@ -67,19 +69,22 @@ class Zoom extends StatelessWidget {
                       MaterialPageRoute(builder: (context) => Settings()));
                 },
               ),
-              ListTile(
-                leading: const Icon(Icons.people_alt_outlined),
-                iconColor: Colors.amber,
-                title: const Text(
-                  'Lista de associados',
-                  style: TextStyle(color: Colors.amber),
-                ),
-                onTap: () async {
-                  await Navigator.of(context).pushReplacement(
-                    MaterialPageRoute(builder: (context) => Registeredpeople()),
-                  );
-                },
-              ),
+              userid == 1
+                  ? ListTile(
+                      leading: const Icon(Icons.people_alt_outlined),
+                      iconColor: Colors.amber,
+                      title: const Text(
+                        'Lista de associados',
+                        style: TextStyle(color: Colors.amber),
+                      ),
+                      onTap: () async {
+                        await Navigator.of(context).pushReplacement(
+                          MaterialPageRoute(
+                              builder: (context) => Registeredpeople()),
+                        );
+                      },
+                    )
+                  : Container(),
               ListTile(
                 leading: const Icon(Icons.sensor_door_outlined),
                 iconColor: Colors.amber,
@@ -88,10 +93,7 @@ class Zoom extends StatelessWidget {
                   style: TextStyle(color: Colors.amber),
                 ),
                 onTap: () async {
-                  unawaited(state.clearUserInfo());
-                  await Navigator.of(context).pushReplacement(
-                    MaterialPageRoute(builder: (context) => const SignIn()),
-                  );
+                  await SystemNavigator.pop();
                 },
               ),
             ],

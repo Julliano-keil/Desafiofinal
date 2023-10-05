@@ -50,12 +50,7 @@ class VehicleController extends ChangeNotifier {
         purchaseDate: _controllerPurchaseDate.text);
     await vehicleController.insert(vehicle);
     await loadData();
-    constrollermodel.clear();
-    controllerbrand.clear();
-    controllerPricePaidShop.clear();
-    controllerPurchaseDate.clear();
-    controllerYearManufacture.clear();
-    controllerPurchaseDate.clear();
+    clearcontroller();
     _controllerImage = null;
   }
 
@@ -70,6 +65,16 @@ class VehicleController extends ChangeNotifier {
     allBrands.addAll(result ?? []);
     showModels();
     editing = true;
+  }
+
+  void clearcontroller() {
+    constrollermodel.clear();
+    controllerbrand.clear();
+    controllerPricePaidShop.clear();
+    controllerPurchaseDate.clear();
+    controllerYearManufacture.clear();
+    controllerPurchaseDate.clear();
+    notifyListeners();
   }
 
   Future<void> loadData() async {
