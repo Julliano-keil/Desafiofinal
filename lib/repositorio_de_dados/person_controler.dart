@@ -11,6 +11,7 @@ class PersonControler extends ChangeNotifier {
   PersonControler() {
     unawaited(loadata());
     unawaited(loadUserInfo());
+    //unawaited(clearUserInfo());
   }
   String nameuser = '';
 
@@ -59,18 +60,12 @@ class PersonControler extends ChangeNotifier {
   Future<void> dataAutonomy(int idperson) async {
     try {
       final list = await controllerAutonomy.select(idperson);
-      print('list person $list');
-      print('id person $idperson');
 
       if (list.isNotEmpty) {
         autonomyProvider.setUserAutonomyList(list);
       }
-      // print('Nome: ${list[0].name}');
-      // print('Porcentagem de Segurança de Rede: ${list[0].networkSecurity}');
-      // print('Porcentagem de Loja: ${list[0].storePercentage}');
-      // print('Porcentagem de Rede: ${list[0].networkPercentage}');
     } on Exception catch (e) {
-      print('erro no metodo de listauto $e');
+      debugPrint('erro no metodo de listauto $e');
     }
   }
 
@@ -85,13 +80,13 @@ class PersonControler extends ChangeNotifier {
     }
   }
 
-  Future<dynamic> getUserByUsername(String username) async {
+  Future<dynamic> getUserByUsername(String usercnpj) async {
     try {
       final database = await getdatabase();
       final List<Map<String, dynamic>> result = await database.query(
         PersonTable.tablename,
         where: '${PersonTable.cnpj} = ?',
-        whereArgs: [username],
+        whereArgs: [usercnpj],
       );
 
       if (result.isNotEmpty) {
@@ -120,11 +115,13 @@ class PersonControler extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> saveUserInfo(int userId, String userName) async {
+  Future<void> saveUserInfo(
+      int userId, String userName, String userCnpj) async {
     await loadata();
     final prefs = await SharedPreferences.getInstance();
     await prefs.setInt('userId', userId);
     await prefs.setString('userName', userName);
+    await prefs.setString('userCnpj', userCnpj);
   }
 
   Future<void> loadUserInfo() async {
@@ -132,11 +129,12 @@ class PersonControler extends ChangeNotifier {
     final prefs = await SharedPreferences.getInstance();
     final userId = prefs.getInt('userId');
     final userName = prefs.getString('userName');
+    final userCnpj = prefs.getString('userCnpj');
 
     if (userId != null && userName != null) {
       _loggedUser = Person(
         id: userId,
-        cnpj: '',
+        cnpj: userCnpj,
         nomeloja: userName,
         senha: '',
       );

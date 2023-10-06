@@ -238,27 +238,25 @@ class _DropdownState extends State<_Dropdown> {
                     ),
                   );
                 }).toList(),
-                selectedItemBuilder: (BuildContext context) {
+                selectedItemBuilder: (context) {
                   return _items.map<Widget>((item) {
                     return Text(
                       item,
                       style: const TextStyle(
-                        color:
-                            Colors.white, // Define a cor do texto selecionado
+                        color: Colors.white,
                         fontSize: 18,
                       ),
                     );
                   }).toList();
                 },
                 style: const TextStyle(
-                  color: Colors
-                      .black, // Define a cor do texto selecionado quando a lista está aberta
+                  color: Colors.black,
                   fontSize: 20,
                 ),
                 onChanged: (value) {
                   setState(() {
                     _selectedItem = value;
-                    value = widget.controller.text;
+                    widget.controller.text = value!;
                   });
                 },
                 decoration: const InputDecoration(

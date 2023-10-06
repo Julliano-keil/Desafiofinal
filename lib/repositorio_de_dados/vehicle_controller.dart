@@ -8,16 +8,18 @@ import 'images.dart';
 import 'vehicle_http.dart';
 
 class VehicleController extends ChangeNotifier {
-  VehicleController() {
+  VehicleController({required this.person}) {
     init();
     unawaited(loadData());
   }
 
   String? _controllerImage;
-
+  final int person;
   bool editing = false;
   final _listvehicle = <Vehicle>[];
   List<Vehicle> get listavehicle => _listvehicle;
+  final _listvehicleReport = <Vehicle>[];
+  List<Vehicle> get listavehicleReport => _listvehicleReport;
 
   final vehicleController = VehicleControllerdb();
   Vehicle? vehicle;
@@ -40,6 +42,7 @@ class VehicleController extends ChangeNotifier {
 
   Future<void> insert() async {
     final vehicle = Vehicle(
+        idperson: person,
         model: _constrollermodel.text,
         brand: _controllerbrand.text,
         yearManufacture: _controllerYearManufacture.text,
@@ -74,6 +77,14 @@ class VehicleController extends ChangeNotifier {
     controllerPurchaseDate.clear();
     controllerYearManufacture.clear();
     controllerPurchaseDate.clear();
+    notifyListeners();
+  }
+
+  Future<void> selectVehiclePersonId(int personid) async {
+    final list = await vehicleController.select(personid);
+
+    listavehicleReport.clear();
+    listavehicleReport.addAll(list);
     notifyListeners();
   }
 

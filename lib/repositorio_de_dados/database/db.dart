@@ -189,7 +189,8 @@ class AutonomyControler {
 class VehicleRegistrationTable {
   static const String createTable = '''
     CREATE TABLE $tablename(
-    $id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+      $id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+      $idperson INTEGER NOT NULL,
       $model              TEXT NOT NULL,
       $brand              TEXT NOT NULL,
       $yearManufacture    TEXT NOT NULL,
@@ -202,6 +203,7 @@ class VehicleRegistrationTable {
 
   static const String tablename = 'Vehicle_Registration';
   static const String id = 'id';
+  static const String idperson = 'idperson';
   static const String model = 'model';
   static const String brand = 'brand';
   static const String yearManufacture = 'year_manufacture';
@@ -214,6 +216,7 @@ class VehicleRegistrationTable {
     final map = <String, dynamic>{};
 
     map[VehicleRegistrationTable.id] = vehicle.id;
+    map[VehicleRegistrationTable.idperson] = vehicle.idperson;
     map[VehicleRegistrationTable.model] = vehicle.model;
     map[VehicleRegistrationTable.brand] = vehicle.brand;
     map[VehicleRegistrationTable.yearManufacture] = vehicle.yearManufacture;
@@ -245,6 +248,7 @@ class VehicleControllerdb {
     for (var item in result) {
       list.add(Vehicle(
           id: item[VehicleRegistrationTable.id],
+          idperson: item[VehicleRegistrationTable.idperson],
           model: item[VehicleRegistrationTable.model],
           brand: item[VehicleRegistrationTable.brand],
           yearManufacture: item[VehicleRegistrationTable.yearManufacture],
@@ -266,6 +270,7 @@ class VehicleControllerdb {
     for (var item in result) {
       list.add(Vehicle(
           id: item[VehicleRegistrationTable.id],
+          idperson: item[VehicleRegistrationTable.idperson],
           model: item[VehicleRegistrationTable.model],
           brand: item[VehicleRegistrationTable.brand],
           yearManufacture: item[VehicleRegistrationTable.yearManufacture],
@@ -382,6 +387,35 @@ class SaleTableController {
 
     final List<Map<String, dynamic>> result =
         await database.query(SalesTable.tableName);
+
+    var list = <Sale>[];
+
+    for (final item in result) {
+      list.add(
+        Sale(
+          id: item[SalesTable.id],
+          customerCpf: item[SalesTable.customerCpf],
+          customerName: item[SalesTable.customerName],
+          soldWhen: item[SalesTable.soldWhen],
+          priceSold: item[SalesTable.priceSold],
+          dealershipPercentage: item[SalesTable.dealershipCut],
+          businessPercentage: item[SalesTable.businessCut],
+          safetyPercentage: item[SalesTable.safetyCut],
+          vehicleId: item[SalesTable.vehicleId],
+          userId: item[SalesTable.userId],
+        ),
+      );
+    }
+    return list;
+  }
+
+  Future<List<Sale>> selectlist(int idperson) async {
+    final database = await getdatabase();
+
+    final List<Map<String, dynamic>> result = await database.query(
+        SalesTable.tableName,
+        where: '${SalesTable.userId} = ?',
+        whereArgs: [idperson]);
 
     var list = <Sale>[];
 

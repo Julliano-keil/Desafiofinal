@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../casos_de_usos/autonomy_data.dart';
 import '../casos_de_usos/form_validator.dart';
 import '../entidades/vehicle.dart';
 import '../repositorio_de_dados/person_controler.dart';
@@ -16,7 +15,6 @@ class SaleVehicle extends StatelessWidget {
     final vehicle = ModalRoute.of(context)!.settings.arguments as Vehicle?;
     final state = Provider.of<PersonControler>(context);
     final userid = state.loggedUser!.id;
-    print(userid);
 
     return ChangeNotifierProvider<SaleController>(
       create: (context) => SaleController(vehicle: vehicle!, person: userid!),
@@ -103,7 +101,8 @@ class SaleVehicle extends StatelessWidget {
                                 truee: false,
                                 controler: state.priceSold,
                                 labelText: ' Valor pago',
-                                hintText: 'Ex: R\$ 0.000',
+                                hintText: 'Valor atual do veiculo'
+                                    ' \$ ${vehicle!.pricePaidShop}',
                                 keyboardType: TextInputType.text,
                                 validator: (value) =>
                                     FormValidator.validateEmpty(value, 20)),

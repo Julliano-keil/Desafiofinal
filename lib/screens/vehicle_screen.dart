@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../casos_de_usos/form_validator.dart';
+import '../repositorio_de_dados/person_controler.dart';
 import '../repositorio_de_dados/vehicle_controller.dart';
 import '../widgets/autocomplite.dart';
 import '../widgets/button_navigation.dart';
@@ -18,8 +19,10 @@ class VehicleRegister extends StatefulWidget {
 class _VehicleRegisterState extends State<VehicleRegister> {
   @override
   Widget build(BuildContext context) {
+    final state = Provider.of<PersonControler>(context);
+    final userid = state.loggedUser!.id;
     return ChangeNotifierProvider<VehicleController>(
-        create: (context) => VehicleController(),
+        create: (context) => VehicleController(person: userid!),
         child: Consumer<VehicleController>(
           builder: (_, state, __) {
             return Scaffold(

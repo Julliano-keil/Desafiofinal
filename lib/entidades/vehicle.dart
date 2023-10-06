@@ -7,10 +7,12 @@ class Vehicle {
   final String? image;
   final double pricePaidShop;
   final String purchaseDate;
+  final int? idperson;
   bool favorite = false;
 
   Vehicle(
       {this.id,
+      this.idperson,
       required this.model,
       required this.brand,
       required this.yearManufacture,

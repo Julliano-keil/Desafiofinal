@@ -81,18 +81,13 @@ class SaleController extends ChangeNotifier {
 
   Future<void> dataAutonomy(int idperson) async {
     final list = await controllerAutonomy.select(idperson);
-    print('list person $list');
-    print('id person $idperson');
 
     if (list.isNotEmpty) {
       dealershipPercentag = list[0].networkPercentage;
       businessPercentag = list[0].storePercentage;
       safetyPercentag = list[0].networkSecurity;
     }
-    print('Nome: ${list[0].name}');
-    print('Porcentagem de Segurança de Rede: ${list[0].networkSecurity}');
-    print('Porcentagem de Loja: ${list[0].storePercentage}');
-    print('Porcentagem de Rede: ${list[0].networkPercentage}');
+    notifyListeners();
   }
 
   Future<void> loadData() async {

@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 
 import 'casos_de_usos/autonomy_data.dart';
@@ -80,7 +81,7 @@ class _MyAppState extends State<MyApp> with SingleTickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return GetMaterialApp(
       routes: {
         '/MyApp': (context) => const MyApp(),
         '/Homepage': (context) => const Zoom(mainScreen: Homepage()),

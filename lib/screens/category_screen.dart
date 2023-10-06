@@ -20,8 +20,6 @@ class _CategorysState extends State<Categorys> {
 
   @override
   Widget build(BuildContext context) {
-    final state = Provider.of<PersonControler>(context);
-    final userid = state.loggedUser!.id;
     var size = MediaQuery.of(context).size;
     return SafeArea(
       child: DefaultTabController(
@@ -47,7 +45,7 @@ class _CategorysState extends State<Categorys> {
                       });
                     },
                   ),
-                  Categoryscren(person: userid),
+                  const Categoryscren(),
                 ]),
               ),
             ],
@@ -73,8 +71,8 @@ class _CategorysState extends State<Categorys> {
 
 // ignore: must_be_immutable
 class Categoryscren extends StatefulWidget {
-  Categoryscren({super.key, required this.person});
-  int? person;
+  const Categoryscren({super.key});
+
   @override
   State<Categoryscren> createState() => CategoryscrenState();
 }
@@ -120,8 +118,10 @@ class CategoryscrenState extends State<Categoryscren> {
 
   @override
   Widget build(BuildContext context) {
+    final state = Provider.of<PersonControler>(context);
+    final userid = state.loggedUser!.id;
     return ChangeNotifierProvider<VehicleController>(
-      create: (context) => VehicleController(),
+      create: (context) => VehicleController(person: userid!),
       child: Consumer<VehicleController>(
         builder: (_, state, __) {
           return Expanded(

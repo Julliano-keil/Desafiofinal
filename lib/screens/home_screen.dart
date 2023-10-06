@@ -1,9 +1,13 @@
 import 'dart:async';
+
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:provider/provider.dart';
+
 import '../repositorio_de_dados/person_controler.dart';
 import '../widgets/home_cards.dart';
 import '../widgets/trasactonimage.dart';
+import 'sales_report_screen.dart';
 import 'signup_scren.dart';
 import 'vehicle_screen.dart';
 
@@ -146,7 +150,9 @@ class _HomeState extends State<Home> {
                               Cards(
                                 text: 'Relatorio \nde vendas ',
                                 icon: Icons.wallet,
-                                ontap: () {},
+                                ontap: () async {
+                                  await Get.to(SalesReport());
+                                },
                               ),
                               Cards(
                                 text: 'ultimas\ntransaçoes',
@@ -158,10 +164,7 @@ class _HomeState extends State<Home> {
                                       text: 'cadastrar \nusuarios ',
                                       icon: Icons.list_alt_outlined,
                                       ontap: () async {
-                                        await Navigator.of(context)
-                                            .pushReplacement(MaterialPageRoute(
-                                                builder: (context) =>
-                                                    const SignUp()));
+                                        await Get.to(const SignUp());
                                       },
                                     )
                                   : Container(),
@@ -169,10 +172,7 @@ class _HomeState extends State<Home> {
                                   text: 'Cadastrar\n novos carros',
                                   icon: Icons.car_crash_sharp,
                                   ontap: () async {
-                                    await Navigator.of(context).pushReplacement(
-                                        MaterialPageRoute(
-                                            builder: (context) =>
-                                                const VehicleRegister()));
+                                    await Get.to(const VehicleRegister());
                                   })
                             ],
                           ),

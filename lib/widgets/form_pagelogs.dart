@@ -33,9 +33,9 @@ class BaseForm extends StatelessWidget {
         magnifierConfiguration: TextMagnifierConfiguration.disabled,
         decoration: InputDecoration(
           labelText: labelText,
-          hintStyle: const TextStyle(color: Colors.white, fontSize: 17),
-          hintText: hintText,
           labelStyle: const TextStyle(color: Colors.white, fontSize: 18),
+          hintText: hintText,
+          hintStyle: const TextStyle(color: Colors.white, fontSize: 17),
           floatingLabelStyle: const TextStyle(color: Colors.white),
           border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(15.0),

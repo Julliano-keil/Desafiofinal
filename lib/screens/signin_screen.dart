@@ -1,5 +1,6 @@
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 
 import '../casos_de_usos/autonomy_data.dart';
@@ -86,7 +87,8 @@ class SignIn extends StatelessWidget {
                           final username = state.controllerCnpj.text;
                           final password = state.controllerSenha.text;
                           final user = await state.getUserByUsername(username);
-                          await state.saveUserInfo(user.id, user.nomeloja);
+                          await state.saveUserInfo(
+                              user.id, user.nomeloja, username);
                           final connectivityResult =
                               await (Connectivity().checkConnectivity());
                           if (connectivityResult == ConnectivityResult.wifi &&
@@ -109,37 +111,13 @@ class SignIn extends StatelessWidget {
                                     autonomyProvider.userAutonomyList;
                                 if (autonomyDataList != null &&
                                     context.mounted) {
-                                  print(autonomyDataList);
+                                  await Get.toNamed('/Homepage');
                                 }
-                                await Navigator.of(context)
-                                    .pushReplacementNamed('/Homepage');
-                                print(autonomyDataList);
                               } else {
-                                await showDialog(
-                                  context: context,
-                                  builder: (context) {
-                                    return AlertDialog(
-                                      title: const Text('Erro de Login',
-                                          style: TextStyle(
-                                              fontSize: 20,
-                                              fontWeight: FontWeight.bold)),
-                                      content: const Text(
-                                        'CNPJ ou senha incorretos.',
-                                        style: TextStyle(
-                                            fontSize: 20,
-                                            fontWeight: FontWeight.bold),
-                                      ),
-                                      actions: [
-                                        TextButton(
-                                          onPressed: () {
-                                            Navigator.of(context).pop();
-                                          },
-                                          child: const Text('OK'),
-                                        ),
-                                      ],
-                                    );
-                                  },
-                                );
+                                CustomDialog.showSuccess(
+                                    context,
+                                    'Erro de Login',
+                                    'CNPJ ou senha incorretos.');
                               }
                             }
                           } else if (connectivityResult ==

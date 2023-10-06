@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter_zoom_drawer/flutter_zoom_drawer.dart';
 
@@ -23,45 +22,42 @@ class _HomepageState extends State<Homepage> {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      home: SafeArea(
-        child: Scaffold(
-          appBar: AppBar(
-            backgroundColor: Colors.black,
-            leading: IconButton(
-              icon: const Icon(Icons.menu),
-              onPressed: () {
-                ZoomDrawer.of(context)!.toggle();
-              },
+    return SafeArea(
+      child: Scaffold(
+        appBar: AppBar(
+          backgroundColor: Colors.black,
+          leading: IconButton(
+            icon: const Icon(Icons.menu),
+            onPressed: () {
+              ZoomDrawer.of(context)!.toggle();
+            },
+          ),
+        ),
+        body: _getBodyWidget(),
+        bottomNavigationBar: BottomNavigationBar(
+          type: BottomNavigationBarType.shifting,
+          unselectedItemColor: Colors.white70,
+          selectedItemColor: Colors.white,
+          backgroundColor: Colors.black,
+          items: const [
+            BottomNavigationBarItem(
+              backgroundColor: Colors.black,
+              icon: Icon(Icons.home_outlined),
+              label: 'Inicio',
             ),
-          ),
-          body: _getBodyWidget(),
-          bottomNavigationBar: BottomNavigationBar(
-            type: BottomNavigationBarType.shifting,
-            unselectedItemColor: Colors.white70,
-            selectedItemColor: Colors.white,
-            backgroundColor: Colors.black,
-            items: const [
-              BottomNavigationBarItem(
-                backgroundColor: Colors.black,
-                icon: Icon(Icons.home_outlined),
-                label: 'Inicio',
-              ),
-              BottomNavigationBarItem(
-                backgroundColor: Colors.black,
-                icon: Icon(Icons.category),
-                label: 'Categorias',
-              ),
-              BottomNavigationBarItem(
-                backgroundColor: Colors.black,
-                icon: Icon(Icons.person),
-                label: 'Perfil',
-              ),
-            ],
-            currentIndex: _selectedIndex,
-            onTap: _onItemTapped,
-          ),
+            BottomNavigationBarItem(
+              backgroundColor: Colors.black,
+              icon: Icon(Icons.category),
+              label: 'Categorias',
+            ),
+            BottomNavigationBarItem(
+              backgroundColor: Colors.black,
+              icon: Icon(Icons.person),
+              label: 'Perfil',
+            ),
+          ],
+          currentIndex: _selectedIndex,
+          onTap: _onItemTapped,
         ),
       ),
     );

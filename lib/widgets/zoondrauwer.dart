@@ -1,13 +1,11 @@
-import 'dart:async';
-import 'package:flutter/services.dart';
-
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_zoom_drawer/flutter_zoom_drawer.dart';
 import 'package:provider/provider.dart';
+
 import '../Screens/registered_people_screen.dart';
 import '../Screens/settings_screen.dart';
 import '../repositorio_de_dados/person_controler.dart';
-import '../screens/signin_screen.dart';
 
 final ZoomDrawerController z = ZoomDrawerController();
 
