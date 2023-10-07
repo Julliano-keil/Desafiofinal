@@ -9,11 +9,18 @@ class Sale {
   final double businessPercentage;
   final double safetyPercentage;
   final int vehicleId;
-
+  final String nameUser;
+  final String brand;
+  final String model;
+  final String userCnpj;
   final int userId;
 
   Sale({
     this.id,
+    required this.brand,
+    required this.userCnpj,
+    required this.model,
+    required this.nameUser,
     required this.customerCpf,
     required this.customerName,
     required this.soldWhen,

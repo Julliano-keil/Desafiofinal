@@ -4,13 +4,18 @@ import 'package:flutter/widgets.dart';
 
 import '../casos_de_usos/autonomy_data.dart';
 import '../entidades/autonomy_level.dart';
-
 import '../entidades/sales.dart';
 import '../entidades/vehicle.dart';
 import 'database/db.dart';
 
 class SaleController extends ChangeNotifier {
-  SaleController({required this.person, required this.vehicle}) {
+  SaleController(
+      {required this.userCnpj,
+      required this.brand,
+      required this.model,
+      required this.nameUser,
+      required this.person,
+      required this.vehicle}) {
     unawaited(loadData());
   }
 
@@ -20,6 +25,10 @@ class SaleController extends ChangeNotifier {
   final saleController = SaleTableController();
   final Vehicle vehicle;
   final int person;
+  final String nameUser;
+  final String brand;
+  final String model;
+  final String userCnpj;
   final _listAutomomydata = <AutonomyLevel>[];
   List<AutonomyLevel> get listAutonomydata => _listAutomomydata;
   final autonomyProvider = AutonomyProvider([]);
@@ -30,9 +39,6 @@ class SaleController extends ChangeNotifier {
   final _custumerName = TextEditingController();
   final _soldwhen = TextEditingController();
   final _priceSold = TextEditingController();
-  // final _dealershipPercentage = TextEditingController();
-  // final _bussinessPercetenge = TextEditingController();
-//  final _safetyPercentage = TextEditingController();
   final _vehicleId = TextEditingController();
   final _userId = TextEditingController();
 
@@ -40,9 +46,6 @@ class SaleController extends ChangeNotifier {
   TextEditingController get custumerName => _custumerName;
   TextEditingController get soldwhen => _soldwhen;
   TextEditingController get priceSold => _priceSold;
-  // TextEditingController get dealershipPercentage => _dealershipPercentage;
-  //TextEditingController get bussinessPercetenge => _bussinessPercetenge;
-  // TextEditingController get safetyPercentage => _safetyPercentage;
   TextEditingController get vehicleId => _vehicleId;
   TextEditingController get userId => _userId;
 
@@ -64,6 +67,10 @@ class SaleController extends ChangeNotifier {
             (safetyPercentag! / 100) * double.parse(_priceSold.text),
         vehicleId: vehicle.id ?? 0,
         userId: person,
+        nameUser: nameUser,
+        brand: brand,
+        model: model,
+        userCnpj: userCnpj,
       );
 
       await saleController.insert(saleVehicle);

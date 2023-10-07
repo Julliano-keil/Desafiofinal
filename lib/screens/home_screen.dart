@@ -143,8 +143,8 @@ class _HomeState extends State<Home> {
                                 const SliverGridDelegateWithMaxCrossAxisExtent(
                               maxCrossAxisExtent: 200,
                               childAspectRatio: 4 / 3,
-                              crossAxisSpacing: 25,
-                              mainAxisSpacing: 25,
+                              crossAxisSpacing: 5,
+                              mainAxisSpacing: 5,
                             ),
                             children: [
                               Cards(
@@ -168,12 +168,14 @@ class _HomeState extends State<Home> {
                                       },
                                     )
                                   : Container(),
-                              Cards(
-                                  text: 'Cadastrar\n novos carros',
-                                  icon: Icons.car_crash_sharp,
-                                  ontap: () async {
-                                    await Get.to(const VehicleRegister());
-                                  })
+                              userid == 1
+                                  ? Cards(
+                                      text: 'Cadastrar\n novos carros',
+                                      icon: Icons.car_crash_sharp,
+                                      ontap: () async {
+                                        await Get.to(const VehicleRegister());
+                                      })
+                                  : Container()
                             ],
                           ),
                         ),
@@ -183,6 +185,26 @@ class _HomeState extends State<Home> {
                 ],
               ),
             ),
+            userid != 1
+                ? Positioned(
+                    top: 500,
+                    right: 13,
+                    child: Padding(
+                      padding: const EdgeInsets.all(20),
+                      child: Container(
+                        width: 325,
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(8)),
+                        child: Cards(
+                            text: ' Cadastrar\n novos carros',
+                            icon: Icons.car_crash_sharp,
+                            ontap: () async {
+                              await Get.to(const VehicleRegister());
+                            }),
+                      ),
+                    ),
+                  )
+                : Container()
           ]),
         ),
       ),

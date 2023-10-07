@@ -4,6 +4,7 @@ import 'package:flutter_zoom_drawer/flutter_zoom_drawer.dart';
 import 'category_screen.dart';
 import 'home_screen.dart';
 import 'settings_screen.dart';
+import 'user_profile.dart';
 
 class Homepage extends StatefulWidget {
   const Homepage({super.key});
@@ -48,7 +49,7 @@ class _HomepageState extends State<Homepage> {
             BottomNavigationBarItem(
               backgroundColor: Colors.black,
               icon: Icon(Icons.category),
-              label: 'Categorias',
+              label: 'Concessionaria',
             ),
             BottomNavigationBarItem(
               backgroundColor: Colors.black,
@@ -69,7 +70,7 @@ class _HomepageState extends State<Homepage> {
     } else if (_selectedIndex == 1) {
       return const Categorys();
     } else if (_selectedIndex == 2) {
-      return Settings();
+      return ProfileUser();
     }
     return const LinearProgressIndicator();
   }

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 import '../casos_de_usos/form_validator.dart';
 import '../repositorio_de_dados/signup_controller.dart';
@@ -22,8 +23,10 @@ class SignUp extends StatelessWidget {
               elevation: 0,
               leading: IconButton(
                 onPressed: () async {
-                  await Navigator.of(context, rootNavigator: true)
-                      .pushNamed('/Homepage');
+                  FocusManager.instance.primaryFocus?.unfocus();
+                  await Future.delayed(const Duration(milliseconds: 600), () {
+                    Get.offAndToNamed('/Homepage');
+                  });
                 },
                 icon: const Icon(
                   Icons.arrow_back,
@@ -35,7 +38,7 @@ class SignUp extends StatelessWidget {
             body: Center(
               child: Container(
                 width: 340,
-                height: 500,
+                height: 460,
                 decoration: BoxDecoration(
                   color: Colors.black,
                   borderRadius: const BorderRadius.only(
@@ -104,9 +107,11 @@ class SignUp extends StatelessWidget {
                                         CustomDialog.showSuccess(
                                             context,
                                             'Login quase pronto',
-                                            'siga os passos abaixo '
-                                                'para finalizar !');
+                                            'Voce sera redirecionado'
+                                                'automaticamente para cadastrar'
+                                                ' o nivel de usuario!');
                                       }
+                                      await goListPage();
                                     }
                                   },
                                   style: ElevatedButton.styleFrom(
@@ -123,33 +128,6 @@ class SignUp extends StatelessWidget {
                               ],
                             ),
                           ),
-                          Padding(
-                            padding: const EdgeInsets.all(16.0),
-                            child: Row(
-                              children: [
-                                const Text(
-                                  'Cadastre o nivel do usuario indo para \na '
-                                  'lista de usuarios cadastrados',
-                                  style: TextStyle(
-                                      color: Colors.white, fontSize: 15),
-                                ),
-                                IconButton(
-                                  onPressed: () async {
-                                    await Navigator.of(context).pushReplacement(
-                                      MaterialPageRoute(
-                                        builder: (context) =>
-                                            Registeredpeople(),
-                                      ),
-                                    );
-                                  },
-                                  icon: const Icon(
-                                    Icons.lock_person_outlined,
-                                    color: Colors.white,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
                         ],
                       ),
                     ),
@@ -162,4 +140,10 @@ class SignUp extends StatelessWidget {
       ),
     );
   }
+}
+
+Future<void> goListPage() async {
+  await Future.delayed(const Duration(seconds: 5), () {
+    Get.to(Registeredpeople());
+  });
 }

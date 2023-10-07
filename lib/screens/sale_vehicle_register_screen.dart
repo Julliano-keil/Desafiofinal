@@ -15,18 +15,31 @@ class SaleVehicle extends StatelessWidget {
     final vehicle = ModalRoute.of(context)!.settings.arguments as Vehicle?;
     final state = Provider.of<PersonControler>(context);
     final userid = state.loggedUser!.id;
+    final userName = state.loggedUser!.nomeloja;
+    final userCnpj = state.loggedUser!.cnpj;
 
     return ChangeNotifierProvider<SaleController>(
-      create: (context) => SaleController(vehicle: vehicle!, person: userid!),
+      create: (context) => SaleController(
+        vehicle: vehicle!,
+        person: userid!,
+        nameUser: userName!,
+        brand: vehicle.brand,
+        model: vehicle.model,
+        userCnpj: userCnpj!,
+      ),
       child: Consumer<SaleController>(
         builder: (_, state, __) {
           return Scaffold(
+            resizeToAvoidBottomInset: false,
             appBar: AppBar(
               backgroundColor: Colors.amber,
               elevation: 0,
               leading: IconButton(
-                onPressed: () {
-                  Navigator.of(context).pop();
+                onPressed: () async {
+                  FocusManager.instance.primaryFocus?.unfocus();
+                  await Future.delayed(const Duration(milliseconds: 600), () {
+                    Navigator.of(context).pop();
+                  });
                 },
                 icon: const Icon(
                   Icons.arrow_back,
@@ -121,7 +134,7 @@ class SaleVehicle extends StatelessWidget {
                                           CustomDialog.showSuccess(
                                               context,
                                               '',
-                                              'Venda realizada com  '
+                                              'Venda realizada com '
                                                   'sucesso !');
                                         }
                                       }

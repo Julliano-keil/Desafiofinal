@@ -1,10 +1,12 @@
 import 'dart:async';
+import 'dart:core';
 
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 
 import '../../entidades/autonomy_level.dart';
 import '../../entidades/person.dart';
+import '../../entidades/profile.dart';
 import '../../entidades/sales.dart';
 import '../../entidades/vehicle.dart';
 
@@ -24,7 +26,7 @@ Future<Database> getdatabase() async {
       await db.execute(VehicleRegistrationTable.createTable);
       await db.execute(SalesTable.createTable);
     },
-    version: 5,
+    version: 6,
   );
 }
 
@@ -192,6 +194,7 @@ class VehicleRegistrationTable {
       $id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
       $idperson INTEGER NOT NULL,
       $model              TEXT NOT NULL,
+      $nameUser           TEXT NOT NULL,
       $brand              TEXT NOT NULL,
       $yearManufacture    TEXT NOT NULL,
       $yearVehicle        TEXT NOT NULL,
@@ -211,6 +214,7 @@ class VehicleRegistrationTable {
   static const String image = 'image';
   static const String pricePaidShop = 'price_Paid_Shop';
   static const String purchaseDate = 'purchase_date';
+  static const String nameUser = 'name_user';
 
   static Map<String, dynamic> tomap(Vehicle vehicle) {
     final map = <String, dynamic>{};
@@ -224,6 +228,7 @@ class VehicleRegistrationTable {
     map[VehicleRegistrationTable.image] = vehicle.image;
     map[VehicleRegistrationTable.pricePaidShop] = vehicle.pricePaidShop;
     map[VehicleRegistrationTable.purchaseDate] = vehicle.purchaseDate;
+    map[VehicleRegistrationTable.nameUser] = vehicle.nameUser;
     return map;
   }
 }
@@ -235,18 +240,19 @@ class VehicleControllerdb {
     await database.insert(VehicleRegistrationTable.tablename, map);
   }
 
-  Future<List<Vehicle>> select(int vehicleId) async {
+  Future<List<Vehicle>> select(int personid) async {
     final database = await getdatabase();
     final List<Map<String, dynamic>> result = await database.query(
       VehicleRegistrationTable.tablename,
-      where: '${VehicleRegistrationTable.id} = ?',
-      whereArgs: [vehicleId],
+      where: '${VehicleRegistrationTable.idperson} = ?',
+      whereArgs: [personid],
     );
 
     var list = <Vehicle>[];
 
     for (var item in result) {
-      list.add(Vehicle(
+      list.add(
+        Vehicle(
           id: item[VehicleRegistrationTable.id],
           idperson: item[VehicleRegistrationTable.idperson],
           model: item[VehicleRegistrationTable.model],
@@ -255,7 +261,10 @@ class VehicleControllerdb {
           yearVehicle: item[VehicleRegistrationTable.yearVehicle],
           image: item[VehicleRegistrationTable.image],
           pricePaidShop: item[VehicleRegistrationTable.pricePaidShop],
-          purchaseDate: item[VehicleRegistrationTable.purchaseDate]));
+          purchaseDate: item[VehicleRegistrationTable.purchaseDate],
+          nameUser: item[VehicleRegistrationTable.nameUser],
+        ),
+      );
     }
     return list;
   }
@@ -268,7 +277,8 @@ class VehicleControllerdb {
     var list = <Vehicle>[];
 
     for (var item in result) {
-      list.add(Vehicle(
+      list.add(
+        Vehicle(
           id: item[VehicleRegistrationTable.id],
           idperson: item[VehicleRegistrationTable.idperson],
           model: item[VehicleRegistrationTable.model],
@@ -277,7 +287,10 @@ class VehicleControllerdb {
           yearVehicle: item[VehicleRegistrationTable.yearVehicle],
           image: item[VehicleRegistrationTable.image],
           pricePaidShop: item[VehicleRegistrationTable.pricePaidShop],
-          purchaseDate: item[VehicleRegistrationTable.purchaseDate]));
+          purchaseDate: item[VehicleRegistrationTable.purchaseDate],
+          nameUser: item[VehicleRegistrationTable.nameUser],
+        ),
+      );
     }
     return list;
   }
@@ -314,7 +327,11 @@ class SalesTable {
     CREATE TABLE $tableName(
       $id             INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
       $customerCpf    TEXT NOT NULL,
+      $userCnpj       TEXT NOT NULL,
+      $model          TEXT NOT NULL,
+      $brand          TEXT NOT NULL,
       $customerName   TEXT NOT NULL,
+      $nameUser       TEXT NOT NULL,
       $soldWhen       TEXT NOT NULL,
       $priceSold      REAL NOT NULL,
       $dealershipCut  REAL NOT NULL,
@@ -335,12 +352,17 @@ class SalesTable {
   static const String businessCut = 'business_cut';
   static const String safetyCut = 'safety_cut';
   static const String vehicleId = 'vehicle_id';
+  static const String nameUser = 'name_user';
   static const String userId = 'user_id';
+  static const String brand = 'brand';
+  static const String model = 'model';
+  static const String userCnpj = 'user_cnpj';
 
   static Map<String, dynamic> toMap(Sale sale) {
     final map = <String, dynamic>{};
 
     map[SalesTable.id] = sale.id;
+    map[SalesTable.nameUser] = sale.nameUser;
     map[SalesTable.customerCpf] = sale.customerCpf;
     map[SalesTable.customerName] = sale.customerName;
     map[SalesTable.soldWhen] = sale.soldWhen;
@@ -350,6 +372,9 @@ class SalesTable {
     map[SalesTable.safetyCut] = sale.safetyPercentage;
     map[SalesTable.vehicleId] = sale.vehicleId;
     map[SalesTable.userId] = sale.userId;
+    map[SalesTable.userCnpj] = sale.userCnpj;
+    map[SalesTable.model] = sale.model;
+    map[SalesTable.brand] = sale.brand;
 
     return map;
   }
@@ -394,6 +419,7 @@ class SaleTableController {
       list.add(
         Sale(
           id: item[SalesTable.id],
+          nameUser: item[SalesTable.nameUser],
           customerCpf: item[SalesTable.customerCpf],
           customerName: item[SalesTable.customerName],
           soldWhen: item[SalesTable.soldWhen],
@@ -403,6 +429,9 @@ class SaleTableController {
           safetyPercentage: item[SalesTable.safetyCut],
           vehicleId: item[SalesTable.vehicleId],
           userId: item[SalesTable.userId],
+          brand: item[SalesTable.brand],
+          model: item[SalesTable.model],
+          userCnpj: item[SalesTable.userCnpj],
         ),
       );
     }
@@ -423,6 +452,7 @@ class SaleTableController {
       list.add(
         Sale(
           id: item[SalesTable.id],
+          nameUser: item[SalesTable.nameUser],
           customerCpf: item[SalesTable.customerCpf],
           customerName: item[SalesTable.customerName],
           soldWhen: item[SalesTable.soldWhen],
@@ -432,6 +462,9 @@ class SaleTableController {
           safetyPercentage: item[SalesTable.safetyCut],
           vehicleId: item[SalesTable.vehicleId],
           userId: item[SalesTable.userId],
+          brand: item[SalesTable.brand],
+          model: item[SalesTable.model],
+          userCnpj: item[SalesTable.userCnpj],
         ),
       );
     }
@@ -459,5 +492,74 @@ class SaleTableController {
     );
 
     return;
+  }
+}
+
+class ProfileUserTable {
+  static const String createTable = '''
+  CREATE TABLE $tableName(
+  $id             INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+  $image          TEXT NOT NULL,
+  $text           TEXT NOT NULL,
+  $imageback      TEXT NOT NULL,
+  $userId         TEXT NOT NULL,
+  ); 
+''';
+
+  static const String tableName = 'Profile';
+  static const String id = 'id';
+  static const String userId = 'userid';
+  static const String image = 'image';
+  static const String text = 'text';
+  static const String imageback = 'imageback';
+
+  static Map<String, dynamic> toMap(Profile profile) {
+    final map = <String, dynamic>{};
+
+    map[ProfileUserTable.id] = profile.id;
+    map[ProfileUserTable.image] = profile.image;
+    map[ProfileUserTable.text] = profile.text;
+    map[ProfileUserTable.imageback] = profile.imageback;
+    map[ProfileUserTable.userId] = profile.userId;
+
+    return map;
+  }
+}
+
+class ProfileControllerdb {
+  Future<void> insert(Profile profile) async {
+    final database = await getdatabase();
+    final map = ProfileUserTable.toMap(profile);
+    await database.insert(ProfileUserTable.tableName, map);
+  }
+
+  Future<List<Profile>> select(int personid) async {
+    final database = await getdatabase();
+    final List<Map<String, dynamic>> result = await database.query(
+      ProfileUserTable.tableName,
+      where: '${ProfileUserTable.userId} = ?',
+      whereArgs: [personid],
+    );
+
+    var list = <Profile>[];
+
+    for (var item in result) {
+      list.add(
+        Profile(
+          id: item[ProfileUserTable.id],
+          userId: item[ProfileUserTable.userId],
+          image: item[ProfileUserTable.image],
+          text: item[ProfileUserTable.text],
+          imageback: item[ProfileUserTable.imageback],
+        ),
+      );
+    }
+    return list;
+  }
+
+  Future<void> delete(Profile profile) async {
+    final database = await getdatabase();
+    unawaited(database.delete(ProfileUserTable.tableName,
+        where: '${ProfileUserTable.id} = ?', whereArgs: [profile.id]));
   }
 }

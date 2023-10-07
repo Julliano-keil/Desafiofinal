@@ -17,7 +17,9 @@ class SalesReportController extends ChangeNotifier {
 
   Future<void> loadData() async {
     try {
-      final list = await saleController.selectlist(person);
+      final list = person == 1
+          ? await saleController.select()
+          : await saleController.selectlist(person);
 
       listsale
         ..clear()

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 import '../casos_de_usos/form_validator.dart';
 import '../repositorio_de_dados/person_controler.dart';
@@ -21,8 +22,10 @@ class _VehicleRegisterState extends State<VehicleRegister> {
   Widget build(BuildContext context) {
     final state = Provider.of<PersonControler>(context);
     final userid = state.loggedUser!.id;
+    final userName = state.loggedUser!.nomeloja;
     return ChangeNotifierProvider<VehicleController>(
-        create: (context) => VehicleController(person: userid!),
+        create: (context) =>
+            VehicleController(person: userid!, nameUser: userName!),
         child: Consumer<VehicleController>(
           builder: (_, state, __) {
             return Scaffold(
@@ -31,8 +34,11 @@ class _VehicleRegisterState extends State<VehicleRegister> {
                   elevation: 0,
                   leading: IconButton(
                     onPressed: () async {
-                      await Navigator.of(context, rootNavigator: true)
-                          .pushNamed('/Homepage');
+                      FocusManager.instance.primaryFocus?.unfocus();
+                      await Future.delayed(const Duration(milliseconds: 600),
+                          () {
+                        Get.offAndToNamed('/Homepage');
+                      });
                     },
                     icon: const Icon(
                       Icons.arrow_back,

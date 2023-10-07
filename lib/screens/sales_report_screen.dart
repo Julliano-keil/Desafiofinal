@@ -118,10 +118,10 @@ class SalesReportScreen extends StatelessWidget {
                             },
                           ),
                           title: Text(
-                            'Vendedor : $username ',
+                            'Vendedor : ${saleReport.nameUser} ',
                             style: const TextStyle(fontSize: 20),
                           ),
-                          subtitle: Text('Cnpj : $usercnpj '),
+                          subtitle: Text('Cnpj : ${saleReport.userCnpj} '),
                         ),
                         SizedBox(
                           width: double.infinity,
@@ -163,6 +163,34 @@ class SalesReportScreen extends StatelessWidget {
                                   Text(
                                       '   Caixa de segurança:'
                                       ' ${saleReport.safetyPercentage}',
+                                      style: const TextStyle(fontSize: 19)),
+                                  const SizedBox(
+                                    height: 10,
+                                  ),
+                                  const Center(
+                                    child: Text('Veiculo vendido',
+                                        style: TextStyle(fontSize: 19)),
+                                  ),
+                                  const SizedBox(
+                                    height: 5,
+                                  ),
+                                  Text(
+                                      '   Marca:'
+                                      ' ${saleReport.brand}',
+                                      style: const TextStyle(fontSize: 19)),
+                                  const SizedBox(
+                                    height: 5,
+                                  ),
+                                  Text(
+                                      '   Modelo:'
+                                      ' ${saleReport.model}',
+                                      style: const TextStyle(fontSize: 19)),
+                                  const SizedBox(
+                                    height: 5,
+                                  ),
+                                  Text(
+                                      '   data:'
+                                      ' ${saleReport.soldWhen}',
                                       style: const TextStyle(fontSize: 19)),
                                   const SizedBox(
                                     height: 5,

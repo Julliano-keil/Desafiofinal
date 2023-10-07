@@ -1,9 +1,12 @@
+import 'dart:async';
+
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 
 import '../casos_de_usos/autonomy_data.dart';
+import '../casos_de_usos/form_validator.dart';
 import '../repositorio_de_dados/person_controler.dart';
 import '../widgets/dialog.dart';
 import '../widgets/form_pagelogs.dart';
@@ -55,12 +58,7 @@ class SignIn extends StatelessWidget {
                   labelText: 'CNPJ',
                   hintText: 'Informe seu CNPJ',
                   keyboardType: TextInputType.number,
-                  validator: (value) {
-                    if (value == null || value.isEmpty || value.length != 18) {
-                      return 'Por favor, informe um CNPJ válido.';
-                    }
-                    return null;
-                  },
+                  validator: (value) => FormValidator.validateEmpty(value, 18),
                   formatter: '###.###.###.###-##',
                 ),
                 BaseForm(
@@ -68,12 +66,7 @@ class SignIn extends StatelessWidget {
                   labelText: 'Senha',
                   hintText: 'Informe sua Senha',
                   keyboardType: TextInputType.text,
-                  validator: (value) {
-                    if (value == null || value.isEmpty || value.length < 4) {
-                      return 'Por favor, informe uma senha válida.';
-                    }
-                    return null;
-                  },
+                  validator: (value) => FormValidator.validateEmpty(value, 8),
                   truee: true,
                   formatter: '',
                 ),
@@ -87,43 +80,14 @@ class SignIn extends StatelessWidget {
                           final username = state.controllerCnpj.text;
                           final password = state.controllerSenha.text;
                           final user = await state.getUserByUsername(username);
-                          await state.saveUserInfo(
-                              user.id, user.nomeloja, username);
-                          final connectivityResult =
-                              await (Connectivity().checkConnectivity());
-                          if (connectivityResult == ConnectivityResult.wifi &&
-                              context.mounted) {
-                            if (state.formKey.currentState!.validate()) {
-                              if (user != null &&
-                                  user.senha == password &&
-                                  context.mounted) {
-                                state.controllerCnpj.clear();
-                                state.controllerSenha.clear();
-                                // pega os dasdos da autonomia de acordo com
-                                // o id logado
-                                final autonomyProvider =
-                                    Provider.of<AutonomyProvider>(context,
-                                        listen: false);
 
-                                await state.dataAutonomy(user.id);
-
-                                final autonomyDataList =
-                                    autonomyProvider.userAutonomyList;
-                                if (autonomyDataList != null &&
-                                    context.mounted) {
-                                  await Get.toNamed('/Homepage');
-                                }
-                              } else {
-                                CustomDialog.showSuccess(
-                                    context,
-                                    'Erro de Login',
-                                    'CNPJ ou senha incorretos.');
-                              }
+                          if (context.mounted &&
+                              state.formKey.currentState!.validate()) {
+                            await state.saveUserInfo(
+                                user.id, user.nomeloja, username);
+                            if (context.mounted) {
+                              await _handleLogin(context, user, password);
                             }
-                          } else if (connectivityResult ==
-                              ConnectivityResult.none) {
-                            CustomDialog.showSuccess(context, 'Sem Internet',
-                                'Você não possui conexão de rede.');
                           }
                         },
                         style: ElevatedButton.styleFrom(
@@ -150,5 +114,40 @@ class SignIn extends StatelessWidget {
         ),
       ),
     );
+  }
+}
+
+Future<void> _handleLogin(
+    BuildContext context, dynamic user, String password) async {
+  final connectivityResult = await (Connectivity().checkConnectivity());
+
+  if (connectivityResult == ConnectivityResult.wifi && context.mounted) {
+    if (user != null && user.senha == password && context.mounted) {
+      final state = Provider.of<PersonControler>(context, listen: false);
+      final autonomyProvider =
+          Provider.of<AutonomyProvider>(context, listen: false);
+
+      state.controllerCnpj.clear();
+      state.controllerSenha.clear();
+
+      try {
+        await state.dataAutonomy(user.id);
+
+        final autonomyDataList = autonomyProvider.userAutonomyList;
+        if (autonomyDataList != null && context.mounted) {
+          await Get.toNamed('/Homepage');
+          return;
+        }
+      } catch (e) {
+        CustomDialog.showSuccess(
+            context, 'Erro', 'Ocorreu um erro ao fazer login.');
+      }
+    } else {
+      CustomDialog.showSuccess(
+          context, 'Erro de Login', 'CNPJ ou senha incorretos.');
+    }
+  } else if (connectivityResult == ConnectivityResult.none) {
+    CustomDialog.showSuccess(
+        context, 'Sem Internet', 'Você não possui conexão de rede.');
   }
 }

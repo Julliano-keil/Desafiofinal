@@ -17,6 +17,7 @@ class Zoom extends StatelessWidget {
   Widget build(BuildContext context) {
     final state = Provider.of<PersonControler>(context);
     final userid = state.loggedUser!.id;
+
     return ZoomDrawer(
       controller: z,
       borderRadius: 50,

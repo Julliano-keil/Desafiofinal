@@ -8,13 +8,15 @@ import 'images.dart';
 import 'vehicle_http.dart';
 
 class VehicleController extends ChangeNotifier {
-  VehicleController({required this.person}) {
+  VehicleController({required this.person, required this.nameUser}) {
     init();
     unawaited(loadData());
+    unawaited(selectVehiclePersonId());
   }
 
   String? _controllerImage;
   final int person;
+  final String nameUser;
   bool editing = false;
   final _listvehicle = <Vehicle>[];
   List<Vehicle> get listavehicle => _listvehicle;
@@ -46,11 +48,11 @@ class VehicleController extends ChangeNotifier {
         model: _constrollermodel.text,
         brand: _controllerbrand.text,
         yearManufacture: _controllerYearManufacture.text,
-        yearVehicle: _controlleryearVehicle.text,
+        yearVehicle: _controlleryearVehicle.text.toUpperCase(),
         image: _controllerImage,
-        pricePaidShop: double.parse(
-            _controllerPricePaidShop.text.replaceAll(RegExp(r','), '')),
-        purchaseDate: _controllerPurchaseDate.text);
+        pricePaidShop: double.parse(_controllerPricePaidShop.text),
+        purchaseDate: _controllerPurchaseDate.text,
+        nameUser: nameUser);
     await vehicleController.insert(vehicle);
     await loadData();
     clearcontroller();
@@ -80,8 +82,8 @@ class VehicleController extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> selectVehiclePersonId(int personid) async {
-    final list = await vehicleController.select(personid);
+  Future<void> selectVehiclePersonId() async {
+    final list = await vehicleController.select(person);
 
     listavehicleReport.clear();
     listavehicleReport.addAll(list);
@@ -166,5 +168,36 @@ class VehicleController extends ChangeNotifier {
   void setPickedDate(String date) {
     _controllerPurchaseDate.text = date;
     notifyListeners();
+  }
+}
+
+class CatergoryListController extends ChangeNotifier {
+  CatergoryListController({required this.person}) {
+    unawaited(loadData());
+    // unawaited(loadDataFull());
+  }
+  final vehicleCategory = VehicleControllerdb();
+  final int person;
+  final _listCategory = <Vehicle>[];
+
+  List<Vehicle> get listCategory => _listCategory;
+
+  final _listCategoryFull = <Vehicle>[];
+
+  List<Vehicle> get listCategoryFull => _listCategoryFull;
+
+  Future<void> loadData() async {
+    try {
+      final list = person == 1
+          ? await vehicleCategory.selectlist()
+          : await vehicleCategory.select(person);
+
+      listCategory
+        ..clear()
+        ..addAll(list);
+      notifyListeners();
+    } on Exception catch (e) {
+      debugPrint('erro no load data sale $e');
+    }
   }
 }

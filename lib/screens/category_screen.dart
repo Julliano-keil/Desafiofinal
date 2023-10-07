@@ -6,6 +6,7 @@ import 'package:provider/provider.dart';
 import '../repositorio_de_dados/person_controler.dart';
 import '../repositorio_de_dados/vehicle_controller.dart';
 
+import '../widgets/dialog.dart';
 import '../widgets/horizontal_tabbar.dart';
 
 class Categorys extends StatefulWidget {
@@ -120,17 +121,17 @@ class CategoryscrenState extends State<Categoryscren> {
   Widget build(BuildContext context) {
     final state = Provider.of<PersonControler>(context);
     final userid = state.loggedUser!.id;
-    return ChangeNotifierProvider<VehicleController>(
-      create: (context) => VehicleController(person: userid!),
-      child: Consumer<VehicleController>(
+    return ChangeNotifierProvider<CatergoryListController>(
+      create: (context) => CatergoryListController(person: userid!),
+      child: Consumer<CatergoryListController>(
         builder: (_, state, __) {
           return Expanded(
             child: PageView.builder(
               controller: _pagecontroler,
               physics: const BouncingScrollPhysics(),
-              itemCount: state.listavehicle.length,
+              itemCount: state.listCategory.length,
               itemBuilder: (context, index) {
-                final car = state.listavehicle[index];
+                final car = state.listCategory[index];
                 return Padding(
                   padding: EdgeInsets.only(right: index == indexPage ? 30 : 50),
                   child: Transform.translate(
@@ -178,9 +179,12 @@ class CategoryscrenState extends State<Categoryscren> {
                                       ),
                                     ),
                                     const SizedBox(
-                                      width: 4,
+                                      height: 15,
+                                    ),
+                                    const SizedBox(
+                                      width: 5,
                                       child: FittedBox(
-                                        child: Text('JK \n Automoveis',
+                                        child: Text('Edison\nAuto Center',
                                             style: TextStyle(
                                                 color: Colors.grey,
                                                 fontWeight: FontWeight.bold)),
@@ -237,7 +241,22 @@ class CategoryscrenState extends State<Categoryscren> {
                                     ),
                                   ),
                                 ),
-                              )
+                              ),
+                              userid == 1
+                                  ? Positioned(
+                                      left: 200,
+                                      child: IconButton(
+                                          onPressed: () {
+                                            CustomDialog.showSuccess(
+                                                context,
+                                                'Informação',
+                                                'Esse veiculo pertence'
+                                                    ' a loja ${car.nameUser} ');
+                                          },
+                                          icon:
+                                              const Icon(Icons.info_outlined)),
+                                    )
+                                  : Container()
                             ],
                           ),
                         );

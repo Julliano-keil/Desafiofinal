@@ -12,7 +12,7 @@ import 'screens/category_screen.dart';
 
 import 'screens/edit_person_screen.dart';
 import 'screens/registered_people_screen.dart';
-import 'screens/sale_vehicle_screen.dart';
+import 'screens/sale_vehicle_register_screen.dart';
 import 'screens/settings_screen.dart';
 import 'screens/signin_screen.dart';
 import 'screens/signup_scren.dart';
@@ -105,7 +105,7 @@ class _MyAppState extends State<MyApp> with SingleTickerProviderStateMixin {
             child: FadeTransition(
               opacity: _animation,
               child: Center(
-                child: Image.asset('imagens/logojk.png'),
+                child: Image.asset('imagens/logocenter2.png'),
               ),
             ),
           ),
