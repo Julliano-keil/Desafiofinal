@@ -557,9 +557,23 @@ class ProfileControllerdb {
     return list;
   }
 
-  Future<void> delete(Profile profile) async {
+  Future<void> delete(int profile) async {
     final database = await getdatabase();
     unawaited(database.delete(ProfileUserTable.tableName,
-        where: '${ProfileUserTable.id} = ?', whereArgs: [profile.id]));
+        where: '${ProfileUserTable.id} = ?', whereArgs: [profile]));
+  }
+
+  Future<void> update(Profile profile) async {
+    final database = await getdatabase();
+
+    final map = ProfileUserTable.toMap(profile);
+
+    unawaited(database.update(
+      PersonTable.tablename,
+      map,
+      where: '${ProfileUserTable.id} = ?',
+      whereArgs: [profile.id],
+    ));
+    return;
   }
 }

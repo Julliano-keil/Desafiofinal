@@ -47,7 +47,7 @@ class VehicleController extends ChangeNotifier {
         idperson: person,
         model: _constrollermodel.text,
         brand: _controllerbrand.text,
-        yearManufacture: _controllerYearManufacture.text,
+        yearManufacture: _controllerYearManufacture.text.toUpperCase(),
         yearVehicle: _controlleryearVehicle.text.toUpperCase(),
         image: _controllerImage,
         pricePaidShop: double.parse(_controllerPricePaidShop.text),
@@ -174,17 +174,12 @@ class VehicleController extends ChangeNotifier {
 class CatergoryListController extends ChangeNotifier {
   CatergoryListController({required this.person}) {
     unawaited(loadData());
-    // unawaited(loadDataFull());
   }
   final vehicleCategory = VehicleControllerdb();
   final int person;
   final _listCategory = <Vehicle>[];
 
   List<Vehicle> get listCategory => _listCategory;
-
-  final _listCategoryFull = <Vehicle>[];
-
-  List<Vehicle> get listCategoryFull => _listCategoryFull;
 
   Future<void> loadData() async {
     try {

@@ -1,9 +1,9 @@
 class Profile {
   final int? id;
 
-  final String image;
+  final String? image;
   final String text;
-  final String imageback;
+  final String? imageback;
   final int userId;
 
   Profile({
