@@ -6,6 +6,7 @@ import 'package:provider/provider.dart';
 
 import 'casos_de_usos/autonomy_data.dart';
 import 'repositorio_de_dados/person_controler.dart';
+import 'repositorio_de_dados/profile_controller.dart';
 import 'screens/autonomy_screen.dart';
 import 'screens/botton_navigator_bar.dart';
 import 'screens/category_screen.dart';
@@ -24,6 +25,9 @@ void main() {
       providers: [
         ChangeNotifierProvider<PersonControler>(
           create: (context) => PersonControler(),
+        ),
+        ChangeNotifierProvider<ProfileController>(
+          create: (context) => ProfileController(personid: 0),
         ),
         ChangeNotifierProvider<AutonomyProvider>(
           create: (context) => AutonomyProvider([]),
@@ -105,7 +109,7 @@ class _MyAppState extends State<MyApp> with SingleTickerProviderStateMixin {
             child: FadeTransition(
               opacity: _animation,
               child: Center(
-                child: Image.asset('imagens/logocenter2.png'),
+                child: Image.asset('imagens/logoEd.png'),
               ),
             ),
           ),

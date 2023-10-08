@@ -52,7 +52,7 @@ class Zoom extends StatelessWidget {
                 padding: const EdgeInsets.all(20),
                 color: const Color.fromARGB(255, 0, 0, 0),
                 child: Image.asset(
-                  'imagens/logojk.png',
+                  'imagens/logonotname.png',
                   fit: BoxFit.cover,
                 ),
               ),

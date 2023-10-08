@@ -18,15 +18,19 @@ Future<Database> getdatabase() async {
     onCreate: (db, version) async {
       await db.execute(PersonTable.createTable);
       await db.execute(AutonomyLeveltable.createTable);
-      await db.insert('person', {
-        'cnpj': '138.783.520.001-90',
-        'nomeloja': 'Anderson',
-        'senha': 'Anderson'
-      });
+      await db.insert(
+        'person',
+        {
+          'cnpj': '138.783.520.001-90',
+          'nomeloja': 'Anderson',
+          'senha': 'Anderson'
+        },
+      );
       await db.execute(VehicleRegistrationTable.createTable);
       await db.execute(SalesTable.createTable);
+      await db.execute(ProfileUserTable.createTable);
     },
-    version: 6,
+    version: 8,
   );
 }
 
@@ -502,7 +506,7 @@ class ProfileUserTable {
   $image          TEXT NOT NULL,
   $text           TEXT NOT NULL,
   $imageback      TEXT NOT NULL,
-  $userId         TEXT NOT NULL,
+  $userId         INTEGER NOT NULL
   ); 
 ''';
 
@@ -557,10 +561,10 @@ class ProfileControllerdb {
     return list;
   }
 
-  Future<void> delete(int profile) async {
+  Future<void> delete(int userid) async {
     final database = await getdatabase();
     unawaited(database.delete(ProfileUserTable.tableName,
-        where: '${ProfileUserTable.id} = ?', whereArgs: [profile]));
+        where: '${ProfileUserTable.userId} = ?', whereArgs: [userid]));
   }
 
   Future<void> update(Profile profile) async {
@@ -571,8 +575,8 @@ class ProfileControllerdb {
     unawaited(database.update(
       PersonTable.tablename,
       map,
-      where: '${ProfileUserTable.id} = ?',
-      whereArgs: [profile.id],
+      where: '${ProfileUserTable.userId} = ?',
+      whereArgs: [profile.userId],
     ));
     return;
   }

@@ -3,7 +3,6 @@ import 'package:flutter_zoom_drawer/flutter_zoom_drawer.dart';
 
 import 'category_screen.dart';
 import 'home_screen.dart';
-import 'settings_screen.dart';
 import 'user_profile.dart';
 
 class Homepage extends StatefulWidget {

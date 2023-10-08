@@ -35,29 +35,29 @@ class SignUp extends StatelessWidget {
               ),
             ),
             backgroundColor: Colors.amber,
-            body: Center(
-              child: Container(
-                width: 340,
-                height: 460,
-                decoration: BoxDecoration(
-                  color: Colors.black,
-                  borderRadius: const BorderRadius.only(
-                      bottomRight: Radius.circular(90),
-                      topLeft: Radius.circular(90)),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.black.withOpacity(0.8),
-                      spreadRadius: 6,
-                      blurRadius: 13,
-                      offset: const Offset(0, 8),
-                    ),
-                  ],
-                ),
-                child: Column(
-                  children: [
-                    Form(
-                      key: state.formKey,
-                      child: Column(
+            body: Form(
+              key: state.formKey,
+              child: Center(
+                child: Container(
+                  width: 340,
+                  height: 460,
+                  decoration: BoxDecoration(
+                    color: Colors.black,
+                    borderRadius: const BorderRadius.only(
+                        bottomRight: Radius.circular(90),
+                        topLeft: Radius.circular(90)),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black.withOpacity(0.8),
+                        spreadRadius: 6,
+                        blurRadius: 13,
+                        offset: const Offset(0, 8),
+                      ),
+                    ],
+                  ),
+                  child: Column(
+                    children: [
+                      Column(
                         children: [
                           const Padding(
                             padding: EdgeInsets.all(15.0),
@@ -130,8 +130,8 @@ class SignUp extends StatelessWidget {
                           ),
                         ],
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
             ),
@@ -143,7 +143,7 @@ class SignUp extends StatelessWidget {
 }
 
 Future<void> goListPage() async {
-  await Future.delayed(const Duration(seconds: 5), () {
+  await Future.delayed(const Duration(seconds: 4), () {
     Get.to(Registeredpeople());
   });
 }

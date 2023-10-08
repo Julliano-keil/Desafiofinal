@@ -80,8 +80,7 @@ class SalesReportScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final state = Provider.of<PersonControler>(context);
     final userid = state.loggedUser!.id;
-    final username = state.loggedUser!.nomeloja;
-    final usercnpj = state.loggedUser!.cnpj;
+
     return ChangeNotifierProvider(
       create: (context) {
         return SalesReportController(person: userid!);
