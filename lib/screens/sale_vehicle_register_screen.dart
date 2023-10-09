@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 import '../casos_de_usos/form_validator.dart';
 import '../entidades/vehicle.dart';
@@ -13,7 +14,7 @@ class SaleVehicle extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final vehicle = ModalRoute.of(context)!.settings.arguments as Vehicle?;
-    final state = Provider.of<PersonControler>(context);
+    final state = Provider.of<PersonControler>(context, listen: false);
     final userid = state.loggedUser!.id;
     final userName = state.loggedUser!.nomeloja;
     final userCnpj = state.loggedUser!.cnpj;
@@ -26,6 +27,7 @@ class SaleVehicle extends StatelessWidget {
         brand: vehicle.brand,
         model: vehicle.model,
         userCnpj: userCnpj!,
+        plate: vehicle.yearVehicle,
       ),
       child: Consumer<SaleController>(
         builder: (_, state, __) {
@@ -37,9 +39,8 @@ class SaleVehicle extends StatelessWidget {
               leading: IconButton(
                 onPressed: () async {
                   FocusManager.instance.primaryFocus?.unfocus();
-                  await Future.delayed(const Duration(milliseconds: 600), () {
-                    Navigator.of(context).pop();
-                  });
+                  await Future.delayed(
+                      const Duration(milliseconds: 600), Get.back);
                 },
                 icon: const Icon(
                   Icons.arrow_back,
@@ -116,7 +117,7 @@ class SaleVehicle extends StatelessWidget {
                                 labelText: ' Valor pago',
                                 hintText: 'Valor atual do veiculo'
                                     ' \$ ${vehicle!.pricePaidShop}',
-                                keyboardType: TextInputType.text,
+                                keyboardType: TextInputType.number,
                                 validator: (value) =>
                                     FormValidator.validateEmpty(value, 20)),
                             Padding(

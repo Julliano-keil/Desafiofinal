@@ -1,6 +1,12 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:flutter_pdfview/flutter_pdfview.dart';
 import 'package:get/get.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:pdf/widgets.dart' as pw;
 import 'package:provider/provider.dart';
+import 'package:share_extend/share_extend.dart';
 
 import '../casos_de_usos/settings_code.dart';
 import '../repositorio_de_dados/person_controler.dart';
@@ -16,13 +22,12 @@ class SalesReport extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
-          onPressed: () async => Get.offAndToNamed('/Homepage'),
+          onPressed: () async => Get.back(),
           icon: const Icon(Icons.arrow_back_outlined),
         ),
         backgroundColor: Colors.black,
-        title: const Center(
-          child: Text('Relatorios de vendas'),
-        ),
+        title: const Text('Relatorios de vendas'),
+        centerTitle: true,
       ),
       body: AnimatedContainer(
         width: double.infinity,
@@ -78,7 +83,7 @@ class SalesReportScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final state = Provider.of<PersonControler>(context);
+    final state = Provider.of<PersonControler>(context, listen: false);
     final userid = state.loggedUser!.id;
 
     return ChangeNotifierProvider(
@@ -105,7 +110,9 @@ class SalesReportScreen extends StatelessWidget {
                         ListTile(
                           trailing: PopupMenuButton<String>(
                             onSelected: (choice) async {
-                              if (choice == 'Opção 1') {}
+                              if (choice == 'Opção 1') {
+                                await state.delete(saleReport);
+                              }
                             },
                             itemBuilder: (context) {
                               return <PopupMenuEntry<String>>[
@@ -131,10 +138,31 @@ class SalesReportScreen extends StatelessWidget {
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
+                                  const Center(
+                                    child: Text('Comprador',
+                                        style: TextStyle(fontSize: 19)),
+                                  ),
+                                  const SizedBox(
+                                    height: 5,
+                                  ),
                                   Text(
-                                      '   Comprador :'
+                                      '   Nome :'
                                       ' ${saleReport.customerName}',
                                       style: const TextStyle(fontSize: 19)),
+                                  const SizedBox(
+                                    height: 5,
+                                  ),
+                                  Text(
+                                      '   Cpf :'
+                                      ' ${saleReport.customerCpf}',
+                                      style: const TextStyle(fontSize: 19)),
+                                  const SizedBox(
+                                    height: 5,
+                                  ),
+                                  const Center(
+                                    child: Text('Logistica',
+                                        style: TextStyle(fontSize: 19)),
+                                  ),
                                   const SizedBox(
                                     height: 5,
                                   ),
@@ -164,6 +192,13 @@ class SalesReportScreen extends StatelessWidget {
                                       ' ${saleReport.safetyPercentage}',
                                       style: const TextStyle(fontSize: 19)),
                                   const SizedBox(
+                                    height: 5,
+                                  ),
+                                  Text(
+                                      '   data:'
+                                      ' ${saleReport.soldWhen}',
+                                      style: const TextStyle(fontSize: 19)),
+                                  const SizedBox(
                                     height: 10,
                                   ),
                                   const Center(
@@ -188,8 +223,10 @@ class SalesReportScreen extends StatelessWidget {
                                     height: 5,
                                   ),
                                   Text(
-                                      '   data:'
-                                      ' ${saleReport.soldWhen}',
+                                      saleReport.plate.isNotEmpty
+                                          ? '   Placa:'
+                                              ' ${saleReport.plate}'
+                                          : ' placa nao registrada',
                                       style: const TextStyle(fontSize: 19)),
                                   const SizedBox(
                                     height: 5,
@@ -198,7 +235,19 @@ class SalesReportScreen extends StatelessWidget {
                               ),
                             ),
                           ),
-                        )
+                        ),
+                        ElevatedButton.icon(
+                            onPressed: () {
+                              _gerarPDF(
+                                  saleReport.customerName,
+                                  saleReport.customerCpf,
+                                  saleReport.soldWhen,
+                                  saleReport.brand,
+                                  saleReport.plate,
+                                  saleReport.priceSold.toString());
+                            },
+                            icon: const Icon(Icons.picture_as_pdf_outlined),
+                            label: const Text('PDF'))
                       ],
                     ),
                   ),
@@ -210,4 +259,48 @@ class SalesReportScreen extends StatelessWidget {
       ),
     );
   }
+}
+
+void _gerarPDF(String nome, String cpf, String data, String carro, String placa,
+    String preco) async {
+  final pdf = pw.Document(deflate: zlib.encode);
+
+  pdf.addPage(
+    pw.Page(
+      build: (context) {
+        return pw.Column(
+          crossAxisAlignment: pw.CrossAxisAlignment.start,
+          children: [
+            pw.Text('Nome: $nome',
+                style:
+                    pw.TextStyle(fontSize: 20, fontWeight: pw.FontWeight.bold)),
+            pw.Text('CPF: $cpf',
+                style:
+                    pw.TextStyle(fontSize: 20, fontWeight: pw.FontWeight.bold)),
+            pw.Text('Data: $data',
+                style:
+                    pw.TextStyle(fontSize: 20, fontWeight: pw.FontWeight.bold)),
+            pw.Text('Carro: $carro',
+                style:
+                    pw.TextStyle(fontSize: 20, fontWeight: pw.FontWeight.bold)),
+            pw.Text('Placa: $placa',
+                style:
+                    pw.TextStyle(fontSize: 20, fontWeight: pw.FontWeight.bold)),
+            pw.Text('Preço: $preco',
+                style:
+                    pw.TextStyle(fontSize: 20, fontWeight: pw.FontWeight.bold)),
+          ],
+        );
+      },
+    ),
+  );
+
+  final docDir = (await getApplicationDocumentsDirectory()).path;
+
+  final path = '$docDir/seu_arquivo.pdf';
+
+  final file = File(path);
+  file.writeAsBytesSync(await pdf.save());
+
+  await ShareExtend.share(path, 'pdf', sharePanelTitle: 'enviar pdf');
 }

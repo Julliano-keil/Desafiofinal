@@ -9,13 +9,15 @@ import '../entidades/vehicle.dart';
 import 'database/db.dart';
 
 class SaleController extends ChangeNotifier {
-  SaleController(
-      {required this.userCnpj,
-      required this.brand,
-      required this.model,
-      required this.nameUser,
-      required this.person,
-      required this.vehicle}) {
+  SaleController({
+    required this.userCnpj,
+    required this.brand,
+    required this.model,
+    required this.nameUser,
+    required this.person,
+    required this.vehicle,
+    required this.plate,
+  }) {
     unawaited(loadData());
   }
 
@@ -29,6 +31,7 @@ class SaleController extends ChangeNotifier {
   final String brand;
   final String model;
   final String userCnpj;
+  final String plate;
   final _listAutomomydata = <AutonomyLevel>[];
   List<AutonomyLevel> get listAutonomydata => _listAutomomydata;
   final autonomyProvider = AutonomyProvider([]);
@@ -71,6 +74,7 @@ class SaleController extends ChangeNotifier {
         brand: brand,
         model: model,
         userCnpj: userCnpj,
+        plate: plate,
       );
 
       await saleController.insert(saleVehicle);

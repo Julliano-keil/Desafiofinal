@@ -35,10 +35,8 @@ class _VehicleRegisterState extends State<VehicleRegister> {
                   leading: IconButton(
                     onPressed: () async {
                       FocusManager.instance.primaryFocus?.unfocus();
-                      await Future.delayed(const Duration(milliseconds: 600),
-                          () {
-                        Get.offAndToNamed('/Homepage');
-                      });
+                      await Future.delayed(
+                          const Duration(milliseconds: 600), Get.back);
                     },
                     icon: const Icon(
                       Icons.arrow_back,
@@ -118,8 +116,8 @@ class _VehicleRegisterState extends State<VehicleRegister> {
                               truee: false,
                               controler: state.controllerPricePaidShop,
                               labelText: 'Preço do veiculo',
-                              hintText: '\$ 000.00',
-                              keyboardType: TextInputType.text,
+                              hintText: '\$ 00.000',
+                              keyboardType: TextInputType.number,
                               validator: (value) =>
                                   FormValidator.validateEmpty(value, 10),
                             ),

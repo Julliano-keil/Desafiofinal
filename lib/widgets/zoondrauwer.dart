@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_zoom_drawer/flutter_zoom_drawer.dart';
+import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 
 import '../Screens/registered_people_screen.dart';
@@ -15,8 +16,8 @@ class Zoom extends StatelessWidget {
   final Widget mainScreen;
   @override
   Widget build(BuildContext context) {
-    final state = Provider.of<PersonControler>(context);
-    final userid = state.loggedUser!.id;
+    final state = Provider.of<PersonControler>(context, listen: false);
+    final userid = state.loggedUser?.id;
 
     return ZoomDrawer(
       controller: z,
@@ -33,7 +34,7 @@ class Zoom extends StatelessWidget {
       mainScreenScale: 0.2,
       slideWidth: MediaQuery.of(context).size.width * 0.60,
       duration: const Duration(milliseconds: 500),
-      angle: -8.0,
+      angle: -7.0,
       menuBackgroundColor: Colors.black,
       mainScreen: mainScreen,
       moveMenuScreen: true,
@@ -76,13 +77,7 @@ class Zoom extends StatelessWidget {
                         'Lista de associados',
                         style: TextStyle(color: Colors.amber),
                       ),
-                      onTap: () async {
-                        await Navigator.of(context).pushReplacement(
-                          MaterialPageRoute(
-                              builder: (context) => Registeredpeople()),
-                        );
-                      },
-                    )
+                      onTap: () async => await Get.to(Registeredpeople()))
                   : Container(),
               ListTile(
                 leading: const Icon(Icons.sensor_door_outlined),

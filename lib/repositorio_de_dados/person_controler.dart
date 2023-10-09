@@ -57,18 +57,6 @@ class PersonControler extends ChangeNotifier {
     }
   }
 
-  Future<void> dataAutonomy(int idperson) async {
-    try {
-      final list = await controllerAutonomy.select(idperson);
-
-      if (list.isNotEmpty) {
-        autonomyProvider.setUserAutonomyList(list);
-      }
-    } on Exception catch (e) {
-      debugPrint('erro no metodo de listauto $e');
-    }
-  }
-
   Future<void> loadata() async {
     try {
       final list = await constroller.select();
@@ -80,7 +68,7 @@ class PersonControler extends ChangeNotifier {
     }
   }
 
-  Future<dynamic> getUserByUsername(String usercnpj) async {
+  Future<dynamic> getUserByUsercnpj(String usercnpj) async {
     try {
       final database = await getdatabase();
       final List<Map<String, dynamic>> result = await database.query(

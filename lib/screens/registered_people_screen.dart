@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 import '../casos_de_usos/settings_code.dart';
 import '../entidades/person.dart';
@@ -13,12 +14,10 @@ class Registeredpeople extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final person = ModalRoute.of(context)!.settings.arguments as Person?;
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
-            onPressed: () async => Navigator.of(context, rootNavigator: true)
-                .pushNamed('/Homepage', arguments: person),
+            onPressed: () async => Get.back(),
             icon: const Icon(Icons.arrow_back)),
         backgroundColor: Colors.black,
         title: const Text('Associados'),

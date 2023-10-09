@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 
-import '../casos_de_usos/autonomy_data.dart';
 import '../casos_de_usos/form_validator.dart';
 import '../repositorio_de_dados/person_controler.dart';
 import '../widgets/dialog.dart';
@@ -77,16 +76,15 @@ class SignIn extends StatelessWidget {
                     children: [
                       ElevatedButton(
                         onPressed: () async {
-                          final username = state.controllerCnpj.text;
+                          final userCnpj = state.controllerCnpj.text;
                           final password = state.controllerSenha.text;
-                          final user = await state.getUserByUsername(username);
+                          final user = await state.getUserByUsercnpj(userCnpj);
 
                           if (context.mounted &&
                               state.formKey.currentState!.validate()) {
-                            await state.saveUserInfo(
-                                user.id, user.nomeloja, username);
                             if (context.mounted) {
-                              await _handleLogin(context, user, password);
+                              await _handleLogin(
+                                  context, user, password, userCnpj);
                             }
                           }
                         },
@@ -117,27 +115,21 @@ class SignIn extends StatelessWidget {
   }
 }
 
-Future<void> _handleLogin(
-    BuildContext context, dynamic user, String password) async {
+Future<void> _handleLogin(BuildContext context, dynamic user, String password,
+    String userCnpj) async {
   final connectivityResult = await (Connectivity().checkConnectivity());
 
   if (connectivityResult == ConnectivityResult.wifi && context.mounted) {
     if (user != null && user.senha == password && context.mounted) {
       final state = Provider.of<PersonControler>(context, listen: false);
-      final autonomyProvider =
-          Provider.of<AutonomyProvider>(context, listen: false);
 
       state.controllerCnpj.clear();
       state.controllerSenha.clear();
 
       try {
-        await state.dataAutonomy(user.id);
-
-        final autonomyDataList = autonomyProvider.userAutonomyList;
-        if (autonomyDataList != null && context.mounted) {
-          await Get.toNamed('/Homepage');
-          return;
-        }
+        await state.saveUserInfo(user.id, user.nomeloja, userCnpj);
+        await state.saveUserInfo(user.id, user.nomeloja, userCnpj);
+        await Get.offAndToNamed('/Homepage');
       } catch (e) {
         CustomDialog.showSuccess(
             context, 'Erro', 'Ocorreu um erro ao fazer login.');

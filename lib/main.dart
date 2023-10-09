@@ -2,6 +2,8 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:jscar/screens/sales_report_screen.dart';
+import 'package:path/path.dart';
 import 'package:provider/provider.dart';
 
 import 'casos_de_usos/autonomy_data.dart';
@@ -17,6 +19,7 @@ import 'screens/sale_vehicle_register_screen.dart';
 import 'screens/settings_screen.dart';
 import 'screens/signin_screen.dart';
 import 'screens/signup_scren.dart';
+import 'screens/vehicle_register_screen.dart';
 import 'widgets/zoondrauwer.dart';
 
 void main() {
@@ -98,6 +101,8 @@ class _MyAppState extends State<MyApp> with SingleTickerProviderStateMixin {
         '/EditPerson': (context) => EditPerson(),
         // '/RegisteredAutonomy': (context) => RegisteredAutonomy(),
         '/SaleVehicle': (context) => const SaleVehicle(),
+        'VehicleRegister': (context) => const VehicleRegister(),
+        'SalesReport': (context) => SalesReport()
       },
       debugShowCheckedModeBanner: false,
       navigatorKey: navigatorKey,

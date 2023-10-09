@@ -9,7 +9,7 @@ class SignUpController extends ChangeNotifier {
     unawaited(loadata());
   }
   String nameuser = '';
-  Person? _personcurrent;
+  late Person _personcurrent;
 
   final controller = PessoaControler();
   final _listaPeople = <Person>[];
@@ -32,32 +32,24 @@ class SignUpController extends ChangeNotifier {
   TextEditingController get controlerNivel => _controlerNivel;
 
   Future<void> delete(Person person) async {
-    try {
-      await controller.delete(person);
-      await loadata();
-      notifyListeners();
-    } on Exception catch (e) {
-      debugPrint(' erro no metodo delet $e');
-    }
+    await controller.delete(person);
+    await loadata();
+    notifyListeners();
   }
 
   Future<void> insert() async {
-    try {
-      final people = Person(
-          cnpj: _controllerCnpj.text,
-          nomeloja: _controllerName.text,
-          senha: _controllerSenha.text);
+    final people = Person(
+        cnpj: _controllerCnpj.text,
+        nomeloja: _controllerName.text,
+        senha: _controllerSenha.text);
 
-      await controller.insert(people);
-      controllerCnpj.clear();
-      controllerName.clear();
-      controllerNivel.clear();
-      controllerSenha.clear();
-      await loadata();
-      notifyListeners();
-    } on Exception catch (e) {
-      debugPrint(' erro no metodo insert $e');
-    }
+    await controller.insert(people);
+    controllerCnpj.clear();
+    controllerName.clear();
+    controllerNivel.clear();
+    controllerSenha.clear();
+    await loadata();
+    notifyListeners();
   }
 
   Future<void> loadata() async {
@@ -88,7 +80,7 @@ class SignUpController extends ChangeNotifier {
   Future<void> update() async {
     try {
       final person = Person(
-          id: _personcurrent?.id,
+          id: _personcurrent.id,
           cnpj: _controllerCnpj.text,
           nomeloja: _controllerName.text,
           senha: _controllerSenha.text);

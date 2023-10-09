@@ -92,7 +92,7 @@ class ProfileUser extends StatelessWidget {
                     ),
                   ),
                   Positioned(
-                    top: 240,
+                    top: 245,
                     left: 40,
                     child: Text(
                       userName!,
@@ -101,7 +101,7 @@ class ProfileUser extends StatelessWidget {
                     ),
                   ),
                   Positioned(
-                    top: 107,
+                    top: 117,
                     left: 22,
                     child: Container(
                       width: 126,
@@ -116,7 +116,7 @@ class ProfileUser extends StatelessWidget {
                     ),
                   ),
                   Positioned(
-                    top: 110,
+                    top: 120,
                     left: 25,
                     child: CircleAvatar(
                       backgroundColor: Colors.black,
@@ -137,77 +137,78 @@ class ProfileUser extends StatelessWidget {
                     ),
                   ),
                   Positioned(
-                      top: 300,
-                      left: 25,
-                      child: Container(
-                        width: 350,
-                        height: 300,
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(0)),
-                        child: Column(
-                          children: [
-                            Card(
-                              elevation: 10,
-                              child: Padding(
-                                padding: const EdgeInsets.all(20),
-                                child: Row(
-                                  children: [
-                                    const Icon(
-                                      Icons.person_pin,
-                                      size: 30,
-                                    ),
-                                    Text(
-                                      '  Cnpj : $userCnpj',
-                                      style: const TextStyle(fontSize: 20),
-                                    )
-                                  ],
-                                ),
+                    top: 300,
+                    left: 25,
+                    child: Container(
+                      width: 350,
+                      height: 300,
+                      decoration:
+                          BoxDecoration(borderRadius: BorderRadius.circular(0)),
+                      child: Column(
+                        children: [
+                          Card(
+                            elevation: 10,
+                            child: Padding(
+                              padding: const EdgeInsets.all(20),
+                              child: Row(
+                                children: [
+                                  const Icon(
+                                    Icons.person_pin,
+                                    size: 30,
+                                  ),
+                                  Text(
+                                    '  Cnpj : $userCnpj',
+                                    style: const TextStyle(fontSize: 20),
+                                  )
+                                ],
                               ),
                             ),
-                            Card(
-                              elevation: 10,
-                              child: Padding(
-                                padding: const EdgeInsets.all(20),
-                                child: Row(
-                                  children: [
-                                    const Icon(
-                                      Icons.lock_person_outlined,
-                                      size: 30,
-                                    ),
-                                    Text(
-                                      userid == 1
-                                          ? '  Nivel : Adiministrador'
-                                          : '  Nivel : ${state.nameautonomy}',
-                                      style: const TextStyle(fontSize: 20),
-                                    )
-                                  ],
-                                ),
+                          ),
+                          Card(
+                            elevation: 10,
+                            child: Padding(
+                              padding: const EdgeInsets.all(20),
+                              child: Row(
+                                children: [
+                                  const Icon(
+                                    Icons.lock_person_outlined,
+                                    size: 30,
+                                  ),
+                                  Text(
+                                    userid == 1
+                                        ? '  Nivel : Adiministrador'
+                                        : '  Nivel : ${state.nameautonomy}',
+                                    style: const TextStyle(fontSize: 20),
+                                  )
+                                ],
                               ),
                             ),
-                            Card(
-                              elevation: 10,
-                              child: Padding(
-                                padding: const EdgeInsets.all(20),
-                                child: Row(
-                                  children: [
-                                    const Icon(
-                                      Icons.monetization_on_outlined,
-                                      size: 30,
-                                    ),
-                                    Text(
-                                      userid == 1
-                                          ? '  Comiçao: 100%'
-                                          : '  Comiçao:'
-                                              ' ${state.dealershipPercentag}',
-                                      style: const TextStyle(fontSize: 20),
-                                    )
-                                  ],
-                                ),
+                          ),
+                          Card(
+                            elevation: 10,
+                            child: Padding(
+                              padding: const EdgeInsets.all(20),
+                              child: Row(
+                                children: [
+                                  const Icon(
+                                    Icons.monetization_on_outlined,
+                                    size: 30,
+                                  ),
+                                  Text(
+                                    userid == 1
+                                        ? '  Comiçao: 100%'
+                                        : '  Comiçao:'
+                                            ' ${state.dealershipPercentag} %',
+                                    style: const TextStyle(fontSize: 20),
+                                  )
+                                ],
                               ),
-                            )
-                          ],
-                        ),
-                      ))
+                            ),
+                          )
+                        ],
+                      ),
+                    ),
+                  )
                 ],
               ),
             ),

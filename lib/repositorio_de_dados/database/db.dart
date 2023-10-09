@@ -342,7 +342,8 @@ class SalesTable {
       $businessCut    REAL NOT NULL,
       $safetyCut      REAL NOT NULL,
       $vehicleId      INTERGER NOT NULL,
-      $userId         INTEGER NOT NULL
+      $userId         INTEGER NOT NULL,
+      $yearVehicle    TEXT NOT NULL   
     );
   ''';
 
@@ -361,6 +362,7 @@ class SalesTable {
   static const String brand = 'brand';
   static const String model = 'model';
   static const String userCnpj = 'user_cnpj';
+  static const String yearVehicle = 'year_vehicle';
 
   static Map<String, dynamic> toMap(Sale sale) {
     final map = <String, dynamic>{};
@@ -379,6 +381,7 @@ class SalesTable {
     map[SalesTable.userCnpj] = sale.userCnpj;
     map[SalesTable.model] = sale.model;
     map[SalesTable.brand] = sale.brand;
+    map[SalesTable.yearVehicle] = sale.plate;
 
     return map;
   }
@@ -436,6 +439,7 @@ class SaleTableController {
           brand: item[SalesTable.brand],
           model: item[SalesTable.model],
           userCnpj: item[SalesTable.userCnpj],
+          plate: item[SalesTable.yearVehicle],
         ),
       );
     }
@@ -469,6 +473,7 @@ class SaleTableController {
           brand: item[SalesTable.brand],
           model: item[SalesTable.model],
           userCnpj: item[SalesTable.userCnpj],
+          plate: item[SalesTable.yearVehicle],
         ),
       );
     }

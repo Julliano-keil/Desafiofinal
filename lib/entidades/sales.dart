@@ -14,9 +14,11 @@ class Sale {
   final String model;
   final String userCnpj;
   final int userId;
+  final String plate;
 
   Sale({
     this.id,
+    required this.plate,
     required this.brand,
     required this.userCnpj,
     required this.model,

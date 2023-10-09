@@ -195,4 +195,14 @@ class CatergoryListController extends ChangeNotifier {
       debugPrint('erro no load data sale $e');
     }
   }
+
+  Future<void> delete(Vehicle vehicle) async {
+    try {
+      await vehicleCategory.delete(vehicle);
+      await loadData();
+      notifyListeners();
+    } on Exception catch (e) {
+      debugPrint('erro no delete sale $e');
+    }
+  }
 }

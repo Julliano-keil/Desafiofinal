@@ -194,6 +194,25 @@ class CategoryscrenState extends State<Categoryscren> {
                                 ),
                               ),
                               Positioned(
+                                left: 210,
+                                top: 5,
+                                child: PopupMenuButton<String>(
+                                  onSelected: (choice) async {
+                                    if (choice == 'Opção 1') {
+                                      await state.delete(car);
+                                    }
+                                  },
+                                  itemBuilder: (context) {
+                                    return <PopupMenuEntry<String>>[
+                                      const PopupMenuItem<String>(
+                                        value: 'Opção 1',
+                                        child: Text('Deletar Veiculo'),
+                                      ),
+                                    ];
+                                  },
+                                ),
+                              ),
+                              Positioned(
                                 top: constraints.maxHeight * 0.3,
                                 left: -constraints.maxHeight * 0.0,
                                 right: -constraints.maxHeight * 0.0,

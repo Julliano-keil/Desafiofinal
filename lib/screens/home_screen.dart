@@ -9,7 +9,7 @@ import '../widgets/home_cards.dart';
 import '../widgets/trasactonimage.dart';
 import 'sales_report_screen.dart';
 import 'signup_scren.dart';
-import 'vehicle_screen.dart';
+import 'vehicle_register_screen.dart';
 
 class Home extends StatefulWidget {
   const Home({super.key});
@@ -151,7 +151,7 @@ class _HomeState extends State<Home> {
                                 text: 'Relatorio \nde vendas ',
                                 icon: Icons.wallet,
                                 ontap: () async {
-                                  await Get.to(SalesReport());
+                                  await Get.toNamed('SalesReport');
                                 },
                               ),
                               Cards(
@@ -164,7 +164,7 @@ class _HomeState extends State<Home> {
                                       text: 'cadastrar \nusuarios ',
                                       icon: Icons.list_alt_outlined,
                                       ontap: () async {
-                                        await Get.to(const SignUp());
+                                        await Get.toNamed('/SignUp');
                                       },
                                     )
                                   : Container(),
@@ -173,7 +173,7 @@ class _HomeState extends State<Home> {
                                       text: 'Cadastrar\n novos carros',
                                       icon: Icons.car_crash_sharp,
                                       ontap: () async {
-                                        await Get.to(const VehicleRegister());
+                                        await Get.toNamed('VehicleRegister');
                                       })
                                   : Container()
                             ],

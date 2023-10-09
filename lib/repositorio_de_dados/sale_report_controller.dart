@@ -29,4 +29,14 @@ class SalesReportController extends ChangeNotifier {
       debugPrint('erro no load data sale $e');
     }
   }
+
+  Future<void> delete(Sale sale) async {
+    try {
+      await saleController.delete(sale);
+      await loadData();
+      notifyListeners();
+    } on Exception catch (e) {
+      debugPrint('erro no delete sale $e');
+    }
+  }
 }
