@@ -3,11 +3,11 @@ import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 import '../casos_de_usos/form_validator.dart';
 import '../casos_de_usos/settings_code.dart';
+import '../data_repositories/person_controler.dart';
+import '../data_repositories/sales_controller.dart';
 import '../entidades/vehicle.dart';
-import '../repositorio_de_dados/person_controler.dart';
-import '../repositorio_de_dados/sales_controller.dart';
-import '../widgets/dialog.dart';
-import '../widgets/form_pagelogs.dart';
+import '../reusable widgets/dialog.dart';
+import '../reusable widgets/form_pagelogs.dart';
 
 ///class responsible for registering car sales
 class SaleVehicle extends StatelessWidget {

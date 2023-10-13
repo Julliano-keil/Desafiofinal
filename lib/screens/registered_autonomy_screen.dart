@@ -3,11 +3,12 @@ import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 import '../casos_de_usos/form_validator.dart';
 import '../casos_de_usos/settings_code.dart';
+import '../data_repositories/autonomy_level_controller.dart';
 import '../entidades/autonomy_level.dart';
 import '../entidades/person.dart';
-import '../repositorio_de_dados/autonomy_level_controller.dart';
-import '../widgets/dialog.dart';
-import '../widgets/form_pagelogs.dart';
+
+import '../reusable widgets/dialog.dart';
+import '../reusable widgets/form_pagelogs.dart';
 import 'registered_people_screen.dart';
 
 ///class responsible for changing, editing and deleting the autonomy level

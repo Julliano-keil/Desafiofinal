@@ -8,15 +8,13 @@ import 'package:provider/provider.dart';
 import 'package:share_extend/share_extend.dart';
 
 import '../casos_de_usos/settings_code.dart';
-import '../repositorio_de_dados/person_controler.dart';
-import '../repositorio_de_dados/sale_report_controller.dart';
+import '../data_repositories/person_controler.dart';
+import '../data_repositories/sale_report_controller.dart';
 
 ///class responsible for listing the sales report and importing it via PDF
 class SalesReport extends StatelessWidget {
   ///constructor class
-  SalesReport({super.key});
-
-  final Settingscode color = Settingscode();
+  const SalesReport({super.key});
 
   @override
   Widget build(BuildContext context) {

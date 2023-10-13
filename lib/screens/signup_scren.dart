@@ -3,8 +3,8 @@ import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 import '../casos_de_usos/form_validator.dart';
 import '../casos_de_usos/settings_code.dart';
-import '../repositorio_de_dados/signup_controller.dart';
-import '../widgets/form_pagelogs.dart';
+import '../data_repositories/signup_controller.dart';
+import '../reusable widgets/form_pagelogs.dart';
 import 'registered_people_screen.dart';
 
 ///class responsible for collecting information from

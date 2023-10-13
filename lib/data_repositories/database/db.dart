@@ -10,6 +10,7 @@ import '../../entidades/profile.dart';
 import '../../entidades/sales.dart';
 import '../../entidades/vehicle.dart';
 
+/// method to execute and create tables in the database
 Future<Database> getdatabase() async {
   final path = join(await getDatabasesPath(), 'pessoas.db');
 
@@ -34,7 +35,9 @@ Future<Database> getdatabase() async {
   );
 }
 
+///person table class
 class PersonTable {
+  /// var create table
   static const String createTable = '''
     CREATE TABLE $tablename(
       $id                INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
@@ -44,12 +47,22 @@ class PersonTable {
     );
     ''';
 
+  ///table name
   static const String tablename = 'person';
+
+  ///table id
   static const String id = 'id';
+
+  ///user cnpj
   static const String cnpj = 'cnpj';
+
+  ///store name
   static const String nomeloja = 'nomeloja';
+
+  ///store password
   static const String senha = 'senha';
 
+  ///maps the database and assigns the value to the entity
   static Map<String, dynamic> tomap(Person person) {
     final map = <String, dynamic>{};
 
@@ -61,7 +74,9 @@ class PersonTable {
   }
 }
 
+///person table controller
 class PessoaControler {
+  ///insert data into the table person
   Future<void> insert(Person person) async {
     final database = await getdatabase();
     final map = PersonTable.tomap(person);
@@ -69,12 +84,14 @@ class PessoaControler {
     return;
   }
 
+  ///delete person by id
   Future<void> delete(Person person) async {
     final database = await getdatabase();
     unawaited(database.delete(PersonTable.tablename,
         where: '${PersonTable.id} = ?', whereArgs: [person.id]));
   }
 
+  ///select all person
   Future<List<Person>> select() async {
     final database = await getdatabase();
     final List<Map<String, dynamic>> result = await database.query(
@@ -94,6 +111,7 @@ class PessoaControler {
     return list;
   }
 
+  ///update table data
   Future<void> update(Person person) async {
     final database = await getdatabase();
 
@@ -109,7 +127,9 @@ class PessoaControler {
   }
 }
 
+///database table that contains the user level
 class AutonomyLeveltable {
+  ///create table and pass the variable type
   static const String createTable = '''
     CREATE TABLE $tablename(
       $id                 INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
@@ -121,14 +141,28 @@ class AutonomyLeveltable {
     );
     ''';
 
+  ///table name
   static const String tablename = 'autonomy_level';
+
+  ///autonomy id
   static const String id = 'id';
+
+  ///user id
   static const String personid = 'id_person';
+
+  /// user store name
   static const String name = 'name';
+
+  /// box security
   static const String networkSecurity = 'network_Security';
+
+  /// store commotion
   static const String storePercentage = 'store_Percentage';
+
+  ///affiliate commission
   static const String networkPercentage = 'networkPercentage';
 
+  ///maps the database and assigns the value to the entity
   static Map<String, dynamic> tomap(AutonomyLevel autonomylavel) {
     final map = <String, dynamic>{};
 
@@ -143,13 +177,16 @@ class AutonomyLeveltable {
   }
 }
 
+///autonomy table controller
 class AutonomyControler {
+  ///insert data into the database in the autonomy table
   Future<void> insert(AutonomyLevel autonomy) async {
     final database = await getdatabase();
     final map = AutonomyLeveltable.tomap(autonomy);
     await database.insert(AutonomyLeveltable.tablename, map);
   }
 
+  /// select all autnonomy table by id
   Future<List<AutonomyLevel>> select(int personID) async {
     final database = await getdatabase();
     final List<Map<String, dynamic>> result = await database.query(
@@ -171,12 +208,14 @@ class AutonomyControler {
     return list;
   }
 
+  /// delete autonomy table by id
   Future<void> delete(AutonomyLevel autonomy) async {
     final database = await getdatabase();
     await database.delete(AutonomyLeveltable.tablename,
         where: '${AutonomyLeveltable.id} = ?', whereArgs: [autonomy.id]);
   }
 
+  /// update table by id
   Future<void> update(AutonomyLevel autonomy) async {
     final database = await getdatabase();
 
@@ -192,7 +231,10 @@ class AutonomyControler {
   }
 }
 
+///database table containing registered vehicles
 class VehicleRegistrationTable {
+  /// variable with responsibility for creating the
+  /// table and passing the values ​​to the variables
   static const String createTable = '''
     CREATE TABLE $tablename(
       $id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
@@ -208,18 +250,40 @@ class VehicleRegistrationTable {
       );
       ''';
 
+  ///table name
   static const String tablename = 'Vehicle_Registration';
+
+  ///vehicle identification
   static const String id = 'id';
+
+  ///ID of the person who registered the car with the bank
   static const String idperson = 'idperson';
+
+  ///model vehicle
   static const String model = 'model';
+
+  ///brand vehicle
   static const String brand = 'brand';
+
+  ///vehicle manufacturing date
   static const String yearManufacture = 'year_manufacture';
+
+  ///vehicle date
   static const String yearVehicle = 'year_vehicle';
+
+  /// vehicle image
   static const String image = 'image';
+
+  ///vehicle price
   static const String pricePaidShop = 'price_Paid_Shop';
+
+  ///sale date
   static const String purchaseDate = 'purchase_date';
+
+  /// buyer's name
   static const String nameUser = 'name_user';
 
+  ///maps the database and assigns the value to the entity
   static Map<String, dynamic> tomap(Vehicle vehicle) {
     final map = <String, dynamic>{};
 
@@ -237,13 +301,16 @@ class VehicleRegistrationTable {
   }
 }
 
+///vehicle table controller
 class VehicleControllerdb {
+  ///insert data into the vehicle table
   Future<void> insert(Vehicle vehicle) async {
     final database = await getdatabase();
     final map = VehicleRegistrationTable.tomap(vehicle);
     await database.insert(VehicleRegistrationTable.tablename, map);
   }
 
+  ///select all vehicles from the table by id
   Future<List<Vehicle>> select(int personid) async {
     final database = await getdatabase();
     final List<Map<String, dynamic>> result = await database.query(
@@ -273,6 +340,7 @@ class VehicleControllerdb {
     return list;
   }
 
+  ///select all vehicle table
   Future<List<Vehicle>> selectlist() async {
     final database = await getdatabase();
     final List<Map<String, dynamic>> result =
@@ -299,6 +367,7 @@ class VehicleControllerdb {
     return list;
   }
 
+  ///delete vehicle table by id
   Future<void> delete(Vehicle vehicle) async {
     final database = await getdatabase();
 
@@ -326,7 +395,10 @@ class VehicleControllerdb {
   }
 }
 
+///database table containing recorded sales
 class SalesTable {
+  /// variable with responsibility for creating the
+  /// table and passing the values ​​to the variables
   static const String createTable = '''
     CREATE TABLE $tableName(
       $id             INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
@@ -347,23 +419,55 @@ class SalesTable {
     );
   ''';
 
+  ///table name
   static const String tableName = 'sale';
+
+  ///ID of the person who registered the sale
   static const String id = 'id';
+
+  ///CPF of the person who made the purchase
   static const String customerCpf = 'customer_cpf';
+
+  ///name of the person who made the purchase
   static const String customerName = 'customer_name';
+
+  /// date of sale
   static const String soldWhen = 'sold_when';
+
+  /// sold price
   static const String priceSold = 'price_sold';
+
+  /// affiliate commission
   static const String dealershipCut = 'dealership_cut';
+
+  ///store commission
   static const String businessCut = 'business_cut';
+
+  /// safety porcentage
   static const String safetyCut = 'safety_cut';
+
+  /// vehicle id
   static const String vehicleId = 'vehicle_id';
+
+  ///name of the person who registered the sale
   static const String nameUser = 'name_user';
+
+  ///ID of the person who castrated the sale
   static const String userId = 'user_id';
+
+  ///brand vehicle
   static const String brand = 'brand';
+
+  ///model vehicle
   static const String model = 'model';
+
+  /// user cnpj
   static const String userCnpj = 'user_cnpj';
+
+  /// date vehicle
   static const String yearVehicle = 'year_vehicle';
 
+  /// maps the database and assigns the value to the entity
   static Map<String, dynamic> toMap(Sale sale) {
     final map = <String, dynamic>{};
 
@@ -387,13 +491,16 @@ class SalesTable {
   }
 }
 
+/// sale table controller
 class SaleTableController {
+  ///insert sale class tables into the database
   Future<void> insert(Sale sale) async {
     final database = await getdatabase();
     final map = SalesTable.toMap(sale);
     await database.insert(SalesTable.tableName, map);
   }
 
+  ///delete sale table by id
   Future<void> delete(Sale sale) async {
     final database = await getdatabase();
 
@@ -414,6 +521,7 @@ class SaleTableController {
     return;
   }
 
+  /// select  sale table
   Future<List<Sale>> select() async {
     final database = await getdatabase();
 
@@ -446,6 +554,7 @@ class SaleTableController {
     return list;
   }
 
+  /// select all sale table by id
   Future<List<Sale>> selectlist(int idperson) async {
     final database = await getdatabase();
 
@@ -480,6 +589,7 @@ class SaleTableController {
     return list;
   }
 
+  /// update sale table by id
   Future<void> update(Sale sale) async {
     final database = await getdatabase();
 
@@ -504,7 +614,9 @@ class SaleTableController {
   }
 }
 
+///tabela no banco de dados contendo o perfil do usuário
 class ProfileUserTable {
+  /// maps the database and assigns the value to the entity
   static const String createTable = '''
   CREATE TABLE $tableName(
   $id             INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
@@ -513,11 +625,19 @@ class ProfileUserTable {
   ); 
 ''';
 
+  ///table name
   static const String tableName = 'Profile';
+
+  /// table id
   static const String id = 'id';
+
+  ///user profile id
   static const String userId = 'userid';
+
+  ///user photo
   static const String image = 'image';
 
+  /// maps the database and assigns the value to the entity
   static Map<String, dynamic> toMap(Profile profile) {
     final map = <String, dynamic>{};
     map[ProfileUserTable.id] = profile.id;
@@ -528,13 +648,16 @@ class ProfileUserTable {
   }
 }
 
+/// table controller profile
 class ProfileControllerdb {
+  ///insert data from the profile table into the database
   Future<void> insert(Profile profile) async {
     final database = await getdatabase();
     final map = ProfileUserTable.toMap(profile);
     await database.insert(ProfileUserTable.tableName, map);
   }
 
+  /// select profile table by id
   Future<List<Profile>> select(int personid) async {
     final database = await getdatabase();
     final List<Map<String, dynamic>> result = await database.query(
@@ -557,12 +680,14 @@ class ProfileControllerdb {
     return list;
   }
 
+  /// delete profile table by id
   Future<void> delete(int userid) async {
     final database = await getdatabase();
     unawaited(database.delete(ProfileUserTable.tableName,
         where: '${ProfileUserTable.userId} = ?', whereArgs: [userid]));
   }
 
+  /// update profile table by id
   Future<void> update(Profile profile) async {
     final database = await getdatabase();
 

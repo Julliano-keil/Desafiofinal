@@ -6,10 +6,10 @@ import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 import '../casos_de_usos/form_validator.dart';
 import '../casos_de_usos/settings_code.dart';
-import '../repositorio_de_dados/person_controler.dart';
-import '../repositorio_de_dados/vehicle_controller.dart';
-import '../widgets/dialog.dart';
-import '../widgets/form_pagelogs.dart';
+import '../data_repositories/person_controler.dart';
+import '../data_repositories/vehicle_controller.dart';
+import '../reusable widgets/dialog.dart';
+import '../reusable widgets/form_pagelogs.dart';
 
 ///class responsible for registering vehicles in the store
 class VehicleRegister extends StatefulWidget {
@@ -392,7 +392,7 @@ class _Buttonnavigator extends StatelessWidget {
 }
 
 class _PhotosList extends StatelessWidget {
-  const _PhotosList({super.key});
+  const _PhotosList();
 
   @override
   Widget build(BuildContext context) {

@@ -3,12 +3,13 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:provider/provider.dart';
+
 import '../casos_de_usos/form_validator.dart';
 import '../casos_de_usos/settings_code.dart';
+import '../data_repositories/autonomy_level_controller.dart';
 import '../entidades/person.dart';
-import '../repositorio_de_dados/autonomy_level_controller.dart';
-import '../widgets/dialog.dart';
-import '../widgets/form_pagelogs.dart';
+import '../reusable widgets/dialog.dart';
+import '../reusable widgets/form_pagelogs.dart';
 
 ///class responsible for editing user autonomy
 class Autonomyedite extends StatelessWidget {
@@ -280,7 +281,7 @@ class _CardFormAutonomy extends StatelessWidget {
   final String labelText;
   final TextEditingController? controler;
 
-  const _CardFormAutonomy(this.labelText, this.controler, {super.key});
+  const _CardFormAutonomy(this.labelText, this.controler);
 
   @override
   Widget build(BuildContext context) {

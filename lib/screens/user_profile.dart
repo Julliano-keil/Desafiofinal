@@ -5,8 +5,8 @@ import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 
 import '../casos_de_usos/settings_code.dart';
-import '../repositorio_de_dados/person_controler.dart';
-import '../repositorio_de_dados/profile_controller.dart';
+import '../data_repositories/person_controler.dart';
+import '../data_repositories/profile_controller.dart';
 
 ///class responsible for showing relevant user
 ///information, such as autonomy, photo and name

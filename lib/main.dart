@@ -5,8 +5,9 @@ import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 
 import 'casos_de_usos/settings_code.dart';
-import 'repositorio_de_dados/person_controler.dart';
-import 'repositorio_de_dados/profile_controller.dart';
+import 'data_repositories/person_controler.dart';
+import 'data_repositories/profile_controller.dart';
+import 'reusable widgets/zoondrauwer.dart';
 import 'screens/autonomy_screen.dart';
 import 'screens/botton_navigator_bar.dart';
 import 'screens/category_screen.dart';
@@ -18,7 +19,6 @@ import 'screens/settings_screen.dart';
 import 'screens/signin_screen.dart';
 import 'screens/signup_scren.dart';
 import 'screens/vehicle_register_screen.dart';
-import 'widgets/zoondrauwer.dart';
 
 void main() {
   runApp(

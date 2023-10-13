@@ -7,9 +7,9 @@ import 'package:provider/provider.dart';
 
 import '../casos_de_usos/form_validator.dart';
 import '../casos_de_usos/settings_code.dart';
-import '../repositorio_de_dados/person_controler.dart';
-import '../widgets/dialog.dart';
-import '../widgets/form_pagelogs.dart';
+import '../data_repositories/person_controler.dart';
+import '../reusable widgets/dialog.dart';
+import '../reusable widgets/form_pagelogs.dart';
 
 ///class responsible for collecting login
 ///information and ferifying the controller

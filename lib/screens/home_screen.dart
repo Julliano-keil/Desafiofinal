@@ -5,8 +5,8 @@ import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 
 import '../casos_de_usos/settings_code.dart';
-import '../repositorio_de_dados/person_controler.dart';
 
+import '../data_repositories/person_controler.dart';
 import 'vehicle_register_screen.dart';
 
 /// main screen where the user sees registration options
@@ -144,6 +144,7 @@ class _HomeState extends State<Home> {
                             child: GridView(
                               padding: const EdgeInsets.all(35),
                               gridDelegate:
+                                  // ignore: lines_longer_than_80_chars
                                   const SliverGridDelegateWithMaxCrossAxisExtent(
                                 maxCrossAxisExtent: 200,
                                 childAspectRatio: 4 / 3,

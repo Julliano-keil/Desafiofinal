@@ -4,9 +4,10 @@ import 'package:provider/provider.dart';
 import '../casos_de_usos/form_validator.dart';
 import '../casos_de_usos/settings_code.dart';
 
+import '../data_repositories/signup_controller.dart';
 import '../entidades/person.dart';
-import '../repositorio_de_dados/signup_controller.dart';
-import '../widgets/form_pagelogs.dart';
+
+import '../reusable widgets/form_pagelogs.dart';
 
 ///responsible for listing registered vehicles
 class EditPerson extends StatelessWidget {

@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 import '../casos_de_usos/settings_code.dart';
-import '../repositorio_de_dados/signup_controller.dart';
-import '../widgets/dialog.dart';
+import '../data_repositories/signup_controller.dart';
+import '../reusable widgets/dialog.dart';
 import 'registered_autonomy_screen.dart';
 
 ///class responsible for editing, changing and deleting the registered user,

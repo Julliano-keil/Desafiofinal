@@ -40,8 +40,7 @@ class Settings extends StatelessWidget {
                       color: settings.ligthMode ? Colors.amber : Colors.white,
                       borderRadius: const BorderRadius.only(
                           bottomRight: Radius.circular(200))),
-                  child:
-                      const _SettingsWidhts(), //                <= Configuraçoes
+                  child: const _SettingsWidhts(), //           <= Configuraçoes
                 ),
               ),
               Positioned(

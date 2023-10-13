@@ -6,7 +6,7 @@ import 'package:provider/provider.dart';
 import '../Screens/registered_people_screen.dart';
 import '../Screens/settings_screen.dart';
 import '../casos_de_usos/settings_code.dart';
-import '../repositorio_de_dados/person_controler.dart';
+import '../data_repositories/person_controler.dart';
 
 ///controller
 final ZoomDrawerController z = ZoomDrawerController();

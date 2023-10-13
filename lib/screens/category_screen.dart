@@ -5,11 +5,11 @@ import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 
 import '../casos_de_usos/settings_code.dart';
-import '../repositorio_de_dados/person_controler.dart';
-import '../repositorio_de_dados/vehicle_controller.dart';
 
-import '../widgets/dialog.dart';
-import '../widgets/horizontal_tabbar.dart';
+import '../data_repositories/person_controler.dart';
+import '../data_repositories/vehicle_controller.dart';
+import '../reusable widgets/dialog.dart';
+import '../reusable widgets/horizontal_tabbar.dart';
 
 ///responsible for listing registered vehicles
 class Categorys extends StatefulWidget {
