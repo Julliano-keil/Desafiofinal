@@ -6,66 +6,84 @@ import 'package:image_picker/image_picker.dart';
 import '../entidades/profile.dart';
 import 'database/db.dart';
 
+///  manages the state of the Profileuser class
 class ProfileController extends ChangeNotifier {
+  ///responsible for collecting mandatory variables
   ProfileController({required this.personid}) {
     unawaited(loadData());
     unawaited(dataAutonomy(personid));
   }
   final _listProfile = <Profile>[];
+
+  ///get the profile list
   List<Profile> get listProfile => _listProfile;
   String? _controllerImage;
-  String? _controllerImageback;
+
+  /// get user id current
   final int personid;
   Profile? _profileCurrent;
+
+  /// object with information user current
   Profile? userpro;
 
+  ///image current
   String? image;
-  String? imageback;
-  String? textUser;
+
+  /// user current
   int? userid;
 
+  /// id profile current
+  int? id;
+
+  ///shows autonomy of user current
   double? dealershipPercentag;
+
+  ///
   double? businessPercentag;
+
+  ///
   double? safetyPercentag;
+
+  ///
   String? nameautonomy;
+
+  ///controller the autonomy table of data base
   final controllerAutonomy = AutonomyControler();
 
+  ///controller the profile table of data base
   final controllerProfile = ProfileControllerdb();
 
-  final formkey = GlobalKey<FormState>();
-
-  final _controllertext = TextEditingController();
-
-  TextEditingController get controllertext => _controllertext;
-
+  /// get image typed user
   String? get controllerImage => _controllerImage;
-  String? get controllerImageback => _controllerImageback;
 
+  /// insert profile table of data base
   Future<void> insert() async {
     final profile = Profile(
-        userId: personid,
-        image: _controllerImage,
-        text: _controllertext.text,
-        imageback: _controllerImageback);
+      userId: personid,
+      image: _controllerImage,
+    );
 
     await controllerProfile.insert(profile);
-    await loadData();
-    _controllerImageback = null;
+
     _controllerImage = null;
-    controllertext.clear();
+
+    await loadData();
     notifyListeners();
   }
 
+  ///reload profile list and fill userpro with user information
   Future<void> loadData() async {
     final list = await controllerProfile.select(personid);
 
     if (list.isNotEmpty) {
+      id = list[0].id;
       userid = list[0].userId;
       image = list[0].image;
-      imageback = list[0].imageback;
-      textUser = list[0].text;
       userpro = Profile(
-          userId: userid!, image: image, text: textUser!, imageback: imageback);
+        id: id,
+        userId: userid!,
+        image: image,
+      );
 
       listProfile.clear();
       listProfile.addAll(list);
@@ -73,6 +91,7 @@ class ProfileController extends ChangeNotifier {
     notifyListeners();
   }
 
+  /// reload current user autonomy information
   Future<void> dataAutonomy(int idperson) async {
     final list = await controllerAutonomy.select(idperson);
 
@@ -85,43 +104,42 @@ class ProfileController extends ChangeNotifier {
     notifyListeners();
   }
 
+  /// delete profile
   Future<void> delete(int userid) async {
     await controllerProfile.delete(userid);
     await loadData();
     notifyListeners();
   }
 
+  /// populace current profile
   void updateProfile(Profile profile) async {
     _controllerImage = profile.image ?? '';
-    _controllerImageback = profile.imageback ?? '';
-    _controllertext.text = profile.text.toString();
-
     _profileCurrent = Profile(
-        id: _profileCurrent?.id,
-        userId: personid,
-        image: profile.image,
-        text: profile.text,
-        imageback: profile.imageback);
+      id: id,
+      userId: personid,
+      image: profile.image,
+    );
     await loadData();
     notifyListeners();
   }
 
+  /// update profile current
   Future<void> update() async {
     final profile = Profile(
-        id: _profileCurrent?.id,
-        userId: personid,
-        image: _controllerImage,
-        text: controllertext.text,
-        imageback: _controllerImageback);
+      id: _profileCurrent?.id,
+      userId: personid,
+      image: _controllerImage,
+    );
 
     await controllerProfile.update(profile);
-    await loadData();
-    _controllerImageback = null;
+
     _controllerImage = null;
-    controllertext.clear();
+
+    await loadData();
     notifyListeners();
   }
 
+  ///get image of user's gallery
   Future pickImage() async {
     {
       final image = await ImagePicker().pickImage(source: ImageSource.gallery);
@@ -132,32 +150,13 @@ class ProfileController extends ChangeNotifier {
     notifyListeners();
   }
 
+  ///get image of user's camera
   Future takePhoto() async {
     {
       final image = await ImagePicker().pickImage(source: ImageSource.camera);
       if (image == null) return;
 
       _controllerImage = image.path;
-      notifyListeners();
-    }
-  }
-
-  Future pickImageback() async {
-    {
-      final image = await ImagePicker().pickImage(source: ImageSource.gallery);
-      if (image == null) return;
-
-      _controllerImageback = image.path;
-    }
-    notifyListeners();
-  }
-
-  Future takePhotoback() async {
-    {
-      final image = await ImagePicker().pickImage(source: ImageSource.camera);
-      if (image == null) return;
-
-      _controllerImageback = image.path;
       notifyListeners();
     }
   }

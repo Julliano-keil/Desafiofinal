@@ -1,23 +1,27 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 
 import '../casos_de_usos/settings_code.dart';
 import '../repositorio_de_dados/person_controler.dart';
 import '../repositorio_de_dados/profile_controller.dart';
 
+///class responsible for showing relevant user
+///information, such as autonomy, photo and name
 class ProfileUser extends StatelessWidget {
-  ProfileUser({super.key});
-
-  final Settingscode color = Settingscode();
+  ///constructor class
+  const ProfileUser({super.key});
 
   @override
   Widget build(BuildContext context) {
     final person = Provider.of<PersonControler>(context);
+    final settings = Provider.of<Settingscode>(context);
     final userid = person.loggedUser!.id;
-    final userName = person.loggedUser!.nomeloja;
+    final userName = person.loggedUser!.storeName;
     final userCnpj = person.loggedUser!.cnpj;
+    final size = MediaQuery.of(context).size;
 
     return ChangeNotifierProvider<ProfileController>(
       create: (context) => ProfileController(personid: userid!),
@@ -27,19 +31,19 @@ class ProfileUser extends StatelessWidget {
             body: Container(
               width: double.infinity,
               height: double.infinity,
-              color: color.cor,
+              color: settings.ligthMode ? Colors.amber : Colors.white,
               child: Stack(
                 children: [
                   Container(
-                    color: color.cor,
+                    color: Colors.black,
                     width: 430,
                     height: 400,
                     child: Container(
                       width: 420,
                       height: 382,
-                      decoration: const BoxDecoration(
-                        color: Colors.amber,
-                        borderRadius: BorderRadius.only(
+                      decoration: BoxDecoration(
+                        color: settings.ligthMode ? Colors.amber : Colors.white,
+                        borderRadius: const BorderRadius.only(
                           bottomRight: Radius.circular(200),
                         ),
                       ),
@@ -48,7 +52,7 @@ class ProfileUser extends StatelessWidget {
                   Positioned(
                     top: 400,
                     child: Container(
-                      color: Colors.amber,
+                      color: settings.ligthMode ? Colors.amber : Colors.white,
                       width: 430,
                       height: 411,
                       child: Container(
@@ -78,12 +82,7 @@ class ProfileUser extends StatelessWidget {
                                     decoration: BoxDecoration(
                                         borderRadius: BorderRadius.circular(16),
                                         color: Colors.black),
-                                    child: state.imageback != null
-                                        ? Image.file(
-                                            File(state.imageback!),
-                                            fit: BoxFit.cover,
-                                          )
-                                        : Image.asset('imagens/logoEd.png')),
+                                    child: Image.asset('imagens/logoEd.png')),
                               ),
                             ),
                           ],
@@ -101,7 +100,7 @@ class ProfileUser extends StatelessWidget {
                     ),
                   ),
                   Positioned(
-                    top: 117,
+                    top: size.height * 0.14,
                     left: 22,
                     child: Container(
                       width: 126,
@@ -116,29 +115,61 @@ class ProfileUser extends StatelessWidget {
                     ),
                   ),
                   Positioned(
-                    top: 120,
-                    left: 25,
+                    top: size.height / 7,
+                    left: size.width / 16,
                     child: CircleAvatar(
                       backgroundColor: Colors.black,
                       radius: 60,
-                      backgroundImage: state.controllerImage != null
-                          ? FileImage(File(state.controllerImage!))
+                      backgroundImage: state.image != null
+                          ? FileImage(File(state.image!))
                           : Image.asset('imagens/logoEd.png').image,
                     ),
                   ),
                   Positioned(
-                    top: 100,
+                    top: size.height * 0.13,
                     child: IconButton(
                       onPressed: () async {
-                        await state.pickImage();
+                        await state.loadData();
+                        if (context.mounted) {
+                          await showDialog(
+                            context: context,
+                            builder: (context) => AlertDialog(
+                              title: const Text('Editar Perfil'),
+                              content: CircleAvatar(
+                                radius: 60,
+                                backgroundImage: state.controllerImage != null
+                                    ? FileImage(File(state.image!))
+                                    : Image.asset('imagens/logoEd.png').image,
+                              ),
+                              actions: [
+                                TextButton(
+                                    onPressed: () async {
+                                      state.listProfile.isEmpty
+                                          ? await state.insert()
+                                          : state.update();
+                                      Get.back();
+                                    },
+                                    child: const Text('atualizar')),
+                                IconButton(
+                                  onPressed: () async {
+                                    state.updateProfile(state.userpro!);
+                                    await state.pickImage();
+                                    await state.loadData();
+                                  },
+                                  icon: const Icon(Icons.edit),
+                                )
+                              ],
+                            ),
+                          );
+                        }
                       },
                       icon: const Icon(Icons.photo_library_outlined),
                       color: Colors.white,
                     ),
                   ),
                   Positioned(
-                    top: 300,
-                    left: 25,
+                    top: size.height * 0.40,
+                    left: size.width / 14,
                     child: Container(
                       width: 350,
                       height: 300,

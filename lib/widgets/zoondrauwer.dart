@@ -1,22 +1,28 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_zoom_drawer/flutter_zoom_drawer.dart';
 import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 
 import '../Screens/registered_people_screen.dart';
 import '../Screens/settings_screen.dart';
+import '../casos_de_usos/settings_code.dart';
 import '../repositorio_de_dados/person_controler.dart';
 
+///controller
 final ZoomDrawerController z = ZoomDrawerController();
 
+///responsible for showing a drawer with routes for configuration,
+/// user list and exit
 class Zoom extends StatelessWidget {
+  ///constructor with required parameters
   const Zoom({Key? key, required this.mainScreen}) : super(key: key);
 
+  ///home page
   final Widget mainScreen;
   @override
   Widget build(BuildContext context) {
     final state = Provider.of<PersonControler>(context, listen: false);
+    final settings = Provider.of<Settingscode>(context);
     final userid = state.loggedUser?.id;
 
     return ZoomDrawer(
@@ -58,36 +64,39 @@ class Zoom extends StatelessWidget {
                 ),
               ),
               ListTile(
-                leading: const Icon(Icons.settings),
-                iconColor: Colors.amber,
-                title: const Text(
-                  'Configurações',
-                  style: TextStyle(color: Colors.amber),
-                ),
-                onTap: () async {
-                  await Navigator.of(context).pushReplacement(
-                      MaterialPageRoute(builder: (context) => Settings()));
-                },
-              ),
+                  leading: const Icon(Icons.settings),
+                  iconColor: settings.ligthMode ? Colors.amber : Colors.white,
+                  title: Text(
+                    'Configurações',
+                    style: TextStyle(
+                        color:
+                            settings.ligthMode ? Colors.amber : Colors.white),
+                  ),
+                  onTap: () async => Get.to(const Settings())),
               userid == 1
                   ? ListTile(
                       leading: const Icon(Icons.people_alt_outlined),
-                      iconColor: Colors.amber,
-                      title: const Text(
+                      iconColor:
+                          settings.ligthMode ? Colors.amber : Colors.white,
+                      title: Text(
                         'Lista de associados',
-                        style: TextStyle(color: Colors.amber),
+                        style: TextStyle(
+                            color: settings.ligthMode
+                                ? Colors.amber
+                                : Colors.white),
                       ),
-                      onTap: () async => await Get.to(Registeredpeople()))
+                      onTap: () async => await Get.to(const Registeredpeople()))
                   : Container(),
               ListTile(
                 leading: const Icon(Icons.sensor_door_outlined),
-                iconColor: Colors.amber,
-                title: const Text(
+                iconColor: settings.ligthMode ? Colors.amber : Colors.white,
+                title: Text(
                   'Sair',
-                  style: TextStyle(color: Colors.amber),
+                  style: TextStyle(
+                      color: settings.ligthMode ? Colors.amber : Colors.white),
                 ),
                 onTap: () async {
-                  await SystemNavigator.pop();
+                  await Get.offAndToNamed('/SignIn');
                 },
               ),
             ],

@@ -30,7 +30,7 @@ Future<Database> getdatabase() async {
       await db.execute(SalesTable.createTable);
       await db.execute(ProfileUserTable.createTable);
     },
-    version: 8,
+    version: 9,
   );
 }
 
@@ -55,8 +55,8 @@ class PersonTable {
 
     map[PersonTable.id] = person.id;
     map[PersonTable.cnpj] = person.cnpj;
-    map[PersonTable.nomeloja] = person.nomeloja;
-    map[PersonTable.senha] = person.senha;
+    map[PersonTable.nomeloja] = person.storeName;
+    map[PersonTable.senha] = person.password;
     return map;
   }
 }
@@ -87,8 +87,8 @@ class PessoaControler {
       list.add(Person(
         id: item[PersonTable.id],
         cnpj: item[PersonTable.cnpj],
-        nomeloja: item[PersonTable.nomeloja],
-        senha: item[PersonTable.senha],
+        storeName: item[PersonTable.nomeloja],
+        password: item[PersonTable.senha],
       ));
     }
     return list;
@@ -509,8 +509,6 @@ class ProfileUserTable {
   CREATE TABLE $tableName(
   $id             INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
   $image          TEXT NOT NULL,
-  $text           TEXT NOT NULL,
-  $imageback      TEXT NOT NULL,
   $userId         INTEGER NOT NULL
   ); 
 ''';
@@ -519,16 +517,11 @@ class ProfileUserTable {
   static const String id = 'id';
   static const String userId = 'userid';
   static const String image = 'image';
-  static const String text = 'text';
-  static const String imageback = 'imageback';
 
   static Map<String, dynamic> toMap(Profile profile) {
     final map = <String, dynamic>{};
-
     map[ProfileUserTable.id] = profile.id;
     map[ProfileUserTable.image] = profile.image;
-    map[ProfileUserTable.text] = profile.text;
-    map[ProfileUserTable.imageback] = profile.imageback;
     map[ProfileUserTable.userId] = profile.userId;
 
     return map;
@@ -558,8 +551,6 @@ class ProfileControllerdb {
           id: item[ProfileUserTable.id],
           userId: item[ProfileUserTable.userId],
           image: item[ProfileUserTable.image],
-          text: item[ProfileUserTable.text],
-          imageback: item[ProfileUserTable.imageback],
         ),
       );
     }
@@ -578,10 +569,10 @@ class ProfileControllerdb {
     final map = ProfileUserTable.toMap(profile);
 
     unawaited(database.update(
-      PersonTable.tablename,
+      ProfileUserTable.tableName,
       map,
-      where: '${ProfileUserTable.userId} = ?',
-      whereArgs: [profile.userId],
+      where: '${ProfileUserTable.id} = ?',
+      whereArgs: [profile.id],
     ));
     return;
   }

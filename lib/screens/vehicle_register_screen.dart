@@ -1,16 +1,19 @@
+import 'dart:io';
+
+import 'package:easy_autocomplete/easy_autocomplete.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 import '../casos_de_usos/form_validator.dart';
+import '../casos_de_usos/settings_code.dart';
 import '../repositorio_de_dados/person_controler.dart';
 import '../repositorio_de_dados/vehicle_controller.dart';
-import '../widgets/autocomplite.dart';
-import '../widgets/button_navigation.dart';
 import '../widgets/dialog.dart';
 import '../widgets/form_pagelogs.dart';
-import '../widgets/image_list.dart';
 
+///class responsible for registering vehicles in the store
 class VehicleRegister extends StatefulWidget {
+  ///constructor class
   const VehicleRegister({super.key});
 
   @override
@@ -22,7 +25,8 @@ class _VehicleRegisterState extends State<VehicleRegister> {
   Widget build(BuildContext context) {
     final state = Provider.of<PersonControler>(context);
     final userid = state.loggedUser!.id;
-    final userName = state.loggedUser!.nomeloja;
+    final userName = state.loggedUser!.storeName;
+    final settings = Provider.of<Settingscode>(context);
     return ChangeNotifierProvider<VehicleController>(
         create: (context) =>
             VehicleController(person: userid!, nameUser: userName!),
@@ -30,7 +34,8 @@ class _VehicleRegisterState extends State<VehicleRegister> {
           builder: (_, state, __) {
             return Scaffold(
                 appBar: AppBar(
-                  backgroundColor: Colors.amber,
+                  backgroundColor:
+                      settings.ligthMode ? Colors.amber : Colors.white,
                   elevation: 0,
                   leading: IconButton(
                     onPressed: () async {
@@ -44,7 +49,8 @@ class _VehicleRegisterState extends State<VehicleRegister> {
                     ),
                   ),
                 ),
-                backgroundColor: Colors.amber,
+                backgroundColor:
+                    settings.ligthMode ? Colors.amber : Colors.white,
                 body: SingleChildScrollView(
                   child: Center(
                       child: Container(
@@ -105,7 +111,7 @@ class _VehicleRegisterState extends State<VehicleRegister> {
                             Padding(
                               padding: const EdgeInsets.all(8),
                               child: state.controllerImage != null
-                                  ? const PhotosList()
+                                  ? const _PhotosList()
                                   : Container(),
                             ),
                             const Padding(
@@ -189,7 +195,7 @@ class _BrandTextField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final state = Provider.of<VehicleController>(context, listen: true);
-    return AppTextFieldAutoComplete(
+    return _AppTextFieldAutoComplete(
       labeltext: ' marca do carro',
       controller: state.controllerbrand,
       validator: validator,
@@ -212,7 +218,7 @@ class _ModelTextField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final state = Provider.of<VehicleController>(context, listen: true);
-    return AppTextFieldAutoComplete(
+    return _AppTextFieldAutoComplete(
       labeltext: ' Modelo do carro',
       controller: state.constrollermodel,
       validator: validator,
@@ -230,7 +236,7 @@ class _ChooseOrTakePhoto extends StatelessWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        Buttonnavigator(
+        _Buttonnavigator(
           onPressed: () async {
             await showDialog(
               context: context,
@@ -252,7 +258,7 @@ class _ChooseOrTakePhoto extends StatelessWidget {
                       onPressed: () async {
                         await state.pickImage();
                         if (context.mounted) {
-                          Navigator.of(context).pop();
+                          Get.back();
                         }
                       },
                       child: const Text('continuar'),
@@ -260,7 +266,7 @@ class _ChooseOrTakePhoto extends StatelessWidget {
                     TextButton(
                       onPressed: () async {
                         if (context.mounted) {
-                          Navigator.of(context).pop();
+                          Get.back();
                         }
                       },
                       child: const Text('cancelar'),
@@ -272,7 +278,7 @@ class _ChooseOrTakePhoto extends StatelessWidget {
           },
           text: 'Abrir Galeria',
         ),
-        Buttonnavigator(
+        _Buttonnavigator(
           onPressed: () async {
             await showDialog(
               context: context,
@@ -315,6 +321,100 @@ class _ChooseOrTakePhoto extends StatelessWidget {
           text: 'Abrir camera',
         ),
       ],
+    );
+  }
+}
+
+class _AppTextFieldAutoComplete extends StatelessWidget {
+  const _AppTextFieldAutoComplete({
+    required this.suggestions,
+    required this.controller,
+    this.validator,
+    this.focusNode,
+    required this.labeltext,
+  });
+
+  final List<String> suggestions;
+  final TextEditingController controller;
+  final String? Function(String?)? validator;
+  final FocusNode? focusNode;
+  final String? labeltext;
+
+  @override
+  Widget build(BuildContext context) {
+    return EasyAutocomplete(
+      inputTextStyle: const TextStyle(color: Colors.white),
+      suggestions: suggestions,
+      validator: validator,
+      focusNode: focusNode,
+      onChanged: (value) => controller,
+      controller: controller,
+      decoration: InputDecoration(
+        labelText: labeltext,
+        labelStyle: const TextStyle(color: Colors.white, fontSize: 17),
+        border: const OutlineInputBorder(
+          borderRadius: BorderRadius.all(
+            Radius.circular(16),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class _Buttonnavigator extends StatelessWidget {
+  const _Buttonnavigator({
+    this.text,
+    required this.onPressed,
+  });
+
+  final void Function()? onPressed;
+  final String? text;
+
+  @override
+  Widget build(BuildContext context) {
+    return ElevatedButton(
+      onPressed: onPressed,
+      style: ElevatedButton.styleFrom(
+        maximumSize: Size(
+          MediaQuery.of(context).size.width / 1.26,
+          MediaQuery.of(context).size.height / 16,
+        ),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(15),
+        ),
+        backgroundColor: Colors.blue,
+        foregroundColor: Colors.white,
+      ),
+      child: Text(text ?? ''),
+    );
+  }
+}
+
+class _PhotosList extends StatelessWidget {
+  const _PhotosList({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    final stateCar = Provider.of<VehicleController>(context);
+    return SingleChildScrollView(
+      child: Container(
+        decoration: BoxDecoration(
+          color: Theme.of(context).focusColor,
+          borderRadius: BorderRadius.circular(10),
+        ),
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Row(
+            children: [
+              Image.file(
+                File(stateCar.controllerImage!),
+                height: MediaQuery.of(context).size.height / 10,
+              )
+            ],
+          ),
+        ),
+      ),
     );
   }
 }

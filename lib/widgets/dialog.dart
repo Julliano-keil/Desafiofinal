@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
+///class responsible for providing an editable dialog box
 class CustomDialog {
+  ///method that creates dialogue with text
   static void showSuccess(
       BuildContext context, String primarytext, String secondtext) async {
     await showDialog(

@@ -2,18 +2,19 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 import '../casos_de_usos/settings_code.dart';
-import '../entidades/person.dart';
 import '../repositorio_de_dados/signup_controller.dart';
 import '../widgets/dialog.dart';
 import 'registered_autonomy_screen.dart';
 
+///class responsible for editing, changing and deleting the registered user,
+/// and also has a list of the user's level card
 class Registeredpeople extends StatelessWidget {
-  Registeredpeople({super.key});
-
-  final Settingscode color = Settingscode();
+  ///cosntructor class
+  const Registeredpeople({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final settings = Provider.of<Settingscode>(context);
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
@@ -26,27 +27,27 @@ class Registeredpeople extends StatelessWidget {
       body: Container(
         width: double.infinity,
         height: double.infinity,
-        color: color.cor,
+        color: Colors.black,
         child: Stack(
           children: [
             Container(
-              color: color.cor,
+              color: Colors.black,
               width: 430,
               height: 400,
               child: Container(
                 width: 420,
                 height: 382,
-                decoration: const BoxDecoration(
-                    color: Colors.amber,
-                    borderRadius:
-                        BorderRadius.only(bottomRight: Radius.circular(200))),
+                decoration: BoxDecoration(
+                    color: settings.ligthMode ? Colors.amber : Colors.white,
+                    borderRadius: const BorderRadius.only(
+                        bottomRight: Radius.circular(200))),
                 //
               ),
             ),
             Positioned(
               top: 400,
               child: Container(
-                color: Colors.amber,
+                color: settings.ligthMode ? Colors.amber : Colors.white,
                 width: 430,
                 height: 411,
                 child: Container(
@@ -98,22 +99,13 @@ class _RegisteredListState extends State<_RegisteredList> {
                             trailing: PopupMenuButton<String>(
                               onSelected: (choice) async {
                                 if (choice == 'Opção 1') {
-                                  await Navigator.of(context,
-                                          rootNavigator: true)
-                                      .pushReplacementNamed('/Autonomyedite',
-                                          arguments: person);
+                                  await Get.toNamed('/Autonomyedite',
+                                      arguments: person);
                                 } else if (choice == 'Opção 2') {
-                                  await Navigator.of(context,
-                                          rootNavigator: true)
-                                      .pushReplacementNamed('/EditPerson',
-                                          arguments: person);
-                                  if (context.mounted) {
-                                    CustomDialog.showSuccess(
-                                        context,
-                                        ' ',
-                                        'Popule (🖋️)o formulario'
-                                            ' para alterar');
-                                  }
+                                  Get.snackbar('Informaçao',
+                                      'Popule o formulario para editar');
+                                  await Get.toNamed('/EditPerson',
+                                      arguments: person);
                                 } else if (choice == 'Opção 3' &&
                                     person.id != 1) {
                                   await showDialog(
@@ -128,7 +120,7 @@ class _RegisteredListState extends State<_RegisteredList> {
                                         ),
                                         content: Text(
                                           'Deseja mesmo apagar o'
-                                          ' usuario(a) ${person.nomeloja} ?',
+                                          ' usuario(a) ${person.storeName} ?',
                                           style: const TextStyle(
                                               fontSize: 20,
                                               fontWeight: FontWeight.bold),
@@ -138,14 +130,14 @@ class _RegisteredListState extends State<_RegisteredList> {
                                             onPressed: () async {
                                               await state.delete(person);
                                               if (context.mounted) {
-                                                Navigator.of(context).pop();
+                                                Get.back();
                                               }
                                             },
                                             child: const Text('Sim'),
                                           ),
                                           TextButton(
-                                            onPressed: () {
-                                              Navigator.of(context).pop();
+                                            onPressed: () async {
+                                              Get.back();
                                             },
                                             child: const Text('Não'),
                                           ),
@@ -161,7 +153,7 @@ class _RegisteredListState extends State<_RegisteredList> {
                                   CustomDialog.showSuccess(
                                       context,
                                       '⚠️',
-                                      'O usuario ${person.nomeloja}'
+                                      'O usuario ${person.storeName}'
                                           ' nao pode ser excluido');
                                 }
                                 if (choice == 'Opção 5') {
@@ -191,7 +183,7 @@ class _RegisteredListState extends State<_RegisteredList> {
                               },
                             ),
                             title: Text(
-                              person.nomeloja.toString(),
+                              person.storeName.toString(),
                               style: const TextStyle(fontSize: 20),
                             ),
                             subtitle: Text('Cnpj: ${person.cnpj.toString()}'),

@@ -1,15 +1,30 @@
 import 'package:flutter/material.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 
+///class responsible for providing an editable textFormField
 class BaseForm extends StatelessWidget {
+  /// text that informs the user to take action
   final String labelText;
+
+  /// text exemple
   final String hintText;
+
+  ///obscureText
   final bool truee;
+
+  ///format text and numbers
   final String? formatter;
+
+  ///suggested keyboard
   final TextInputType keyboardType;
+
+  ///valid form
   final String? Function(String?)? validator;
+
+  ///controller
   final TextEditingController? controler;
 
+  ///constructor with required parameters
   const BaseForm(
       {super.key,
       required this.labelText,

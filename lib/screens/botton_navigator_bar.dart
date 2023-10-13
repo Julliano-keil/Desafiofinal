@@ -5,7 +5,9 @@ import 'category_screen.dart';
 import 'home_screen.dart';
 import 'user_profile.dart';
 
+///responsible for the navigation button and calling the zoon drawer
 class Homepage extends StatefulWidget {
+  ///constructor class
   const Homepage({super.key});
 
   @override
@@ -69,7 +71,7 @@ class _HomepageState extends State<Homepage> {
     } else if (_selectedIndex == 1) {
       return const Categorys();
     } else if (_selectedIndex == 2) {
-      return ProfileUser();
+      return const ProfileUser();
     }
     return const LinearProgressIndicator();
   }

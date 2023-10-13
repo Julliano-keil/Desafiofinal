@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 import '../casos_de_usos/form_validator.dart';
 import '../casos_de_usos/settings_code.dart';
@@ -7,29 +8,29 @@ import '../entidades/person.dart';
 import '../repositorio_de_dados/signup_controller.dart';
 import '../widgets/form_pagelogs.dart';
 
+///responsible for listing registered vehicles
 class EditPerson extends StatelessWidget {
-  EditPerson({super.key});
-
-  final Settingscode color = Settingscode();
+  ///constructor class
+  const EditPerson({super.key});
 
   @override
   Widget build(BuildContext context) {
     final person = ModalRoute.of(context)!.settings.arguments as Person?;
+    final settings = Provider.of<Settingscode>(context);
     return ChangeNotifierProvider<SignUpController>(
       create: (context) => SignUpController(),
       child: Consumer<SignUpController>(
         builder: (_, state, __) {
           return Scaffold(
-            backgroundColor: Colors.amber,
+            backgroundColor: settings.ligthMode ? Colors.amber : Colors.white,
             appBar: AppBar(
               elevation: 0,
-              backgroundColor: Colors.amber,
+              backgroundColor: settings.ligthMode ? Colors.amber : Colors.white,
               leading: IconButton(
-                  onPressed: () async {
-                    await Navigator.of(context)
-                        .pushReplacementNamed('/Registerpeople');
-                  },
-                  icon: const Icon(Icons.arrow_back_outlined)),
+                onPressed: () async => Get.back(),
+                icon: const Icon(Icons.arrow_back_outlined),
+                color: Colors.black,
+              ),
               title: const Center(
                 child: Text(
                   'Editar Usuarios',
@@ -120,7 +121,7 @@ class EditPerson extends StatelessWidget {
                                               return AlertDialog(
                                                 content: Text(
                                                   'usuario(a)'
-                                                  ' ${person!.nomeloja}'
+                                                  ' ${person!.storeName}'
                                                   ' alterado com sucesso ?',
                                                   style: const TextStyle(
                                                       fontSize: 20,
@@ -162,9 +163,11 @@ class EditPerson extends StatelessWidget {
                                     IconButton.filled(
                                       onPressed: () =>
                                           state.updatePerson(person!),
-                                      icon: const Icon(
+                                      icon: Icon(
                                         Icons.edit,
-                                        color: Colors.amber,
+                                        color: settings.ligthMode
+                                            ? Colors.amber
+                                            : Colors.white,
                                       ),
                                     )
                                   ],

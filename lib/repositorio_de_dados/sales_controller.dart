@@ -2,13 +2,14 @@ import 'dart:async';
 
 import 'package:flutter/widgets.dart';
 
-import '../casos_de_usos/autonomy_data.dart';
 import '../entidades/autonomy_level.dart';
 import '../entidades/sales.dart';
 import '../entidades/vehicle.dart';
 import 'database/db.dart';
 
+/// responsible for managing the state of the SaleVehicle class
 class SaleController extends ChangeNotifier {
+  ///constructor with the necessary parameters
   SaleController({
     required this.userCnpj,
     required this.brand,
@@ -22,39 +23,70 @@ class SaleController extends ChangeNotifier {
   }
 
   final _listSales = <Sale>[];
+
+  /// get from the listsale
   List<Sale> get listsale => _listSales;
 
+  ///database table sale controller
   final saleController = SaleTableController();
+
+  /// object vehicle
   final Vehicle vehicle;
+
+  ///id person
   final int person;
+
+  /// name user
   final String nameUser;
+
+  ///brand of vehicle
   final String brand;
+
+  /// model of vehicle
   final String model;
+
+  /// cnpj  of user current
   final String userCnpj;
+
+  /// plate of vehicle
   final String plate;
   final _listAutomomydata = <AutonomyLevel>[];
+
+  /// get from autonomy list
   List<AutonomyLevel> get listAutonomydata => _listAutomomydata;
-  final autonomyProvider = AutonomyProvider([]);
+
+  ///controller db from autonomy table
   final controllerAutonomy = AutonomyControler();
 
+  ///vehicle sales form validator
   final formkey = GlobalKey<FormState>();
   final _customerCpf = TextEditingController();
   final _custumerName = TextEditingController();
   final _soldwhen = TextEditingController();
   final _priceSold = TextEditingController();
-  final _vehicleId = TextEditingController();
-  final _userId = TextEditingController();
 
+  /// get cpf
   TextEditingController get customerCpf => _customerCpf;
-  TextEditingController get custumerName => _custumerName;
-  TextEditingController get soldwhen => _soldwhen;
-  TextEditingController get priceSold => _priceSold;
-  TextEditingController get vehicleId => _vehicleId;
-  TextEditingController get userId => _userId;
 
+  ///get buyer name
+  TextEditingController get custumerName => _custumerName;
+
+  /// get date current
+  TextEditingController get soldwhen => _soldwhen;
+
+  ///get price
+  TextEditingController get priceSold => _priceSold;
+
+  /// get porcentage user current
   double? dealershipPercentag;
+
+  /// get porcentage from store
   double? businessPercentag;
+
+  /// get porcentage securyt box
   double? safetyPercentag;
+
+  /// insert data the database
   Future<void> insert() async {
     try {
       final saleVehicle = Sale(
@@ -90,6 +122,7 @@ class SaleController extends ChangeNotifier {
     }
   }
 
+  /// responsible for getting the autonomy level of the logged in user
   Future<void> dataAutonomy(int idperson) async {
     final list = await controllerAutonomy.select(idperson);
 
@@ -101,6 +134,7 @@ class SaleController extends ChangeNotifier {
     notifyListeners();
   }
 
+  /// reload  autonomy list
   Future<void> loadData() async {
     try {
       final list = await saleController.select();
@@ -113,6 +147,7 @@ class SaleController extends ChangeNotifier {
     }
   }
 
+  /// delete user of data base
   Future<void> delete(Sale sale) async {
     try {
       await saleController.delete(sale);

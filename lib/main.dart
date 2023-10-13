@@ -2,20 +2,18 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:jscar/screens/sales_report_screen.dart';
-import 'package:path/path.dart';
 import 'package:provider/provider.dart';
 
-import 'casos_de_usos/autonomy_data.dart';
+import 'casos_de_usos/settings_code.dart';
 import 'repositorio_de_dados/person_controler.dart';
 import 'repositorio_de_dados/profile_controller.dart';
 import 'screens/autonomy_screen.dart';
 import 'screens/botton_navigator_bar.dart';
 import 'screens/category_screen.dart';
-
 import 'screens/edit_person_screen.dart';
 import 'screens/registered_people_screen.dart';
 import 'screens/sale_vehicle_register_screen.dart';
+import 'screens/sales_report_screen.dart';
 import 'screens/settings_screen.dart';
 import 'screens/signin_screen.dart';
 import 'screens/signup_scren.dart';
@@ -32,8 +30,8 @@ void main() {
         ChangeNotifierProvider<ProfileController>(
           create: (context) => ProfileController(personid: 0),
         ),
-        ChangeNotifierProvider<AutonomyProvider>(
-          create: (context) => AutonomyProvider([]),
+        ChangeNotifierProvider<Settingscode>(
+          create: (context) => Settingscode(),
         ),
       ],
       child: const MyApp(),
@@ -41,7 +39,9 @@ void main() {
   );
 }
 
+///responsible for a delay screen when starting the application
 class MyApp extends StatefulWidget {
+  ///constructor class
   const MyApp({Key? key}) : super(key: key);
 
   @override
@@ -93,16 +93,17 @@ class _MyAppState extends State<MyApp> with SingleTickerProviderStateMixin {
         '/MyApp': (context) => const MyApp(),
         '/Homepage': (context) => const Zoom(mainScreen: Homepage()),
         '/Category': (context) => const Categorys(),
-        '/Settings': (context) => Settings(),
+        '/Settings': (context) => const Settings(),
         '/SignUp': (context) => const SignUp(),
         '/SignIn': (context) => const SignIn(),
-        '/Registerpeople': (context) => Zoom(mainScreen: Registeredpeople()),
+        '/Registerpeople': (context) =>
+            const Zoom(mainScreen: Registeredpeople()),
         '/Autonomyedite': (context) => const Autonomyedite(),
-        '/EditPerson': (context) => EditPerson(),
+        '/EditPerson': (context) => const EditPerson(),
         // '/RegisteredAutonomy': (context) => RegisteredAutonomy(),
         '/SaleVehicle': (context) => const SaleVehicle(),
         'VehicleRegister': (context) => const VehicleRegister(),
-        'SalesReport': (context) => SalesReport()
+        'SalesReport': (context) => const SalesReport()
       },
       debugShowCheckedModeBanner: false,
       navigatorKey: navigatorKey,

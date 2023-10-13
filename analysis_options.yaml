@@ -11,6 +11,7 @@ analyzer:
 # Include the rules for the old 'Effective Dart' over the 'Flutter Lints' style
 linter:
   rules:
+    - public_member_api_docs # prefer
     - unawaited_futures
     - discarded_futures
     - unnecessary_await_in_return

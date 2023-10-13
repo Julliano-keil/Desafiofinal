@@ -2,24 +2,27 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 import '../casos_de_usos/form_validator.dart';
+import '../casos_de_usos/settings_code.dart';
 import '../repositorio_de_dados/signup_controller.dart';
-import '../widgets/dialog.dart';
 import '../widgets/form_pagelogs.dart';
 import 'registered_people_screen.dart';
 
+///class responsible for collecting information from
+///a new user and registering it in the database
 class SignUp extends StatelessWidget {
+  ///constructor class
   const SignUp({super.key});
 
-  final bool show = false;
   @override
   Widget build(BuildContext context) {
+    final settings = Provider.of<Settingscode>(context);
     return ChangeNotifierProvider<SignUpController>(
       create: (context) => SignUpController(),
       child: Consumer<SignUpController>(
         builder: (_, state, __) {
           return Scaffold(
             appBar: AppBar(
-              backgroundColor: Colors.amber,
+              backgroundColor: settings.ligthMode ? Colors.amber : Colors.white,
               elevation: 0,
               leading: IconButton(
                 onPressed: () async {
@@ -33,7 +36,7 @@ class SignUp extends StatelessWidget {
                 ),
               ),
             ),
-            backgroundColor: Colors.amber,
+            backgroundColor: settings.ligthMode ? Colors.amber : Colors.white,
             body: Form(
               key: state.formKey,
               child: Center(
@@ -99,16 +102,14 @@ class SignUp extends StatelessWidget {
                               ElevatedButton(
                                 onPressed: () async {
                                   if (state.formKey.currentState!.validate()) {
+                                    Get.snackbar(
+                                        'Informaçao',
+                                        'Voce sera redirecionado '
+                                            'automaticamente para cadastrar'
+                                            ' a autonomia do usuario');
+
                                     await state.insert();
-                                    if (context.mounted) {
-                                      CustomDialog.showSuccess(
-                                          context,
-                                          'Login quase pronto',
-                                          'Voce sera redirecionado'
-                                              'automaticamente para cadastrar'
-                                              ' o nivel de usuario!');
-                                    }
-                                    await goListPage();
+                                    await _goListPage();
                                   }
                                 },
                                 style: ElevatedButton.styleFrom(
@@ -138,8 +139,8 @@ class SignUp extends StatelessWidget {
   }
 }
 
-Future<void> goListPage() async {
-  await Future.delayed(const Duration(seconds: 4), () {
-    Get.to(Registeredpeople());
+Future<void> _goListPage() async {
+  await Future.delayed(const Duration(seconds: 3), () {
+    Get.to(const Registeredpeople());
   });
 }

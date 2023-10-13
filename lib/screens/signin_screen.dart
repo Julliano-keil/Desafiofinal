@@ -6,22 +6,27 @@ import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 
 import '../casos_de_usos/form_validator.dart';
+import '../casos_de_usos/settings_code.dart';
 import '../repositorio_de_dados/person_controler.dart';
 import '../widgets/dialog.dart';
 import '../widgets/form_pagelogs.dart';
 
+///class responsible for collecting login
+///information and ferifying the controller
 class SignIn extends StatelessWidget {
+  ///constructor class
   const SignIn({super.key});
   @override
   Widget build(BuildContext context) {
     final state = Provider.of<PersonControler>(context, listen: true);
+    final settings = Provider.of<Settingscode>(context);
 
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
-        backgroundColor: Colors.amber,
+        backgroundColor: settings.ligthMode ? Colors.amber : Colors.white,
       ),
-      backgroundColor: Colors.amber,
+      backgroundColor: settings.ligthMode ? Colors.amber : Colors.white,
       body: Form(
         key: state.formKey,
         child: Center(
@@ -120,15 +125,15 @@ Future<void> _handleLogin(BuildContext context, dynamic user, String password,
   final connectivityResult = await (Connectivity().checkConnectivity());
 
   if (connectivityResult == ConnectivityResult.wifi && context.mounted) {
-    if (user != null && user.senha == password && context.mounted) {
+    if (user != null && user.password == password && context.mounted) {
       final state = Provider.of<PersonControler>(context, listen: false);
 
       state.controllerCnpj.clear();
       state.controllerSenha.clear();
 
       try {
-        await state.saveUserInfo(user.id, user.nomeloja, userCnpj);
-        await state.saveUserInfo(user.id, user.nomeloja, userCnpj);
+        await state.saveUserInfo(user.id, user.storeName, userCnpj);
+        await state.loadUserInfo();
         await Get.offAndToNamed('/Homepage');
       } catch (e) {
         CustomDialog.showSuccess(

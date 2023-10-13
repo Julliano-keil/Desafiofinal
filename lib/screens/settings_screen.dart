@@ -1,22 +1,24 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:provider/provider.dart';
 import '../casos_de_usos/settings_code.dart';
-import '../widgets/thema_colors.dart';
 
+///class responsible for configuring the application's theme change
 class Settings extends StatelessWidget {
-  Settings({super.key});
+  ///constructor class
+  const Settings({super.key});
 
-  final Settingscode color = Settingscode();
   @override
   Widget build(BuildContext context) {
+    final settings = Provider.of<Settingscode>(context);
     return MaterialApp(
       home: Scaffold(
         appBar: AppBar(
           leading: IconButton(
-            onPressed: () async => Navigator.of(context, rootNavigator: true)
-                .pushNamed('/Homepage'),
+            onPressed: () async => Get.back(),
             icon: const Icon(Icons.arrow_back),
           ),
-          backgroundColor: Colors.black,
+          backgroundColor: const Color.fromRGBO(0, 0, 0, 1),
           title: const Center(
             child: Text('Configuraçoes'),
           ),
@@ -24,28 +26,28 @@ class Settings extends StatelessWidget {
         body: Container(
           width: double.infinity,
           height: double.infinity,
-          color: color.cor,
+          color: Colors.black,
           child: Stack(
             children: [
               Container(
-                color: color.cor,
+                color: const Color.fromARGB(255, 10, 10, 10),
                 width: 430,
                 height: 400,
                 child: Container(
                   width: 420,
                   height: 382,
-                  decoration: const BoxDecoration(
-                      color: Colors.amber,
-                      borderRadius:
-                          BorderRadius.only(bottomRight: Radius.circular(200))),
+                  decoration: BoxDecoration(
+                      color: settings.ligthMode ? Colors.amber : Colors.white,
+                      borderRadius: const BorderRadius.only(
+                          bottomRight: Radius.circular(200))),
                   child:
-                      SettingsWidhts(), //                      <= Configuraçoes
+                      const _SettingsWidhts(), //                <= Configuraçoes
                 ),
               ),
               Positioned(
                 top: 400,
                 child: Container(
-                  color: Colors.amber,
+                  color: settings.ligthMode ? Colors.amber : Colors.white,
                   width: 430,
                   height: 411,
                   child: Container(
@@ -62,6 +64,48 @@ class Settings extends StatelessWidget {
           ),
         ),
       ),
+    );
+  }
+}
+
+class _SettingsWidhts extends StatefulWidget {
+  const _SettingsWidhts({Key? key}) : super(key: key);
+
+  @override
+  __SettingsWidhtsState createState() => __SettingsWidhtsState();
+}
+
+class __SettingsWidhtsState extends State<_SettingsWidhts> {
+  @override
+  Widget build(BuildContext context) {
+    final settings = Provider.of<Settingscode>(context);
+    return Column(
+      children: [
+        Expanded(
+          child: ListView(
+            children: [
+              Row(
+                children: [
+                  const Text(
+                    '  Mudar para tema padrão ',
+                    style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
+                  ),
+                  IconButton(
+                    onPressed: settings.toggleTheme,
+                    icon: Icon(
+                      settings.ligthMode
+                          ? Icons.toggle_on_outlined
+                          : Icons.toggle_off_outlined,
+                    ),
+                    iconSize: 35,
+                    visualDensity: const VisualDensity(horizontal: 4.0),
+                  ),
+                ],
+              )
+            ],
+          ),
+        ),
+      ],
     );
   }
 }

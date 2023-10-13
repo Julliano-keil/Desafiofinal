@@ -2,53 +2,62 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import '../casos_de_usos/autonomy_data.dart';
+
 import '../entidades/autonomy_level.dart';
 import '../entidades/person.dart';
 import 'database/db.dart';
 
+/// A controller class for managing persons and user information.
 class PersonControler extends ChangeNotifier {
+  /// Constructor for initializing the PersonControler.
   PersonControler() {
     unawaited(loadata());
-    unawaited(loadUserInfo());
-    //unawaited(clearUserInfo());
   }
+
+  ///The name of the user.
   String nameuser = '';
 
+  ///controller of person the data base
   final constroller = PessoaControler();
+
+  ///controller of autonomy the data base
   final controllerAutonomy = AutonomyControler();
   final _listaPeople = <Person>[];
   final _listAutomomydata = <AutonomyLevel>[];
+
+  ///get person list
   List<Person> get listaPeople => _listaPeople;
-  final autonomyProvider = AutonomyProvider([]);
+
+  ///get autonomy list
   List<AutonomyLevel> get listAutonomydata => _listAutomomydata;
+
+  ///valid the person form
   final formKey = GlobalKey<FormState>();
-  final _controllerId = TextEditingController();
   final _controllerCnpj = TextEditingController();
   final _controllerName = TextEditingController();
-  final _controllerNivel = TextEditingController();
   final _controllerSenha = TextEditingController();
-  final _controlerNivel = TextEditingController();
 
+  ///get value from the cnpj entered by the user
   TextEditingController get controllerCnpj => _controllerCnpj;
-  TextEditingController get controllerName => _controllerName;
-  TextEditingController get controllerNivel => _controllerNivel;
-  TextEditingController get controllerSenha => _controllerSenha;
-  TextEditingController get controllerid => _controllerId;
-  TextEditingController get controlerNivel => _controlerNivel;
 
+  /// get value from the name entered by the user
+  TextEditingController get controllerName => _controllerName;
+
+  ///get value from the password entered by the user
+  TextEditingController get controllerSenha => _controllerSenha;
+
+  ///inserts the person object into the database
   Future<void> insert() async {
     try {
       final people = Person(
           id: null,
           cnpj: _controllerCnpj.text,
-          nomeloja: _controllerName.text,
-          senha: _controllerSenha.text);
+          storeName: _controllerName.text,
+          password: _controllerSenha.text);
 
       await constroller.insert(people);
       controllerCnpj.clear();
       controllerName.clear();
-      controllerNivel.clear();
       controllerSenha.clear();
       await loadata();
       notifyListeners();
@@ -57,6 +66,7 @@ class PersonControler extends ChangeNotifier {
     }
   }
 
+  /// reload perosn list
   Future<void> loadata() async {
     try {
       final list = await constroller.select();
@@ -68,6 +78,7 @@ class PersonControler extends ChangeNotifier {
     }
   }
 
+  ///valid login user go home page
   Future<dynamic> getUserByUsercnpj(String usercnpj) async {
     try {
       final database = await getdatabase();
@@ -84,8 +95,8 @@ class PersonControler extends ChangeNotifier {
         return Person(
           id: item[PersonTable.id],
           cnpj: item[PersonTable.cnpj],
-          nomeloja: item[PersonTable.nomeloja],
-          senha: item[PersonTable.senha],
+          storeName: item[PersonTable.nomeloja],
+          password: item[PersonTable.senha],
         );
       }
       notifyListeners();
@@ -96,41 +107,38 @@ class PersonControler extends ChangeNotifier {
   }
 
   Person? _loggedUser;
+
+  ///get user current
   Person? get loggedUser => _loggedUser;
 
-  void setLoggedUser(Person? user) {
-    _loggedUser = user;
-    notifyListeners();
-  }
-
+  ///save preferences user current
   Future<void> saveUserInfo(
       int userId, String userName, String userCnpj) async {
-    await loadata();
     final prefs = await SharedPreferences.getInstance();
     await prefs.setInt('userId', userId);
     await prefs.setString('userName', userName);
     await prefs.setString('userCnpj', userCnpj);
+    notifyListeners();
   }
 
+  /// reload user current
   Future<void> loadUserInfo() async {
-    await loadata();
     final prefs = await SharedPreferences.getInstance();
     final userId = prefs.getInt('userId');
     final userName = prefs.getString('userName');
     final userCnpj = prefs.getString('userCnpj');
-
     if (userId != null && userName != null) {
       _loggedUser = Person(
         id: userId,
         cnpj: userCnpj,
-        nomeloja: userName,
-        senha: '',
+        storeName: userName,
+        password: '',
       );
-
       notifyListeners();
     }
   }
 
+  /// clear preferences user
   Future<void> clearUserInfo() async {
     await loadata();
     final prefs = await SharedPreferences.getInstance();

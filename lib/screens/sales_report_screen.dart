@@ -1,7 +1,6 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_pdfview/flutter_pdfview.dart';
 import 'package:get/get.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:pdf/widgets.dart' as pw;
@@ -12,13 +11,16 @@ import '../casos_de_usos/settings_code.dart';
 import '../repositorio_de_dados/person_controler.dart';
 import '../repositorio_de_dados/sale_report_controller.dart';
 
+///class responsible for listing the sales report and importing it via PDF
 class SalesReport extends StatelessWidget {
+  ///constructor class
   SalesReport({super.key});
 
   final Settingscode color = Settingscode();
 
   @override
   Widget build(BuildContext context) {
+    final settings = Provider.of<Settingscode>(context);
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
@@ -32,20 +34,20 @@ class SalesReport extends StatelessWidget {
       body: AnimatedContainer(
         width: double.infinity,
         height: double.infinity,
-        color: color.cor,
+        color: settings.ligthMode ? Colors.amber : Colors.white,
         duration: const Duration(seconds: 2),
         child: Stack(
           children: [
             Container(
-              color: color.cor,
+              color: Colors.black,
               width: 430,
               height: 400,
               child: Container(
                 width: 420,
                 height: 382,
-                decoration: const BoxDecoration(
-                  color: Colors.amber,
-                  borderRadius: BorderRadius.only(
+                decoration: BoxDecoration(
+                  color: settings.ligthMode ? Colors.amber : Colors.white,
+                  borderRadius: const BorderRadius.only(
                     bottomRight: Radius.circular(200),
                   ),
                 ),
@@ -55,7 +57,7 @@ class SalesReport extends StatelessWidget {
             Positioned(
               top: 400,
               child: Container(
-                color: Colors.amber,
+                color: settings.ligthMode ? Colors.amber : Colors.white,
                 width: 430,
                 height: 411,
                 child: Container(
@@ -70,7 +72,7 @@ class SalesReport extends StatelessWidget {
                 ),
               ),
             ),
-            const SalesReportScreen()
+            const _SalesReportScreen()
           ],
         ),
       ),
@@ -78,8 +80,8 @@ class SalesReport extends StatelessWidget {
   }
 }
 
-class SalesReportScreen extends StatelessWidget {
-  const SalesReportScreen({super.key});
+class _SalesReportScreen extends StatelessWidget {
+  const _SalesReportScreen();
 
   @override
   Widget build(BuildContext context) {

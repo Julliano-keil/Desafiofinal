@@ -2,13 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 import '../casos_de_usos/form_validator.dart';
+import '../casos_de_usos/settings_code.dart';
 import '../entidades/vehicle.dart';
 import '../repositorio_de_dados/person_controler.dart';
 import '../repositorio_de_dados/sales_controller.dart';
 import '../widgets/dialog.dart';
 import '../widgets/form_pagelogs.dart';
 
+///class responsible for registering car sales
 class SaleVehicle extends StatelessWidget {
+  ///constructor class
   const SaleVehicle({super.key});
 
   @override
@@ -16,9 +19,9 @@ class SaleVehicle extends StatelessWidget {
     final vehicle = ModalRoute.of(context)!.settings.arguments as Vehicle?;
     final state = Provider.of<PersonControler>(context, listen: false);
     final userid = state.loggedUser!.id;
-    final userName = state.loggedUser!.nomeloja;
+    final userName = state.loggedUser!.storeName;
     final userCnpj = state.loggedUser!.cnpj;
-
+    final settings = Provider.of<Settingscode>(context);
     return ChangeNotifierProvider<SaleController>(
       create: (context) => SaleController(
         vehicle: vehicle!,
@@ -34,7 +37,7 @@ class SaleVehicle extends StatelessWidget {
           return Scaffold(
             resizeToAvoidBottomInset: false,
             appBar: AppBar(
-              backgroundColor: Colors.amber,
+              backgroundColor: settings.ligthMode ? Colors.amber : Colors.white,
               elevation: 0,
               leading: IconButton(
                 onPressed: () async {
@@ -48,7 +51,7 @@ class SaleVehicle extends StatelessWidget {
                 ),
               ),
             ),
-            backgroundColor: Colors.amber,
+            backgroundColor: settings.ligthMode ? Colors.amber : Colors.white,
             body: SingleChildScrollView(
               child: Center(
                 child: AnimatedContainer(

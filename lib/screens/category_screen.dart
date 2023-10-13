@@ -1,15 +1,19 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 
+import '../casos_de_usos/settings_code.dart';
 import '../repositorio_de_dados/person_controler.dart';
 import '../repositorio_de_dados/vehicle_controller.dart';
 
 import '../widgets/dialog.dart';
 import '../widgets/horizontal_tabbar.dart';
 
+///responsible for listing registered vehicles
 class Categorys extends StatefulWidget {
+  ///constructor class
   const Categorys({super.key});
 
   @override
@@ -17,92 +21,84 @@ class Categorys extends StatefulWidget {
 }
 
 class _CategorysState extends State<Categorys> {
-  String selectedtalbar = 'CLASSICOS';
+  late int selectedtalbar;
 
   @override
   Widget build(BuildContext context) {
+    final state = Provider.of<PersonControler>(context);
+
+    final userid = state.loggedUser!.id;
     var size = MediaQuery.of(context).size;
-    return SafeArea(
-      child: DefaultTabController(
-        initialIndex: 0,
-        length: 3,
-        child: Scaffold(
-          body: Stack(
-            children: [
-              Container(
-                clipBehavior: Clip.none,
-                width: size.width,
-                decoration: const BoxDecoration(
-                  gradient: LinearGradient(
-                      colors: [Colors.black, Colors.black],
-                      begin: Alignment.topCenter,
-                      end: Alignment.bottomCenter),
+    return ChangeNotifierProvider<CatergoryListController>(
+        create: (context) => CatergoryListController(person: userid!),
+        child: Consumer<CatergoryListController>(builder: (_, state, __) {
+          return SafeArea(
+            child: DefaultTabController(
+              initialIndex: 0,
+              length: 1,
+              child: Scaffold(
+                body: Stack(
+                  children: [
+                    Container(
+                      clipBehavior: Clip.none,
+                      width: size.width,
+                      decoration: const BoxDecoration(
+                        gradient: LinearGradient(
+                            colors: [Colors.black, Colors.black],
+                            begin: Alignment.topCenter,
+                            end: Alignment.bottomCenter),
+                      ),
+                      child: const Column(
+                          children: [Horizontaltabbar(), _Categoryscren()]),
+                    ),
+                  ],
                 ),
-                child: Column(children: [
-                  Horizontaltabbar(
-                    ontap: (p0) {
-                      setState(() {
-                        selectedtalbar = getselectbarindx(p0);
-                      });
-                    },
-                  ),
-                  const Categoryscren(),
-                ]),
               ),
-            ],
-          ),
-        ),
-      ),
-    );
+            ),
+          );
+        }));
   }
 
-  String getselectbarindx(int indx) {
-    switch (indx) {
-      case 0:
-        return 'CLASSICOS';
-      case 1:
-        return 'ESPORTIVOS';
-      case 2:
-        return 'CAMIONETES';
-      default:
-        return 'CLASSICOS';
-    }
+  int getselectbarindx(int indx) {
+    return indx;
   }
 }
 
 // ignore: must_be_immutable
-class Categoryscren extends StatefulWidget {
-  const Categoryscren({super.key});
+class _Categoryscren extends StatefulWidget {
+  const _Categoryscren();
 
   @override
-  State<Categoryscren> createState() => CategoryscrenState();
+  State<_Categoryscren> createState() => _CategoryscrenState();
 }
 
-class CategoryscrenState extends State<Categoryscren> {
+class _CategoryscrenState extends State<_Categoryscren> {
   final _pagecontroler = PageController(viewportFraction: 0.75);
 
   double _currentpage = 0.0;
   double indexPage = 0.0;
 
   void _listener() {
-    setState(() {
-      _currentpage = _pagecontroler.page!;
+    setState(
+      () {
+        _currentpage = _pagecontroler.page!;
 
-      const precision = 0.1;
+        const precision = 0.1;
 
-      for (var i = 0; i <= 25; i++) {
-        if ((_currentpage - i) < precision) {
-          indexPage = i.toDouble();
-          break;
+        for (var i = 0; i <= 25; i++) {
+          if ((_currentpage - i) < precision) {
+            indexPage = i.toDouble();
+            break;
+          }
         }
-      }
-      for (var i = 0; i < 6; i++) {
-        if (_currentpage >= i.toDouble() && _currentpage <= (i + 0.7)) {
-          indexPage = i.toDouble();
-          break;
+        for (var i = 0; i < 6; i++) {
+          if (_currentpage >= i.toDouble() && _currentpage <= (i + 0.7)) {
+            indexPage = i.toDouble();
+            break;
+          }
         }
-      }
-    });
+      },
+    );
   }
 
   @override
@@ -119,8 +115,11 @@ class CategoryscrenState extends State<Categoryscren> {
 
   @override
   Widget build(BuildContext context) {
+    final settings = Provider.of<Settingscode>(context);
     final state = Provider.of<PersonControler>(context);
+
     final userid = state.loggedUser!.id;
+    var size = MediaQuery.of(context).size;
     return ChangeNotifierProvider<CatergoryListController>(
       create: (context) => CatergoryListController(person: userid!),
       child: Consumer<CatergoryListController>(
@@ -132,8 +131,9 @@ class CategoryscrenState extends State<Categoryscren> {
               itemCount: state.listCategory.length,
               itemBuilder: (context, index) {
                 final car = state.listCategory[index];
+
                 return Padding(
-                  padding: EdgeInsets.only(right: index == indexPage ? 30 : 50),
+                  padding: EdgeInsets.only(right: index == indexPage ? 30 : 60),
                   child: Transform.translate(
                     offset: Offset(index == indexPage ? 0 : 20, 0),
                     child: LayoutBuilder(
@@ -144,7 +144,9 @@ class CategoryscrenState extends State<Categoryscren> {
                               top: index == indexPage ? 30 : 50, bottom: 30),
                           decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(36),
-                              color: Colors.amber),
+                              color: settings.ligthMode
+                                  ? Colors.amber
+                                  : Colors.white),
                           child: Stack(
                             clipBehavior: Clip.none,
                             children: [
@@ -179,12 +181,12 @@ class CategoryscrenState extends State<Categoryscren> {
                                       ),
                                     ),
                                     const SizedBox(
-                                      height: 15,
+                                      height: 30,
                                     ),
                                     const SizedBox(
                                       width: 5,
                                       child: FittedBox(
-                                        child: Text('Edison\nAuto Center',
+                                        child: Text('Anderson\nAuto Center',
                                             style: TextStyle(
                                                 color: Colors.grey,
                                                 fontWeight: FontWeight.bold)),
@@ -193,25 +195,57 @@ class CategoryscrenState extends State<Categoryscren> {
                                   ],
                                 ),
                               ),
-                              Positioned(
-                                left: 210,
-                                top: 5,
-                                child: PopupMenuButton<String>(
-                                  onSelected: (choice) async {
-                                    if (choice == 'Opção 1') {
-                                      await state.delete(car);
-                                    }
-                                  },
-                                  itemBuilder: (context) {
-                                    return <PopupMenuEntry<String>>[
-                                      const PopupMenuItem<String>(
-                                        value: 'Opção 1',
-                                        child: Text('Deletar Veiculo'),
+                              userid != 1
+                                  ? Positioned(
+                                      left: size.width * 0.54,
+                                      top: size.height / 100,
+                                      child: PopupMenuButton<String>(
+                                        onSelected: (choice) async {
+                                          if (choice == 'Opção 1') {
+                                            await state.delete(car);
+                                          }
+                                        },
+                                        itemBuilder: (context) {
+                                          return <PopupMenuEntry<String>>[
+                                            const PopupMenuItem<String>(
+                                              value: 'Opção 1',
+                                              child: Text('Deletar Veiculo'),
+                                            ),
+                                          ];
+                                        },
                                       ),
-                                    ];
-                                  },
-                                ),
-                              ),
+                                    )
+                                  : Positioned(
+                                      left: 210,
+                                      top: 5,
+                                      child: PopupMenuButton<String>(
+                                        onSelected: (choice) async {
+                                          if (choice == 'Opção 1') {
+                                            await state.delete(car);
+                                          }
+                                          if (choice == 'Opção 2' &&
+                                              context.mounted) {
+                                            CustomDialog.showSuccess(
+                                                context,
+                                                'Informação',
+                                                'Esse veiculo pertence'
+                                                    ' a loja ${car.nameUser} ');
+                                          }
+                                        },
+                                        itemBuilder: (context) {
+                                          return <PopupMenuEntry<String>>[
+                                            const PopupMenuItem<String>(
+                                              value: 'Opção 1',
+                                              child: Text('Deletar Veiculo'),
+                                            ),
+                                            const PopupMenuItem<String>(
+                                              value: 'Opção 2',
+                                              child: Text('Mais informaçoes'),
+                                            ),
+                                          ];
+                                        },
+                                      ),
+                                    ),
                               Positioned(
                                 top: constraints.maxHeight * 0.3,
                                 left: -constraints.maxHeight * 0.0,
@@ -224,8 +258,8 @@ class CategoryscrenState extends State<Categoryscren> {
                                 ),
                               ),
                               Positioned(
-                                top: 502,
-                                right: 1,
+                                top: size.height * 0.57,
+                                right: size.height / 120,
                                 child: Container(
                                   width: 120,
                                   height: 100,
@@ -245,10 +279,8 @@ class CategoryscrenState extends State<Categoryscren> {
                                   ),
                                   child: GestureDetector(
                                     onTap: () async {
-                                      await Navigator.of(context,
-                                              rootNavigator: true)
-                                          .pushNamed('/SaleVehicle',
-                                              arguments: car);
+                                      await Get.toNamed('/SaleVehicle',
+                                          arguments: car);
                                     },
                                     child: const Padding(
                                       padding: EdgeInsets.all(16.0),
@@ -261,21 +293,6 @@ class CategoryscrenState extends State<Categoryscren> {
                                   ),
                                 ),
                               ),
-                              userid == 1
-                                  ? Positioned(
-                                      left: 200,
-                                      child: IconButton(
-                                          onPressed: () {
-                                            CustomDialog.showSuccess(
-                                                context,
-                                                'Informação',
-                                                'Esse veiculo pertence'
-                                                    ' a loja ${car.nameUser} ');
-                                          },
-                                          icon:
-                                              const Icon(Icons.info_outlined)),
-                                    )
-                                  : Container()
                             ],
                           ),
                         );

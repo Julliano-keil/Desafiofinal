@@ -1,22 +1,24 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 import '../casos_de_usos/form_validator.dart';
 import '../casos_de_usos/settings_code.dart';
 import '../entidades/person.dart';
 import '../repositorio_de_dados/autonomy_level_controller.dart';
-import '../widgets/card_form_autonomy.dart';
 import '../widgets/dialog.dart';
 import '../widgets/form_pagelogs.dart';
 
+///class responsible for editing user autonomy
 class Autonomyedite extends StatelessWidget {
+  /// constructor class
   const Autonomyedite({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final color = Settingscode();
     final person = ModalRoute.of(context)!.settings.arguments as Person?;
+    final settings = Provider.of<Settingscode>(context);
     return ChangeNotifierProvider(create: (context) {
       return AutonomilevelControler(person: person ?? Person());
     }, child: Consumer<AutonomilevelControler>(
@@ -28,20 +30,18 @@ class Autonomyedite extends StatelessWidget {
               child: Text('Cadastro de Autonomia'),
             ),
             leading: IconButton(
-                onPressed: () async => Navigator.of(context,
-                        rootNavigator: true)
-                    .pushReplacementNamed('/Registerpeople', arguments: person),
+                onPressed: () async => Get.back(),
                 icon: const Icon(Icons.arrow_back_sharp)),
             centerTitle: true,
           ),
           body: Container(
             width: double.infinity,
             height: double.infinity,
-            color: color.cor,
+            color: settings.ligthMode ? Colors.amber : Colors.white,
             child: Stack(
               children: [
                 Container(
-                  color: Colors.amber,
+                  color: Colors.black,
                   width: 430,
                   height: 400,
                   child: Container(
@@ -63,10 +63,11 @@ class Autonomyedite extends StatelessWidget {
                     child: Container(
                       width: 420,
                       height: 400,
-                      decoration: const BoxDecoration(
-                          color: Colors.amber,
-                          borderRadius:
-                              BorderRadius.only(topLeft: Radius.circular(350))),
+                      decoration: BoxDecoration(
+                          color:
+                              settings.ligthMode ? Colors.amber : Colors.white,
+                          borderRadius: const BorderRadius.only(
+                              topLeft: Radius.circular(350))),
                     ),
                   ),
                 ),
@@ -81,7 +82,7 @@ class Autonomyedite extends StatelessWidget {
                           BaseForm(
                             formatter: '##.###',
                             truee: false,
-                            controler: state.controllerStorePercentag,
+                            controler: state.controllerStorePercentage,
                             labelText: 'Pecentual de ganho da matriz',
                             hintText: 'EX: 74.0 ,79.0 ,84.0 ,94.0',
                             validator: (value) =>
@@ -167,20 +168,20 @@ class Autonomyedite extends StatelessWidget {
                                     child: Column(
                                       children: [
                                         Text(
-                                          'Nome : ${person!.nomeloja}',
+                                          'Nome : ${person!.storeName}',
                                           style: const TextStyle(
                                               color: Colors.white,
                                               fontWeight: FontWeight.bold,
                                               fontSize: 20),
                                         ),
-                                        CardFormAutonomy(
+                                        _CardFormAutonomy(
                                             'Nivel', state.controllerNameNivel),
-                                        CardFormAutonomy(
+                                        _CardFormAutonomy(
                                             'Porcentagem da matriz',
-                                            state.controllerStorePercentag),
-                                        CardFormAutonomy('Porcentagem da rede',
+                                            state.controllerStorePercentage),
+                                        _CardFormAutonomy('Porcentagem da rede',
                                             state.controllerNetworkPercentage),
-                                        CardFormAutonomy('caixa de segurança',
+                                        _CardFormAutonomy('caixa de segurança',
                                             state.controllerNetworkSecurity),
                                       ],
                                     ),
@@ -269,6 +270,31 @@ class _DropdownState extends State<_Dropdown> {
               ),
             ],
           ),
+        ),
+      ),
+    );
+  }
+}
+
+class _CardFormAutonomy extends StatelessWidget {
+  final String labelText;
+  final TextEditingController? controler;
+
+  const _CardFormAutonomy(this.labelText, this.controler, {super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: TextFormField(
+        enabled: false,
+        controller: controler,
+        style: const TextStyle(color: Colors.white),
+        decoration: InputDecoration(
+          labelText: labelText,
+          hintStyle: const TextStyle(color: Colors.white, fontSize: 17),
+          labelStyle: const TextStyle(color: Colors.white, fontSize: 18),
+          floatingLabelStyle: const TextStyle(color: Colors.white),
         ),
       ),
     );
