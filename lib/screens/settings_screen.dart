@@ -83,23 +83,31 @@ class __SettingsWidhtsState extends State<_SettingsWidhts> {
         Expanded(
           child: ListView(
             children: [
-              Row(
-                children: [
-                  const Text(
-                    '  Mudar para tema padrão ',
-                    style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Card(
+                  elevation: 15,
+                  shadowColor: Colors.purple,
+                  child: Row(
+                    children: [
+                      const Text(
+                        '  Mudar para tema padrão   ',
+                        style: TextStyle(
+                            fontSize: 25, fontWeight: FontWeight.bold),
+                      ),
+                      IconButton(
+                        onPressed: settings.toggleTheme,
+                        icon: Icon(
+                          settings.ligthMode
+                              ? Icons.toggle_off_outlined
+                              : Icons.toggle_on_outlined,
+                        ),
+                        iconSize: 45,
+                        visualDensity: const VisualDensity(horizontal: 1.0),
+                      ),
+                    ],
                   ),
-                  IconButton(
-                    onPressed: settings.toggleTheme,
-                    icon: Icon(
-                      settings.ligthMode
-                          ? Icons.toggle_on_outlined
-                          : Icons.toggle_off_outlined,
-                    ),
-                    iconSize: 35,
-                    visualDensity: const VisualDensity(horizontal: 4.0),
-                  ),
-                ],
+                ),
               )
             ],
           ),

@@ -146,9 +146,11 @@ class _RegisteredListState extends State<_RegisteredList> {
                                     },
                                   );
                                 } else if (choice == 'Opção 4') {
-                                  setState(() {
-                                    _status = !_status;
-                                  });
+                                  setState(
+                                    () {
+                                      _status = !_status;
+                                    },
+                                  );
                                 } else {
                                   CustomDialog.showSuccess(
                                       context,

@@ -7,6 +7,7 @@ import 'package:provider/provider.dart';
 import '../casos_de_usos/settings_code.dart';
 
 import '../data_repositories/person_controler.dart';
+import 'latest_transactions_screen.dart';
 import 'vehicle_register_screen.dart';
 
 /// main screen where the user sees registration options
@@ -32,17 +33,22 @@ class _HomeState extends State<Home> {
   @override
   void initState() {
     super.initState();
-    timer = Timer.periodic(const Duration(seconds: 5), (timer) {
-      if (currentIndex < image.length - 1) {
-        setState(() {
-          currentIndex++;
-        });
-      } else {
-        setState(() {
-          currentIndex = 1;
-        });
-      }
-    });
+    timer = Timer.periodic(
+      const Duration(seconds: 5),
+      (timer) {
+        if (currentIndex < image.length - 1) {
+          setState(() {
+            currentIndex++;
+          });
+        } else {
+          setState(
+            () {
+              currentIndex = 1;
+            },
+          );
+        }
+      },
+    );
   }
 
   @override
@@ -162,7 +168,9 @@ class _HomeState extends State<Home> {
                                 _Cards(
                                   text: 'ultimas\ntransaçoes',
                                   icon: Icons.access_time,
-                                  ontap: () {},
+                                  ontap: () async {
+                                    await Get.to(const Latesttransactions());
+                                  },
                                 ),
                                 userid == 1
                                     ? _Cards(

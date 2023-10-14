@@ -10,6 +10,7 @@ class SalesReportController extends ChangeNotifier {
   ///responsible for collecting mandatory variables
   SalesReportController({required this.person}) {
     unawaited(loadData());
+    unawaited(selectLatest());
   }
 
   ///controller the sale table of data base
@@ -17,10 +18,15 @@ class SalesReportController extends ChangeNotifier {
 
   ///get id user current
   final int person;
+
   final _listSales = <Sale>[];
 
   ///get sale list
   List<Sale> get listsale => _listSales;
+  final _listSalesLatest = <Sale>[];
+
+  ///get sale listlatest
+  List<Sale> get listsaleLatest => _listSalesLatest;
 
   ///reload sale list
   Future<void> loadData() async {
@@ -30,6 +36,22 @@ class SalesReportController extends ChangeNotifier {
           : await saleController.selectlist(person);
 
       listsale
+        ..clear()
+        ..addAll(list);
+      notifyListeners();
+    } on Exception catch (e) {
+      debugPrint('erro no load data sale $e');
+    }
+  }
+
+  /// get the latest sale
+  Future<void> selectLatest() async {
+    try {
+      final list = person == 1
+          ? await saleController.select()
+          : await saleController.selectlatest(person);
+
+      listsaleLatest
         ..clear()
         ..addAll(list);
       notifyListeners();

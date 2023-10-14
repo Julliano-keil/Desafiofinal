@@ -12,9 +12,9 @@ import '../data_repositories/person_controler.dart';
 import '../data_repositories/sale_report_controller.dart';
 
 ///class responsible for listing the sales report and importing it via PDF
-class SalesReport extends StatelessWidget {
+class Latesttransactions extends StatelessWidget {
   ///constructor class
-  const SalesReport({super.key});
+  const Latesttransactions({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -26,7 +26,7 @@ class SalesReport extends StatelessWidget {
           icon: const Icon(Icons.arrow_back_outlined),
         ),
         backgroundColor: Colors.black,
-        title: const Text('Relatorios de vendas'),
+        title: const Text('Ultimas transações'),
         centerTitle: true,
       ),
       body: AnimatedContainer(
@@ -70,7 +70,7 @@ class SalesReport extends StatelessWidget {
                 ),
               ),
             ),
-            const _SalesReportScreen()
+            const _LatesttransactionsScreen()
           ],
         ),
       ),
@@ -78,8 +78,8 @@ class SalesReport extends StatelessWidget {
   }
 }
 
-class _SalesReportScreen extends StatelessWidget {
-  const _SalesReportScreen();
+class _LatesttransactionsScreen extends StatelessWidget {
+  const _LatesttransactionsScreen();
 
   @override
   Widget build(BuildContext context) {
@@ -94,9 +94,9 @@ class _SalesReportScreen extends StatelessWidget {
         builder: (_, state, __) {
           return ListView.builder(
             shrinkWrap: true,
-            itemCount: state.listsale.length,
+            itemCount: state.listsaleLatest.length,
             itemBuilder: (context, index) {
-              final saleReport = state.listsale[index];
+              final saleReport = state.listsaleLatest[index];
               return Padding(
                 padding: const EdgeInsets.all(16.0),
                 child: Card(
@@ -118,7 +118,7 @@ class _SalesReportScreen extends StatelessWidget {
                               return <PopupMenuEntry<String>>[
                                 const PopupMenuItem<String>(
                                   value: 'Opção 1',
-                                  child: Text('Deletar Relatorio'),
+                                  child: Text('Deletar Usuario'),
                                 ),
                               ];
                             },

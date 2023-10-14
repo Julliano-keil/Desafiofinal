@@ -30,8 +30,9 @@ class _CategorysState extends State<Categorys> {
     final userid = state.loggedUser!.id;
     var size = MediaQuery.of(context).size;
     return ChangeNotifierProvider<CatergoryListController>(
-        create: (context) => CatergoryListController(person: userid!),
-        child: Consumer<CatergoryListController>(builder: (_, state, __) {
+      create: (context) => CatergoryListController(person: userid!),
+      child: Consumer<CatergoryListController>(
+        builder: (_, state, __) {
           return SafeArea(
             child: DefaultTabController(
               initialIndex: 0,
@@ -49,14 +50,20 @@ class _CategorysState extends State<Categorys> {
                             end: Alignment.bottomCenter),
                       ),
                       child: const Column(
-                          children: [Horizontaltabbar(), _Categoryscren()]),
+                        children: [
+                          Horizontaltabbar(),
+                          _Categoryscren(),
+                        ],
+                      ),
                     ),
                   ],
                 ),
               ),
             ),
           );
-        }));
+        },
+      ),
+    );
   }
 
   int getselectbarindx(int indx) {
@@ -285,7 +292,7 @@ class _CategoryscrenState extends State<_Categoryscren> {
                                     child: const Padding(
                                       padding: EdgeInsets.all(16.0),
                                       child: Text(
-                                        'Comprar Vehiculo',
+                                        'Vender Veiculo',
                                         style: TextStyle(
                                             color: Colors.white, fontSize: 20),
                                       ),

@@ -28,47 +28,46 @@ class _VehicleRegisterState extends State<VehicleRegister> {
     final userName = state.loggedUser!.storeName;
     final settings = Provider.of<Settingscode>(context);
     return ChangeNotifierProvider<VehicleController>(
-        create: (context) =>
-            VehicleController(person: userid!, nameUser: userName!),
-        child: Consumer<VehicleController>(
-          builder: (_, state, __) {
-            return Scaffold(
-                appBar: AppBar(
-                  backgroundColor:
-                      settings.ligthMode ? Colors.amber : Colors.white,
-                  elevation: 0,
-                  leading: IconButton(
-                    onPressed: () async {
-                      FocusManager.instance.primaryFocus?.unfocus();
-                      await Future.delayed(
-                          const Duration(milliseconds: 600), Get.back);
-                    },
-                    icon: const Icon(
-                      Icons.arrow_back,
-                      color: Colors.black,
-                    ),
-                  ),
+      create: (context) =>
+          VehicleController(person: userid!, nameUser: userName!),
+      child: Consumer<VehicleController>(
+        builder: (_, state, __) {
+          return Scaffold(
+            appBar: AppBar(
+              backgroundColor: settings.ligthMode ? Colors.amber : Colors.white,
+              elevation: 0,
+              leading: IconButton(
+                onPressed: () async {
+                  FocusManager.instance.primaryFocus?.unfocus();
+                  await Future.delayed(
+                      const Duration(milliseconds: 400), Get.back);
+                },
+                icon: const Icon(
+                  Icons.arrow_back,
+                  color: Colors.black,
                 ),
-                backgroundColor:
-                    settings.ligthMode ? Colors.amber : Colors.white,
-                body: SingleChildScrollView(
-                  child: Center(
-                      child: Container(
-                    width: 340,
-                    height: 850,
-                    decoration: BoxDecoration(
-                      color: Colors.black,
-                      borderRadius: const BorderRadius.all(Radius.circular(20)),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.black.withOpacity(0.8),
-                          spreadRadius: 6,
-                          blurRadius: 13,
-                          offset: const Offset(0, 8),
-                        ),
-                      ],
-                    ),
-                    child: Column(children: [
+              ),
+            ),
+            backgroundColor: settings.ligthMode ? Colors.amber : Colors.white,
+            body: SingleChildScrollView(
+              child: Center(
+                child: Container(
+                  width: 340,
+                  height: 850,
+                  decoration: BoxDecoration(
+                    color: Colors.black,
+                    borderRadius: const BorderRadius.all(Radius.circular(20)),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black.withOpacity(0.8),
+                        spreadRadius: 6,
+                        blurRadius: 13,
+                        offset: const Offset(0, 8),
+                      ),
+                    ],
+                  ),
+                  child: Column(
+                    children: [
                       Form(
                         key: state.formkey,
                         child: Column(
@@ -174,11 +173,15 @@ class _VehicleRegisterState extends State<VehicleRegister> {
                           ],
                         ),
                       ),
-                    ]),
-                  )),
-                ));
-          },
-        ));
+                    ],
+                  ),
+                ),
+              ),
+            ),
+          );
+        },
+      ),
+    );
   }
 }
 

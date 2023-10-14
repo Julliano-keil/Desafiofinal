@@ -15,6 +15,7 @@ class SignUp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var size = MediaQuery.of(context).size;
     final settings = Provider.of<Settingscode>(context);
     return ChangeNotifierProvider<SignUpController>(
       create: (context) => SignUpController(),
@@ -28,7 +29,7 @@ class SignUp extends StatelessWidget {
                 onPressed: () async {
                   FocusManager.instance.primaryFocus?.unfocus();
                   await Future.delayed(
-                      const Duration(milliseconds: 600), Get.back);
+                      const Duration(milliseconds: 400), Get.back);
                 },
                 icon: const Icon(
                   Icons.arrow_back,
@@ -86,14 +87,28 @@ class SignUp extends StatelessWidget {
                             keyboardType: TextInputType.text,
                             validator: (value) =>
                                 FormValidator.validateEmpty(value, 20)),
-                        BaseForm(
-                            truee: false,
-                            controler: state.controllerSenha,
-                            labelText: ' Senha',
-                            hintText: 'Senha com 8 digitos',
-                            keyboardType: TextInputType.text,
-                            validator: (value) =>
-                                FormValidator.validateEmpty(value, 20)),
+                        Stack(
+                          children: [
+                            BaseForm(
+                                truee: false,
+                                controler: state.controllerSenha,
+                                labelText: ' Senha',
+                                hintText: 'Senha com 8 digitos',
+                                keyboardType: TextInputType.text,
+                                validator: (value) =>
+                                    FormValidator.validateEmpty(value, 20)),
+                            Positioned(
+                              top: size.height / 70,
+                              left: size.width * 0.65,
+                              child: IconButton(
+                                  onPressed: () => state.password(),
+                                  icon: const Icon(
+                                    Icons.password,
+                                    color: Colors.white,
+                                  )),
+                            )
+                          ],
+                        ),
                         Padding(
                           padding: const EdgeInsets.all(8.0),
                           child: Column(

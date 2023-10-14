@@ -70,7 +70,7 @@ class SignIn extends StatelessWidget {
                   labelText: 'Senha',
                   hintText: 'Informe sua Senha',
                   keyboardType: TextInputType.text,
-                  validator: (value) => FormValidator.validateEmpty(value, 8),
+                  validator: (value) => FormValidator.validateEmpty(value, 15),
                   truee: true,
                   formatter: '',
                 ),

@@ -31,7 +31,7 @@ Future<Database> getdatabase() async {
       await db.execute(SalesTable.createTable);
       await db.execute(ProfileUserTable.createTable);
     },
-    version: 9,
+    version: 10,
   );
 }
 
@@ -559,9 +559,48 @@ class SaleTableController {
     final database = await getdatabase();
 
     final List<Map<String, dynamic>> result = await database.query(
-        SalesTable.tableName,
-        where: '${SalesTable.userId} = ?',
-        whereArgs: [idperson]);
+      SalesTable.tableName,
+      where: '${SalesTable.userId} = ?',
+      whereArgs: [idperson],
+    );
+
+    var list = <Sale>[];
+
+    for (final item in result) {
+      list.add(
+        Sale(
+          id: item[SalesTable.id],
+          nameUser: item[SalesTable.nameUser],
+          customerCpf: item[SalesTable.customerCpf],
+          customerName: item[SalesTable.customerName],
+          soldWhen: item[SalesTable.soldWhen],
+          priceSold: item[SalesTable.priceSold],
+          dealershipPercentage: item[SalesTable.dealershipCut],
+          businessPercentage: item[SalesTable.businessCut],
+          safetyPercentage: item[SalesTable.safetyCut],
+          vehicleId: item[SalesTable.vehicleId],
+          userId: item[SalesTable.userId],
+          brand: item[SalesTable.brand],
+          model: item[SalesTable.model],
+          userCnpj: item[SalesTable.userCnpj],
+          plate: item[SalesTable.yearVehicle],
+        ),
+      );
+    }
+    return list;
+  }
+
+  /// get the latest sale
+  Future<List<Sale>> selectlatest(int idperson) async {
+    final database = await getdatabase();
+
+    final List<Map<String, dynamic>> result = await database.query(
+      SalesTable.tableName,
+      where: '${SalesTable.userId} = ?',
+      whereArgs: [idperson],
+      orderBy: '${SalesTable.soldWhen} DESC',
+      limit: 1,
+    );
 
     var list = <Sale>[];
 

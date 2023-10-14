@@ -97,7 +97,6 @@ class EditPerson extends StatelessWidget {
                                   validator: (value) =>
                                       FormValidator.validateEmpty(value, 20)),
                               BaseForm(
-                                  formatter: '###.###.###.###-##',
                                   truee: false,
                                   controler: state.controllerSenha,
                                   labelText: ' Senha',
@@ -113,8 +112,8 @@ class EditPerson extends StatelessWidget {
                                   children: [
                                     ElevatedButton(
                                       onPressed: () async {
+                                        await state.loadata();
                                         await state.update();
-
                                         if (context.mounted) {
                                           await showDialog(
                                             context: context,

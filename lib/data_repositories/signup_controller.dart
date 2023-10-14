@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:math';
 
 import 'package:flutter/material.dart';
 import '../entidades/person.dart';
@@ -55,6 +56,23 @@ class SignUpController extends ChangeNotifier {
     controllerSenha.clear();
     await loadata();
     notifyListeners();
+  }
+
+  ///random password
+  void password() {
+    final random = Random();
+
+    ///random characters
+    const chars = 'abcdefghijklmnopqrstuvwxyz1234567890';
+    const stringLength = 15;
+
+    var randomString = '';
+
+    for (var i = 0; i < stringLength; i++) {
+      final randomIndex = random.nextInt(chars.length);
+      randomString += chars[randomIndex];
+      _controllerSenha.text = randomString.toUpperCase();
+    }
   }
 
   ///reload person list
