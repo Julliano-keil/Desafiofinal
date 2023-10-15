@@ -124,7 +124,8 @@ Future<void> _handleLogin(BuildContext context, dynamic user, String password,
     String userCnpj) async {
   final connectivityResult = await (Connectivity().checkConnectivity());
 
-  if (connectivityResult == ConnectivityResult.wifi && context.mounted) {
+  if (connectivityResult == ConnectivityResult.wifi ||
+      connectivityResult == ConnectivityResult.mobile) {
     if (user != null && user.password == password && context.mounted) {
       final state = Provider.of<PersonControler>(context, listen: false);
 
@@ -143,7 +144,7 @@ Future<void> _handleLogin(BuildContext context, dynamic user, String password,
       CustomDialog.showSuccess(
           context, 'Erro de Login', 'CNPJ ou senha incorretos.');
     }
-  } else if (connectivityResult == ConnectivityResult.none) {
+  } else if (connectivityResult == ConnectivityResult.none && context.mounted) {
     CustomDialog.showSuccess(
         context, 'Sem Internet', 'Você não possui conexão de rede.');
   }
