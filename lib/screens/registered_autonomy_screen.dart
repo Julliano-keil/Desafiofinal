@@ -118,11 +118,11 @@ class RegisteredListAutonomy extends StatelessWidget {
                     child: ListTile(
                       trailing: PopupMenuButton<String>(
                         onSelected: (choice) async {
-                          if (context.mounted) {
-                            Get.snackbar('Informaçao',
-                                'Popule o formulario para editar');
-                          }
                           if (choice == 'Opção 2') {
+                            if (context.mounted) {
+                              Get.snackbar('Informaçao',
+                                  'Popule o formulario para editar');
+                            }
                             await Get.to(
                               _EditAutonomy(
                                 person: person,
@@ -181,7 +181,7 @@ class RegisteredListAutonomy extends StatelessWidget {
                             ),
                             const PopupMenuItem<String>(
                               value: 'Opção 3',
-                              child: Text('Deletar Usuario'),
+                              child: Text('Deletar Nivel'),
                             ),
                           ];
                         },

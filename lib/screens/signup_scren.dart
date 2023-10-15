@@ -41,108 +41,106 @@ class SignUp extends StatelessWidget {
             body: Form(
               key: state.formKey,
               child: Center(
-                child: SingleChildScrollView(
-                  scrollDirection: Axis.horizontal,
-                  child: Container(
-                    width: 340,
-                    height: 460,
-                    decoration: BoxDecoration(
-                      color: Colors.black,
-                      borderRadius: const BorderRadius.only(
-                          bottomRight: Radius.circular(90),
-                          topLeft: Radius.circular(90)),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.black.withOpacity(0.8),
-                          spreadRadius: 6,
-                          blurRadius: 13,
-                          offset: const Offset(0, 8),
+                child: Container(
+                  width: 340,
+                  height: 460,
+                  decoration: BoxDecoration(
+                    color: Colors.black,
+                    borderRadius: const BorderRadius.only(
+                        bottomRight: Radius.circular(90),
+                        topLeft: Radius.circular(90)),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black.withOpacity(0.8),
+                        spreadRadius: 6,
+                        blurRadius: 13,
+                        offset: const Offset(0, 8),
+                      ),
+                    ],
+                  ),
+                  child: Column(
+                    children: [
+                      const Padding(
+                        padding: EdgeInsets.all(15.0),
+                        child: Text(
+                          ' Inscrever-se',
+                          style: TextStyle(fontSize: 25, color: Colors.white),
                         ),
-                      ],
-                    ),
-                    child: Column(
-                      children: [
-                        const Padding(
-                          padding: EdgeInsets.all(15.0),
-                          child: Text(
-                            ' Inscrever-se',
-                            style: TextStyle(fontSize: 25, color: Colors.white),
-                          ),
-                        ),
-                        BaseForm(
-                          formatter: '###.###.###.###-##',
-                          controler: state.controllerCnpj,
-                          labelText: 'CNPJ',
-                          hintText: 'Informe seu CNPJ',
-                          keyboardType: TextInputType.number,
-                          validator: (value) =>
-                              FormValidator.validateEmpty(value, 18),
+                      ),
+                      BaseForm(
+                        formatter: '##.###.###/####-##',
+                        controler: state.controllerCnpj,
+                        labelText: 'CNPJ',
+                        hintText: 'Informe seu CNPJ',
+                        keyboardType: TextInputType.number,
+                        validator: (value) =>
+                            FormValidator.validateEmpty(value, 18),
+                        truee: false,
+                      ),
+                      BaseForm(
                           truee: false,
-                        ),
-                        BaseForm(
-                            truee: false,
-                            controler: state.controllerName,
-                            labelText: 'Nome da Loja',
-                            hintText: 'Nome da loja entre 120 caracteres',
-                            keyboardType: TextInputType.text,
-                            validator: (value) =>
-                                FormValidator.validateEmpty(value, 20)),
-                        Stack(
+                          controler: state.controllerName,
+                          labelText: 'Nome da Loja',
+                          hintText: 'Nome da loja entre 120 caracteres',
+                          keyboardType: TextInputType.text,
+                          validator: (value) =>
+                              FormValidator.validateEmpty(value, 20)),
+                      Stack(
+                        children: [
+                          BaseForm(
+                              truee: false,
+                              controler: state.controllerSenha,
+                              labelText: ' Senha',
+                              hintText: 'Senha com 8 digitos',
+                              keyboardType: TextInputType.text,
+                              validator: (value) =>
+                                  FormValidator.validateEmpty(value, 20)),
+                          Positioned(
+                            top: size.height / 70,
+                            left: size.width * 0.65,
+                            child: IconButton(
+                                onPressed: () => state.password(),
+                                icon: const Icon(
+                                  Icons.password,
+                                  color: Colors.white,
+                                )),
+                          )
+                        ],
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.stretch,
                           children: [
-                            BaseForm(
-                                truee: false,
-                                controler: state.controllerSenha,
-                                labelText: ' Senha',
-                                hintText: 'Senha com 8 digitos',
-                                keyboardType: TextInputType.text,
-                                validator: (value) =>
-                                    FormValidator.validateEmpty(value, 20)),
-                            Positioned(
-                              top: size.height / 70,
-                              left: size.width * 0.65,
-                              child: IconButton(
-                                  onPressed: () => state.password(),
-                                  icon: const Icon(
-                                    Icons.password,
-                                    color: Colors.white,
-                                  )),
-                            )
+                            ElevatedButton(
+                              onPressed: () async {
+                                if (state.formKey.currentState!.validate()) {
+                                  Get.snackbar(
+                                      'Informaçao',
+                                      'Voce sera redirecionado '
+                                          'automaticamente para cadastrar'
+                                          ' a autonomia do usuario');
+
+                                  await state.insert();
+                                  await _goListPage();
+                                }
+                              },
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: Colors.blue,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
+                              ),
+                              child: const Text(
+                                'Cadastrar',
+                                style: TextStyle(
+                                    fontSize: 20, fontWeight: FontWeight.bold),
+                              ),
+                            ),
                           ],
                         ),
-                        Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.stretch,
-                            children: [
-                              ElevatedButton(
-                                onPressed: () async {
-                                  if (state.formKey.currentState!.validate()) {
-                                    Get.snackbar(
-                                        'Informaçao',
-                                        'Voce sera redirecionado '
-                                            'automaticamente para cadastrar'
-                                            ' a autonomia do usuario');
-
-                                    await state.insert();
-                                    await _goListPage();
-                                  }
-                                },
-                                style: ElevatedButton.styleFrom(
-                                  backgroundColor: Colors.blue,
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(10),
-                                  ),
-                                ),
-                                child: const Text('Cadastrar',
-                                    style: TextStyle(
-                                        fontSize: 20,
-                                        fontWeight: FontWeight.bold)),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ],
-                    ),
+                      ),
+                    ],
                   ),
                 ),
               ),
@@ -155,7 +153,12 @@ class SignUp extends StatelessWidget {
 }
 
 Future<void> _goListPage() async {
-  await Future.delayed(const Duration(seconds: 3), () {
-    Get.to(const Registeredpeople());
-  });
+  await Future.delayed(
+    const Duration(seconds: 3),
+    () {
+      Get.to(
+        const Registeredpeople(),
+      );
+    },
+  );
 }

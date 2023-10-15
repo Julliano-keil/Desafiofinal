@@ -63,7 +63,7 @@ class SignIn extends StatelessWidget {
                   hintText: 'Informe seu CNPJ',
                   keyboardType: TextInputType.number,
                   validator: (value) => FormValidator.validateEmpty(value, 18),
-                  formatter: '###.###.###.###-##',
+                  formatter: '##.###.###/####-##',
                 ),
                 BaseForm(
                   controler: state.controllerSenha,

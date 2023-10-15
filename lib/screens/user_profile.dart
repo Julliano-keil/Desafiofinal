@@ -77,12 +77,13 @@ class ProfileUser extends StatelessWidget {
                               child: ClipRRect(
                                 borderRadius: BorderRadius.circular(50),
                                 child: Container(
-                                    width: 400,
-                                    height: 200,
-                                    decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(16),
-                                        color: Colors.black),
-                                    child: Image.asset('imagens/logoEd.png')),
+                                  width: 400,
+                                  height: 200,
+                                  decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(16),
+                                      color: Colors.black),
+                                  child: Image.asset('imagens/logoEd.png'),
+                                ),
                               ),
                             ),
                           ],
@@ -91,8 +92,8 @@ class ProfileUser extends StatelessWidget {
                     ),
                   ),
                   Positioned(
-                    top: 245,
-                    left: 40,
+                    top: size.height * 0.30,
+                    left: size.width / 8,
                     child: Text(
                       userName!,
                       style: const TextStyle(
@@ -137,7 +138,8 @@ class ProfileUser extends StatelessWidget {
                               title: const Text('Editar Perfil'),
                               content: CircleAvatar(
                                 radius: 60,
-                                backgroundImage: state.controllerImage != null
+                                backgroundColor: Colors.black,
+                                backgroundImage: state.image != null
                                     ? FileImage(File(state.image!))
                                     : Image.asset('imagens/logoEd.png').image,
                               ),
@@ -152,9 +154,13 @@ class ProfileUser extends StatelessWidget {
                                     child: const Text('atualizar')),
                                 IconButton(
                                   onPressed: () async {
-                                    state.updateProfile(state.userpro!);
-                                    await state.pickImage();
-                                    await state.loadData();
+                                    if (state.userpro != null) {
+                                      state.updateProfile(state.userpro!);
+                                      await state.pickImage();
+                                      await state.loadData();
+                                    } else {
+                                      await state.pickImage();
+                                    }
                                   },
                                   icon: const Icon(Icons.edit),
                                 )

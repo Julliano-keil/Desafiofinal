@@ -290,7 +290,7 @@ class _CategoryscrenState extends State<_Categoryscren> {
                                           arguments: car);
                                     },
                                     child: const Padding(
-                                      padding: EdgeInsets.all(16.0),
+                                      padding: EdgeInsets.all(25.0),
                                       child: Text(
                                         'Vender Veiculo',
                                         style: TextStyle(

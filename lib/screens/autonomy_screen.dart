@@ -133,7 +133,7 @@ class Autonomyedite extends StatelessWidget {
                                         } else {
                                           CustomDialog.showSuccess(
                                               context,
-                                              ' Autonomia já Cadastrada',
+                                              ' Nivel já Cadastrado',
                                               'Em caso de alteraçao '
                                                   'Va para aba de alterar '
                                                   'autonomia');

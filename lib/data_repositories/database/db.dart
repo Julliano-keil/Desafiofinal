@@ -22,16 +22,16 @@ Future<Database> getdatabase() async {
       await db.insert(
         'person',
         {
-          'cnpj': '138.783.520.001-90',
-          'nomeloja': 'Anderson',
-          'senha': 'Anderson'
+          'cnpj': '13.878.352/0001-90',
+          'storeName': 'Anderson',
+          'password': 'Anderson'
         },
       );
       await db.execute(VehicleRegistrationTable.createTable);
       await db.execute(SalesTable.createTable);
       await db.execute(ProfileUserTable.createTable);
     },
-    version: 10,
+    version: 11,
   );
 }
 
@@ -57,10 +57,10 @@ class PersonTable {
   static const String cnpj = 'cnpj';
 
   ///store name
-  static const String nomeloja = 'nomeloja';
+  static const String nomeloja = 'storeName';
 
   ///store password
-  static const String senha = 'senha';
+  static const String senha = 'password';
 
   ///maps the database and assigns the value to the entity
   static Map<String, dynamic> tomap(Person person) {
