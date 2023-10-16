@@ -11,56 +11,54 @@ class Settings extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final settings = Provider.of<Settingscode>(context);
-    return MaterialApp(
-      home: Scaffold(
-        appBar: AppBar(
-          leading: IconButton(
-            onPressed: () async => Get.back(),
-            icon: const Icon(Icons.arrow_back),
-          ),
-          backgroundColor: const Color.fromRGBO(0, 0, 0, 1),
-          title: const Center(
-            child: Text('Configuraçoes'),
-          ),
+    return Scaffold(
+      appBar: AppBar(
+        leading: IconButton(
+          onPressed: () async => Get.back(),
+          icon: const Icon(Icons.arrow_back),
         ),
-        body: Container(
-          width: double.infinity,
-          height: double.infinity,
-          color: Colors.black,
-          child: Stack(
-            children: [
-              Container(
-                color: const Color.fromARGB(255, 10, 10, 10),
+        backgroundColor: const Color.fromRGBO(0, 0, 0, 1),
+        title: const Center(
+          child: Text('Configuraçoes'),
+        ),
+      ),
+      body: Container(
+        width: double.infinity,
+        height: double.infinity,
+        color: Colors.black,
+        child: Stack(
+          children: [
+            Container(
+              color: Colors.black,
+              width: 430,
+              height: 400,
+              child: Container(
+                width: 420,
+                height: 382,
+                decoration: BoxDecoration(
+                    color: settings.ligthMode ? Colors.amber : Colors.white,
+                    borderRadius: const BorderRadius.only(
+                        bottomRight: Radius.circular(200))),
+                child: const _SettingsWidhts(), //           <= Configuraçoes
+              ),
+            ),
+            Positioned(
+              top: 400,
+              child: Container(
+                color: settings.ligthMode ? Colors.amber : Colors.white,
                 width: 430,
-                height: 400,
+                height: 411,
                 child: Container(
                   width: 420,
-                  height: 382,
-                  decoration: BoxDecoration(
-                      color: settings.ligthMode ? Colors.amber : Colors.white,
-                      borderRadius: const BorderRadius.only(
-                          bottomRight: Radius.circular(200))),
-                  child: const _SettingsWidhts(), //           <= Configuraçoes
+                  height: 400,
+                  decoration: const BoxDecoration(
+                      color: Colors.black,
+                      borderRadius:
+                          BorderRadius.only(topLeft: Radius.circular(150))),
                 ),
               ),
-              Positioned(
-                top: 400,
-                child: Container(
-                  color: settings.ligthMode ? Colors.amber : Colors.white,
-                  width: 430,
-                  height: 411,
-                  child: Container(
-                    width: 420,
-                    height: 400,
-                    decoration: const BoxDecoration(
-                        color: Colors.black,
-                        borderRadius:
-                            BorderRadius.only(topLeft: Radius.circular(150))),
-                  ),
-                ),
-              ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );

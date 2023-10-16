@@ -18,8 +18,8 @@ class SignIn extends StatelessWidget {
   const SignIn({super.key});
   @override
   Widget build(BuildContext context) {
-    final state = Provider.of<PersonControler>(context, listen: true);
     final settings = Provider.of<Settingscode>(context);
+    final state = Provider.of<PersonControler>(context, listen: false);
 
     return Scaffold(
       appBar: AppBar(

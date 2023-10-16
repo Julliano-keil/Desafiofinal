@@ -63,7 +63,7 @@ class SignUp extends StatelessWidget {
                       const Padding(
                         padding: EdgeInsets.all(15.0),
                         child: Text(
-                          ' Inscrever-se',
+                          ' Cadastrar ',
                           style: TextStyle(fontSize: 25, color: Colors.white),
                         ),
                       ),
