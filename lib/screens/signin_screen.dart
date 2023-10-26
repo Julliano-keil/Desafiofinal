@@ -84,6 +84,8 @@ class SignIn extends StatelessWidget {
                           final userCnpj = state.controllerCnpj.text;
                           final password = state.controllerSenha.text;
                           final user = await state.getUserByUsercnpj(userCnpj);
+                          await state.getdate();
+                          await state.louddata();
 
                           if (context.mounted &&
                               state.formKey.currentState!.validate()) {

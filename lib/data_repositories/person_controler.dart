@@ -138,6 +138,26 @@ class PersonControler extends ChangeNotifier {
     }
   }
 
+  ///get datatime of user
+  String? dataTimeNow;
+
+  /// method for get datatime
+  Future<void> getdate() async {
+    final prefs = await SharedPreferences.getInstance();
+    dataTimeNow = prefs.getString('lastLoginTime');
+    notifyListeners();
+  }
+
+  ///loud data time of user
+  Future<void> louddata() async {
+    final prefs = await SharedPreferences.getInstance();
+    var currentTime = DateTime.now().toString();
+    await prefs.setString('lastLoginTime', currentTime);
+    dataTimeNow = currentTime;
+
+    notifyListeners();
+  }
+
   /// clear preferences user
   Future<void> clearUserInfo() async {
     await loadata();

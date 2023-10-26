@@ -5,7 +5,6 @@ import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 
 import '../casos_de_usos/settings_code.dart';
-
 import '../data_repositories/person_controler.dart';
 import 'latest_transactions_screen.dart';
 import 'vehicle_register_screen.dart';
@@ -63,7 +62,8 @@ class _HomeState extends State<Home> {
     final username = state.loggedUser!.storeName;
     final userid = state.loggedUser!.id;
     final settings = Provider.of<Settingscode>(context);
-    var size = MediaQuery.of(context).size;
+    final size = MediaQuery.of(context).size;
+
     return Scaffold(
       body: SingleChildScrollView(
         child: Container(
@@ -118,12 +118,15 @@ class _HomeState extends State<Home> {
                                             color: Colors.white, fontSize: 25),
                                       ),
                                     ]),
-                                const Row(
+                                Row(
                                   mainAxisAlignment: MainAxisAlignment.start,
                                   children: [
                                     Text(
-                                      'Ultimo login 23/07/2023 as 17:50 ',
-                                      style: TextStyle(color: Colors.white),
+                                      'Ultimo login '
+                                      // ignore: lines_longer_than_80_chars
+                                      '${state.dataTimeNow?.split(':').sublist(0, 2).join(':')}',
+                                      style:
+                                          const TextStyle(color: Colors.white),
                                     )
                                   ],
                                 )
@@ -138,7 +141,7 @@ class _HomeState extends State<Home> {
                       child: Column(
                         children: [
                           Container(
-                            width: 420,
+                            width: size.width / 0,
                             height: size.height * 0.46,
                             margin: const EdgeInsets.only(bottom: 2),
                             decoration: BoxDecoration(
@@ -244,7 +247,7 @@ class _Cards extends StatelessWidget {
         child: Card(
           borderOnForeground: true,
           elevation: 20,
-          shadowColor: Colors.black,
+          shadowColor: Colors.purple,
           child: Padding(
             padding: const EdgeInsets.all(8.0),
             child: Column(

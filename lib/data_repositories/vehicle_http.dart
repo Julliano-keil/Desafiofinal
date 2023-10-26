@@ -55,7 +55,8 @@ class ModelEndpoint {
     this.code,
     this.name,
   });
-////// Parses JSON data to create a [modelEndpoint] instance.
+
+  /// Parses JSON data to create a [modelEndpoint] instance.
   factory ModelEndpoint.fromJson(Map<String, dynamic> json) => ModelEndpoint(
         code: json['codigo'],
         name: json['nome'],
