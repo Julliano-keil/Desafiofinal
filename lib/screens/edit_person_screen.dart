@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:provider/provider.dart';
@@ -61,13 +63,20 @@ class EditPerson extends StatelessWidget {
                   ),
                   child: Column(
                     children: [
-                      const Padding(
-                        padding: EdgeInsets.all(30.0),
-                        child: Text(
-                          ' Editar Usuario',
-                          style: TextStyle(fontSize: 25, color: Colors.white),
-                        ),
-                      ),
+                      Padding(
+                          padding: const EdgeInsets.all(15.0),
+                          child: InkWell(
+                            onTap: () async {
+                              await state.pickImage();
+                            },
+                            child: CircleAvatar(
+                              backgroundColor: Colors.black,
+                              backgroundImage: state.controllerImage != null
+                                  ? FileImage(File(state.controllerImage!))
+                                  : Image.asset('imagens/logoEd.png').image,
+                              radius: 40,
+                            ),
+                          )),
                       BaseForm(
                         formatter: '##.###.###/####-##',
                         controler: state.controllerCnpj,
@@ -101,8 +110,9 @@ class EditPerson extends StatelessWidget {
                           children: [
                             ElevatedButton(
                               onPressed: () async {
-                                await state.loadata();
+                                state.updatePerson(person!);
                                 await state.update();
+                                await state.loadata();
                                 if (context.mounted) {
                                   await showDialog(
                                     context: context,
@@ -110,7 +120,7 @@ class EditPerson extends StatelessWidget {
                                       return AlertDialog(
                                         content: Text(
                                           'usuario(a)'
-                                          ' ${person!.storeName}'
+                                          ' ${person.storeName}'
                                           ' alterado com sucesso ?',
                                           style: const TextStyle(
                                               fontSize: 20,

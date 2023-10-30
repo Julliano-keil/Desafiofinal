@@ -90,8 +90,8 @@ class SignIn extends StatelessWidget {
                           if (context.mounted &&
                               state.formKey.currentState!.validate()) {
                             if (context.mounted) {
-                              await _handleLogin(
-                                  context, user, password, userCnpj);
+                              await _handleLogin(context, user, password,
+                                  userCnpj, user.imageuser);
                             }
                           }
                         },
@@ -123,7 +123,7 @@ class SignIn extends StatelessWidget {
 }
 
 Future<void> _handleLogin(BuildContext context, dynamic user, String password,
-    String userCnpj) async {
+    String userCnpj, String photoUser) async {
   final connectivityResult = await (Connectivity().checkConnectivity());
 
   if (connectivityResult == ConnectivityResult.wifi ||
@@ -135,7 +135,7 @@ Future<void> _handleLogin(BuildContext context, dynamic user, String password,
       state.controllerSenha.clear();
 
       try {
-        await state.saveUserInfo(user.id, user.storeName, userCnpj);
+        await state.saveUserInfo(user.id, user.storeName, userCnpj, photoUser);
         await state.loadUserInfo();
         await Get.offAndToNamed('/Homepage');
       } catch (e) {

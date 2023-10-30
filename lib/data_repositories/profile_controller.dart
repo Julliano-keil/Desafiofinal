@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 
-import '../entidades/profile.dart';
+import '../entidades/person.dart';
 import 'database/db.dart';
 
 ///  manages the state of the Profileuser class
@@ -13,24 +13,31 @@ class ProfileController extends ChangeNotifier {
     unawaited(loadData());
     unawaited(dataAutonomy(personid));
   }
-  final _listProfile = <Profile>[];
+  final _listProfile = <Person>[];
 
   ///get the profile list
-  List<Profile> get listProfile => _listProfile;
+  List<Person> get listProfile => _listProfile;
   String? _controllerImage;
 
   /// get user id current
   final int personid;
-  Profile? _profileCurrent;
+
+  Person? _profileCurrent;
 
   /// object with information user current
-  Profile? userpro;
+  Person? userpro;
 
   ///image current
   String? image;
 
   /// user current
   int? userid;
+
+  String? cnpj;
+
+  String? passWord;
+
+  String? storeName;
 
   /// id profile current
   int? id;
@@ -51,39 +58,28 @@ class ProfileController extends ChangeNotifier {
   final controllerAutonomy = AutonomyControler();
 
   ///controller the profile table of data base
-  final controllerProfile = ProfileControllerdb();
+  final controllerProfile = PessoaControler();
 
   /// get image typed user
   String? get controllerImage => _controllerImage;
 
-  /// insert profile table of data base
-  Future<void> insert() async {
-    final profile = Profile(
-      userId: personid,
-      image: _controllerImage,
-    );
-
-    await controllerProfile.insert(profile);
-
-    _controllerImage = null;
-
-    await loadData();
-    notifyListeners();
-  }
-
   ///reload profile list and fill userpro with user information
   Future<void> loadData() async {
-    final list = await controllerProfile.select(personid);
+    final list = await controllerProfile.selectUser(personid);
 
     if (list.isNotEmpty) {
       id = list[0].id;
-      userid = list[0].userId;
-      image = list[0].image;
-      userpro = Profile(
-        id: id,
-        userId: userid!,
-        image: image,
-      );
+      cnpj = list[0].cnpj;
+      storeName = list[0].storeName;
+      passWord = list[0].password;
+      image = list[0].imageuser;
+      print(image);
+      userpro = Person(
+          id: id,
+          cnpj: cnpj,
+          storeName: storeName,
+          password: passWord,
+          imageuser: image);
 
       listProfile.clear();
       listProfile.addAll(list);
@@ -104,39 +100,40 @@ class ProfileController extends ChangeNotifier {
     notifyListeners();
   }
 
-  /// delete profile
-  Future<void> delete(int userid) async {
-    await controllerProfile.delete(userid);
-    await loadData();
-    notifyListeners();
-  }
+  ///
+  void updatePerson(Person person) async {
+    _controllerImage = person.imageuser ?? '';
 
-  /// populace current profile
-  void updateProfile(Profile profile) async {
-    _controllerImage = profile.image ?? '';
-    _profileCurrent = Profile(
-      id: id,
-      userId: personid,
-      image: profile.image,
+    _profileCurrent = Person(
+      id: person.id,
+      cnpj: person.cnpj,
+      storeName: person.storeName,
+      password: person.password,
+      imageuser: person.imageuser,
     );
     await loadData();
     notifyListeners();
   }
 
-  /// update profile current
+  ///update user by id
   Future<void> update() async {
-    final profile = Profile(
-      id: _profileCurrent?.id,
-      userId: personid,
-      image: _controllerImage,
-    );
+    try {
+      final person = Person(
+        id: _profileCurrent?.id,
+        cnpj: cnpj,
+        password: passWord,
+        storeName: storeName,
+        imageuser: _controllerImage,
+      );
 
-    await controllerProfile.update(profile);
+      await controllerProfile.update(person);
 
-    _controllerImage = null;
-
-    await loadData();
-    notifyListeners();
+      _controllerImage == null;
+      await loadData();
+      notifyListeners();
+    } on Exception catch (e) {
+      debugPrint(' erro no metodo insert $e');
+    }
   }
 
   ///get image of user's gallery

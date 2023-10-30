@@ -19,6 +19,7 @@ class Autonomyedite extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final person = ModalRoute.of(context)!.settings.arguments as Person?;
+
     final settings = Provider.of<Settingscode>(context);
     return ChangeNotifierProvider(
       create: (context) {

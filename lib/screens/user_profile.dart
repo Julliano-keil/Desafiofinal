@@ -139,23 +139,22 @@ class ProfileUser extends StatelessWidget {
                               content: CircleAvatar(
                                 radius: 60,
                                 backgroundColor: Colors.black,
-                                backgroundImage: state.image != null
-                                    ? FileImage(File(state.image!))
+                                backgroundImage: state.controllerImage != null
+                                    ? FileImage(File(state.controllerImage!))
                                     : Image.asset('imagens/logoEd.png').image,
                               ),
                               actions: [
                                 TextButton(
                                     onPressed: () async {
-                                      state.listProfile.isEmpty
-                                          ? await state.insert()
-                                          : state.update();
+                                      await state.update();
+                                      await state.loadData();
                                       Get.back();
                                     },
                                     child: const Text('atualizar')),
                                 IconButton(
                                   onPressed: () async {
                                     if (state.userpro != null) {
-                                      state.updateProfile(state.userpro!);
+                                      state.updatePerson(state.userpro!);
                                       await state.pickImage();
                                       await state.loadData();
                                     } else {

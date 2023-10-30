@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_zoom_drawer/flutter_zoom_drawer.dart';
 import 'package:get/get.dart';
@@ -7,6 +9,7 @@ import '../Screens/registered_people_screen.dart';
 import '../Screens/settings_screen.dart';
 import '../casos_de_usos/settings_code.dart';
 import '../data_repositories/person_controler.dart';
+import '../data_repositories/signup_controller.dart';
 
 ///controller
 final ZoomDrawerController z = ZoomDrawerController();
@@ -15,7 +18,7 @@ final ZoomDrawerController z = ZoomDrawerController();
 /// user list and exit
 class Zoom extends StatelessWidget {
   ///constructor with required parameters
-  const Zoom({Key? key, required this.mainScreen}) : super(key: key);
+  const Zoom({super.key, required this.mainScreen});
 
   ///home page
   final Widget mainScreen;
@@ -24,13 +27,17 @@ class Zoom extends StatelessWidget {
     final state = Provider.of<PersonControler>(context, listen: false);
     final settings = Provider.of<Settingscode>(context);
     final userid = state.loggedUser?.id;
+    final photouser = state.loggedUser?.imageuser;
+    final nameUser = state.loggedUser?.storeName;
+
+    final size = MediaQuery.of(context).size;
 
     return ZoomDrawer(
       controller: z,
       borderRadius: 50,
       showShadow: true,
       boxShadow: const [BoxShadow(color: Colors.black)],
-      shadowLayer1Color: Colors.white12,
+      shadowLayer1Color: Colors.transparent,
       shadowLayer2Color: Colors.white10,
       closeCurve: Curves.fastOutSlowIn,
       openCurve: Curves.fastOutSlowIn,
@@ -53,15 +60,48 @@ class Zoom extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
-              Container(
-                width: double.infinity,
-                height: 150,
-                padding: const EdgeInsets.all(20),
-                color: const Color.fromARGB(255, 0, 0, 0),
-                child: Image.asset(
-                  'imagens/logonotname.png',
-                  fit: BoxFit.cover,
+              SizedBox(
+                height: size.height * 0.28,
+              ),
+              Stack(
+                children: [
+                  Center(
+                    child: CircleAvatar(
+                      backgroundColor: Colors.black,
+                      radius: 59,
+                      backgroundImage: photouser != null
+                          ? FileImage(File(photouser))
+                          : Image.asset('imagens/logoEd.png').image,
+                    ),
+                  ),
+                  Positioned(
+                    top: size.width / 3000,
+                    left: size.width / 7,
+                    child: Container(
+                      width: 126,
+                      height: 118,
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        border: Border.all(
+                          color: Colors.white,
+                          width: 3.0,
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              SizedBox(
+                height: size.height / 100,
+              ),
+              Center(
+                child: Text(
+                  nameUser!,
+                  style: const TextStyle(color: Colors.white, fontSize: 20),
                 ),
+              ),
+              SizedBox(
+                height: size.height / 30,
               ),
               ListTile(
                   leading: const Icon(Icons.settings),
@@ -99,6 +139,16 @@ class Zoom extends StatelessWidget {
                   await Get.offAndToNamed('/SignIn');
                 },
               ),
+              SizedBox(
+                height: size.height * 0.25,
+              ),
+              const Padding(
+                padding: EdgeInsets.all(10.0),
+                child: Text(
+                  '  Versao : 13.0.0',
+                  style: TextStyle(color: Colors.white, fontSize: 18),
+                ),
+              )
             ],
           ),
         ),

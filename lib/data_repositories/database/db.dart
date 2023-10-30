@@ -24,14 +24,15 @@ Future<Database> getdatabase() async {
         {
           'cnpj': '13.878.352/0001-90',
           'storeName': 'Anderson',
-          'password': 'Anderson'
+          'password': 'Anderson',
+          'image_user': null,
         },
       );
       await db.execute(VehicleRegistrationTable.createTable);
       await db.execute(SalesTable.createTable);
       await db.execute(ProfileUserTable.createTable);
     },
-    version: 11,
+    version: 13,
   );
 }
 
@@ -43,7 +44,8 @@ class PersonTable {
       $id                INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
       $cnpj              TEXT NOT NULL,
       $nomeloja          TEXT NOT NULL,
-      $senha             TEXT NOT NULL 
+      $senha             TEXT NOT NULL ,
+      $imageuser         TEXT 
     );
     ''';
 
@@ -62,6 +64,9 @@ class PersonTable {
   ///store password
   static const String senha = 'password';
 
+  /// image user
+  static const String imageuser = 'image_user';
+
   ///maps the database and assigns the value to the entity
   static Map<String, dynamic> tomap(Person person) {
     final map = <String, dynamic>{};
@@ -70,6 +75,7 @@ class PersonTable {
     map[PersonTable.cnpj] = person.cnpj;
     map[PersonTable.nomeloja] = person.storeName;
     map[PersonTable.senha] = person.password;
+    map[PersonTable.imageuser] = person.imageuser;
     return map;
   }
 }
@@ -101,12 +107,37 @@ class PessoaControler {
     var list = <Person>[];
 
     for (var item in result) {
-      list.add(Person(
-        id: item[PersonTable.id],
-        cnpj: item[PersonTable.cnpj],
-        storeName: item[PersonTable.nomeloja],
-        password: item[PersonTable.senha],
-      ));
+      list.add(
+        Person(
+            id: item[PersonTable.id],
+            cnpj: item[PersonTable.cnpj],
+            storeName: item[PersonTable.nomeloja],
+            password: item[PersonTable.senha],
+            imageuser: item[PersonTable.imageuser]),
+      );
+    }
+    return list;
+  }
+
+  ///select all person
+  Future<List<Person>> selectUser(int userId) async {
+    final database = await getdatabase();
+    final List<Map<String, dynamic>> result = await database.query(
+        PersonTable.tablename,
+        where: '${PersonTable.id} = ?',
+        whereArgs: [userId]);
+
+    var list = <Person>[];
+
+    for (var item in result) {
+      list.add(
+        Person(
+            id: item[PersonTable.id],
+            cnpj: item[PersonTable.cnpj],
+            storeName: item[PersonTable.nomeloja],
+            password: item[PersonTable.senha],
+            imageuser: item[PersonTable.imageuser]),
+      );
     }
     return list;
   }
@@ -117,12 +148,14 @@ class PessoaControler {
 
     final map = PersonTable.tomap(person);
 
-    unawaited(database.update(
-      PersonTable.tablename,
-      map,
-      where: '${PersonTable.id} = ?',
-      whereArgs: [person.id],
-    ));
+    unawaited(
+      database.update(
+        PersonTable.tablename,
+        map,
+        where: '${PersonTable.id} = ?',
+        whereArgs: [person.id],
+      ),
+    );
     return;
   }
 }

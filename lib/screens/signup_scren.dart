@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:provider/provider.dart';
@@ -24,6 +26,7 @@ class SignUp extends StatelessWidget {
           return Scaffold(
             appBar: AppBar(
               backgroundColor: settings.ligthMode ? Colors.amber : Colors.white,
+              title: const Text('Cadastrar'),
               elevation: 0,
               leading: IconButton(
                 onPressed: () async {
@@ -60,13 +63,20 @@ class SignUp extends StatelessWidget {
                   ),
                   child: Column(
                     children: [
-                      const Padding(
-                        padding: EdgeInsets.all(15.0),
-                        child: Text(
-                          ' Cadastrar ',
-                          style: TextStyle(fontSize: 25, color: Colors.white),
-                        ),
-                      ),
+                      Padding(
+                          padding: const EdgeInsets.all(15.0),
+                          child: InkWell(
+                            onTap: () async {
+                              await state.pickImage();
+                            },
+                            child: CircleAvatar(
+                              backgroundColor: Colors.black,
+                              backgroundImage: state.controllerImage != null
+                                  ? FileImage(File(state.controllerImage!))
+                                  : Image.asset('imagens/logoEd.png').image,
+                              radius: 40,
+                            ),
+                          )),
                       BaseForm(
                         formatter: '##.###.###/####-##',
                         controler: state.controllerCnpj,

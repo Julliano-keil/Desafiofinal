@@ -111,87 +111,85 @@ class RegisteredListAutonomy extends StatelessWidget {
               final autonomy = state.listaAutonomy[index];
               return Padding(
                 padding: const EdgeInsets.all(16.0),
-                child: InkWell(
-                  child: Card(
-                    color: Colors.white,
-                    elevation: 45,
-                    child: ListTile(
-                      trailing: PopupMenuButton<String>(
-                        onSelected: (choice) async {
-                          if (choice == 'Opção 2') {
-                            if (context.mounted) {
-                              Get.snackbar('Informaçao',
-                                  'Popule o formulario para editar');
-                            }
-                            await Get.to(
-                              _EditAutonomy(
-                                person: person,
-                                autonomy: autonomy,
-                              ),
-                            );
-                          } else if (choice == 'Opção 3' && person.id != 1) {
-                            await showDialog(
-                              context: context,
-                              builder: (context) {
-                                return AlertDialog(
-                                  title: const Text(
-                                    'Deletar ⚠️',
-                                    style: TextStyle(
-                                        fontSize: 25,
-                                        fontWeight: FontWeight.bold),
-                                  ),
-                                  content: const Text(
-                                    'Deseja mesmo apagar o nivel '
-                                    ' de usuario ?',
-                                    style: TextStyle(
-                                        fontSize: 20,
-                                        fontWeight: FontWeight.bold),
-                                  ),
-                                  actions: [
-                                    TextButton(
-                                      onPressed: () async {
-                                        await state.delete(autonomy);
-                                        if (context.mounted) {
-                                          Get.back();
-                                        }
-                                      },
-                                      child: const Text('Sim'),
-                                    ),
-                                    TextButton(
-                                      onPressed: () async => Get.back(),
-                                      child: const Text('Não'),
-                                    ),
-                                  ],
-                                );
-                              },
-                            );
-                          } else {
-                            CustomDialog.showSuccess(
-                                context,
-                                '⚠️',
-                                'O Nivel do usuario ${person.storeName}'
-                                    ' nao pode ser excluido');
+                child: Card(
+                  color: Colors.white,
+                  elevation: 45,
+                  child: ListTile(
+                    trailing: PopupMenuButton<String>(
+                      onSelected: (choice) async {
+                        if (choice == 'Opção 2') {
+                          if (context.mounted) {
+                            Get.snackbar('Informaçao',
+                                'Popule o formulario para editar');
                           }
-                        },
-                        itemBuilder: (context) {
-                          return <PopupMenuEntry<String>>[
-                            const PopupMenuItem<String>(
-                              value: 'Opção 2',
-                              child: Text('Editar Nivel'),
+                          await Get.to(
+                            _EditAutonomy(
+                              person: person,
+                              autonomy: autonomy,
                             ),
-                            const PopupMenuItem<String>(
-                              value: 'Opção 3',
-                              child: Text('Deletar Nivel'),
-                            ),
-                          ];
-                        },
-                      ),
-                      title: Text(
-                        'Nivel do(a) ${person.storeName.toString()}',
-                        style: const TextStyle(fontSize: 20),
-                      ),
-                      subtitle: Text(autonomy.name),
+                          );
+                        } else if (choice == 'Opção 3' && person.id != 1) {
+                          await showDialog(
+                            context: context,
+                            builder: (context) {
+                              return AlertDialog(
+                                title: const Text(
+                                  'Deletar ⚠️',
+                                  style: TextStyle(
+                                      fontSize: 25,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                                content: const Text(
+                                  'Deseja mesmo apagar o nivel '
+                                  ' de usuario ?',
+                                  style: TextStyle(
+                                      fontSize: 20,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                                actions: [
+                                  TextButton(
+                                    onPressed: () async {
+                                      await state.delete(autonomy);
+                                      if (context.mounted) {
+                                        Get.back();
+                                      }
+                                    },
+                                    child: const Text('Sim'),
+                                  ),
+                                  TextButton(
+                                    onPressed: () async => Get.back(),
+                                    child: const Text('Não'),
+                                  ),
+                                ],
+                              );
+                            },
+                          );
+                        } else {
+                          CustomDialog.showSuccess(
+                              context,
+                              '⚠️',
+                              'O Nivel do usuario ${person.storeName}'
+                                  ' nao pode ser excluido');
+                        }
+                      },
+                      itemBuilder: (context) {
+                        return <PopupMenuEntry<String>>[
+                          const PopupMenuItem<String>(
+                            value: 'Opção 2',
+                            child: Text('Editar Nivel'),
+                          ),
+                          const PopupMenuItem<String>(
+                            value: 'Opção 3',
+                            child: Text('Deletar Nivel'),
+                          ),
+                        ];
+                      },
                     ),
+                    title: Text(
+                      'Nivel do(a) ${person.storeName.toString()}',
+                      style: const TextStyle(fontSize: 20),
+                    ),
+                    subtitle: Text(autonomy.name),
                   ),
                 ),
               );
@@ -316,6 +314,7 @@ class _EditAutonomy extends StatelessWidget {
                                     ElevatedButton(
                                       onPressed: () async {
                                         await state.update();
+                                        await state.loadData();
 
                                         if (context.mounted) {
                                           await showDialog(

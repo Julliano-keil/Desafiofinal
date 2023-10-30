@@ -66,7 +66,7 @@ class Settings extends StatelessWidget {
 }
 
 class _SettingsWidhts extends StatefulWidget {
-  const _SettingsWidhts({Key? key}) : super(key: key);
+  const _SettingsWidhts();
 
   @override
   __SettingsWidhtsState createState() => __SettingsWidhtsState();

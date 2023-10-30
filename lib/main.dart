@@ -42,7 +42,7 @@ void main() {
 ///responsible for a delay screen when starting the application
 class MyApp extends StatefulWidget {
   ///constructor class
-  const MyApp({Key? key}) : super(key: key);
+  const MyApp({super.key});
 
   @override
   State<MyApp> createState() => _MyAppState();

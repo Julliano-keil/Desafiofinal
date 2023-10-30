@@ -93,11 +93,11 @@ class PersonControler extends ChangeNotifier {
         nameuser = item[PersonTable.nomeloja];
 
         return Person(
-          id: item[PersonTable.id],
-          cnpj: item[PersonTable.cnpj],
-          storeName: item[PersonTable.nomeloja],
-          password: item[PersonTable.senha],
-        );
+            id: item[PersonTable.id],
+            cnpj: item[PersonTable.cnpj],
+            storeName: item[PersonTable.nomeloja],
+            password: item[PersonTable.senha],
+            imageuser: item[PersonTable.imageuser]);
       }
       notifyListeners();
       return null;
@@ -113,11 +113,12 @@ class PersonControler extends ChangeNotifier {
 
   ///save preferences user current
   Future<void> saveUserInfo(
-      int userId, String userName, String userCnpj) async {
+      int userId, String userName, String userCnpj, String photoUser) async {
     final prefs = await SharedPreferences.getInstance();
     await prefs.setInt('userId', userId);
     await prefs.setString('userName', userName);
     await prefs.setString('userCnpj', userCnpj);
+    await prefs.setString('photoUser', photoUser);
     notifyListeners();
   }
 
@@ -127,13 +128,14 @@ class PersonControler extends ChangeNotifier {
     final userId = prefs.getInt('userId');
     final userName = prefs.getString('userName');
     final userCnpj = prefs.getString('userCnpj');
+    final photoUser = prefs.getString('photoUser');
     if (userId != null && userName != null) {
       _loggedUser = Person(
-        id: userId,
-        cnpj: userCnpj,
-        storeName: userName,
-        password: '',
-      );
+          id: userId,
+          cnpj: userCnpj,
+          storeName: userName,
+          password: '',
+          imageuser: photoUser);
       notifyListeners();
     }
   }

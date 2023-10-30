@@ -12,8 +12,12 @@ class Person {
   /// The password for this person.
   final String? password;
 
+  /// image user
+  final String? imageuser;
+
   /// Constructor for creating a Person instance.
   Person({
+    this.imageuser,
     this.id,
     this.cnpj,
     this.storeName,
