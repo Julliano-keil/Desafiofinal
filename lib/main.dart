@@ -100,7 +100,7 @@ class _MyAppState extends State<MyApp> with SingleTickerProviderStateMixin {
             const Zoom(mainScreen: Registeredpeople()),
         '/Autonomyedite': (context) => const Autonomyedite(),
         '/EditPerson': (context) => const EditPerson(),
-        // '/RegisteredAutonomy': (context) => RegisteredAutonomy(),
+        //'/RegisteredAutonomy': (context) => RegisteredAutonomy(),
         '/SaleVehicle': (context) => const SaleVehicle(),
         'VehicleRegister': (context) => const VehicleRegister(),
         'SalesReport': (context) => const SalesReport()

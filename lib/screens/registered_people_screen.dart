@@ -81,8 +81,6 @@ class _RegisteredListState extends State<_RegisteredList> {
 
   @override
   Widget build(BuildContext context) {
-    var size = MediaQuery.of(context).size;
-
     return ChangeNotifierProvider<SignUpController>(
       create: (context) => SignUpController(),
       child: Consumer<SignUpController>(
@@ -121,8 +119,10 @@ class _RegisteredListState extends State<_RegisteredList> {
                                       await Get.toNamed('/Autonomyedite',
                                           arguments: person);
                                     } else if (choice == 'Opção 2') {
-                                      Get.snackbar('Informaçao',
-                                          'Popule o formulario para editar');
+                                      Get.snackbar(
+                                          'Informaçao',
+                                          'Popule o formulario para'
+                                              ' editar');
                                       await Get.toNamed('/EditPerson',
                                           arguments: person);
                                     } else if (choice == 'Opção 4') {
@@ -145,7 +145,8 @@ class _RegisteredListState extends State<_RegisteredList> {
                                             ),
                                             content: Text(
                                               'Deseja mesmo apagar o'
-                                              ' usuario(a) ${person.storeName} ?',
+                                              ' usuario(a)'
+                                              ' ${person.storeName} ?',
                                               style: const TextStyle(
                                                   fontSize: 20,
                                                   fontWeight: FontWeight.bold),
@@ -187,8 +188,8 @@ class _RegisteredListState extends State<_RegisteredList> {
                                       person.id == 1
                                           ? const PopupMenuItem<String>(
                                               value: 'Opção 4',
-                                              child: Text(
-                                                  'Editar ou deletar nivel'),
+                                              child: Text('Editar ou'
+                                                  ' deletar nivel'),
                                             )
                                           : const PopupMenuItem<String>(
                                               value: 'Opção 3',
@@ -201,8 +202,8 @@ class _RegisteredListState extends State<_RegisteredList> {
                                   '        ${person.storeName.toString()}',
                                   style: const TextStyle(fontSize: 20),
                                 ),
-                                subtitle: Text(
-                                    '           Cnpj: ${person.cnpj.toString()}'),
+                                subtitle: Text('           Cnpj:'
+                                    ' ${person.cnpj.toString()}'),
                               ),
                             ]),
                             Visibility(

@@ -33,10 +33,13 @@ class ProfileController extends ChangeNotifier {
   /// user current
   int? userid;
 
+  ///cnpj user
   String? cnpj;
 
+  ///password user
   String? passWord;
 
+  ///name store user
   String? storeName;
 
   /// id profile current
@@ -73,7 +76,6 @@ class ProfileController extends ChangeNotifier {
       storeName = list[0].storeName;
       passWord = list[0].password;
       image = list[0].imageuser;
-      print(image);
       userpro = Person(
           id: id,
           cnpj: cnpj,
@@ -100,7 +102,7 @@ class ProfileController extends ChangeNotifier {
     notifyListeners();
   }
 
-  ///
+  /// update
   void updatePerson(Person person) async {
     _controllerImage = person.imageuser ?? '';
 
@@ -115,7 +117,7 @@ class ProfileController extends ChangeNotifier {
     notifyListeners();
   }
 
-  ///update user by id
+  /// update user by id
   Future<void> update() async {
     try {
       final person = Person(
@@ -136,7 +138,7 @@ class ProfileController extends ChangeNotifier {
     }
   }
 
-  ///get image of user's gallery
+  /// get image of user's gallery
   Future pickImage() async {
     {
       final image = await ImagePicker().pickImage(source: ImageSource.gallery);
@@ -147,7 +149,7 @@ class ProfileController extends ChangeNotifier {
     notifyListeners();
   }
 
-  ///get image of user's camera
+  /// get image of user's camera
   Future takePhoto() async {
     {
       final image = await ImagePicker().pickImage(source: ImageSource.camera);

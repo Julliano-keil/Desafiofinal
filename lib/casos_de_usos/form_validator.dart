@@ -5,7 +5,7 @@ class FormValidator {
     if (value == null || value.isEmpty) {
       return 'Este campo é obrigatório.';
     } else if (value.length > maxlength) {
-      return 'Esse campo deve conter no maximo $maxlength caracteres ';
+      return 'Esse campo deve conter  $maxlength caracteres ';
     }
     return null;
   }

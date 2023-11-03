@@ -70,7 +70,7 @@ class SignIn extends StatelessWidget {
                   labelText: 'Senha',
                   hintText: 'Informe sua Senha',
                   keyboardType: TextInputType.text,
-                  validator: (value) => FormValidator.validateEmpty(value, 15),
+                  validator: (value) => FormValidator.validateEmpty(value, 8),
                   truee: true,
                   formatter: '',
                 ),
@@ -86,12 +86,11 @@ class SignIn extends StatelessWidget {
                           final user = await state.getUserByUsercnpj(userCnpj);
                           await state.getdate();
                           await state.louddata();
-
-                          if (context.mounted &&
-                              state.formKey.currentState!.validate()) {
+                          FocusManager.instance.primaryFocus?.unfocus();
+                          if (state.formKey.currentState!.validate()) {
                             if (context.mounted) {
-                              await _handleLogin(context, user, password,
-                                  userCnpj, user.imageuser);
+                              await _handleLogin(
+                                  context, user, password, userCnpj);
                             }
                           }
                         },
@@ -109,7 +108,7 @@ class SignIn extends StatelessWidget {
                               fontSize: 20,
                               fontWeight: FontWeight.bold),
                         ),
-                      )
+                      ),
                     ],
                   ),
                 ),
@@ -123,21 +122,22 @@ class SignIn extends StatelessWidget {
 }
 
 Future<void> _handleLogin(BuildContext context, dynamic user, String password,
-    String userCnpj, String photoUser) async {
+    String userCnpj) async {
   final connectivityResult = await (Connectivity().checkConnectivity());
 
   if (connectivityResult == ConnectivityResult.wifi ||
       connectivityResult == ConnectivityResult.mobile) {
     if (user != null && user.password == password && context.mounted) {
       final state = Provider.of<PersonControler>(context, listen: false);
-
       state.controllerCnpj.clear();
       state.controllerSenha.clear();
-
       try {
-        await state.saveUserInfo(user.id, user.storeName, userCnpj, photoUser);
+        await state.saveUserInfo(user.id, user.storeName, userCnpj);
         await state.loadUserInfo();
-        await Get.offAndToNamed('/Homepage');
+
+        await Future.delayed(const Duration(milliseconds: 400), () {
+          Get.offAndToNamed('/Homepage');
+        });
       } catch (e) {
         CustomDialog.showSuccess(
             context, 'Erro', 'Ocorreu um erro ao fazer login.');

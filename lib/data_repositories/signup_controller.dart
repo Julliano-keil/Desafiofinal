@@ -2,20 +2,31 @@ import 'dart:async';
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/src/scheduler/ticker.dart';
 import 'package:image_picker/image_picker.dart';
+
 import '../entidades/person.dart';
 import 'database/db.dart';
 
 //////  manages the state of the singup class
-class SignUpController extends ChangeNotifier {
+class SignUpController extends ChangeNotifier implements TickerProvider {
   ///responsible for collecting mandatory variables
   SignUpController() {
     unawaited(loadata());
+
+    _animationController =
+        AnimationController(vsync: this, duration: const Duration(seconds: 6));
+    _animationController.forward();
   }
 
   late Person _personcurrent;
 
   String? _controllerImage;
+
+  late AnimationController _animationController;
+
+  /// controller of animatade
+  AnimationController get animationController => _animationController;
 
   ///controller the person table of data base
   final controller = PessoaControler();
@@ -144,5 +155,16 @@ class SignUpController extends ChangeNotifier {
       _controllerImage = image.path;
     }
     notifyListeners();
+  }
+
+  @override
+  void dispose() {
+    _animationController.dispose();
+    super.dispose();
+  }
+
+  @override
+  Ticker createTicker(TickerCallback onTick) {
+    return Ticker(onTick);
   }
 }

@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/widgets.dart';
+import 'package:get/get.dart';
 
 import '../entidades/autonomy_level.dart';
 import '../entidades/sales.dart';
@@ -88,7 +89,7 @@ class SaleController extends ChangeNotifier {
 
   /// insert data the database
   Future<void> insert() async {
-    try {
+    if (autonomydataAnali) {
       final saleVehicle = Sale(
         customerCpf: _customerCpf.text,
         customerName: _custumerName.text,
@@ -117,19 +118,22 @@ class SaleController extends ChangeNotifier {
       _soldwhen.clear();
       await loadData();
       notifyListeners();
-    } on Exception catch (e) {
-      debugPrint('erro no insert sale $e');
     }
   }
 
-  /// responsible for getting the autonomy level of the logged in user
+  /// verification autonomy
+  bool autonomydataAnali = false;
+
+  /// responsible for getting the autonomy level of the logged in
+  ///  user chama no botao de vender
   Future<void> dataAutonomy(int idperson) async {
-    final list = await controllerAutonomy.select(idperson);
+    final list = await controllerAutonomy.select(person);
 
     if (list.isNotEmpty) {
       dealershipPercentag = list[0].networkPercentage;
       businessPercentag = list[0].storePercentage;
       safetyPercentag = list[0].networkSecurity;
+      autonomydataAnali = true;
     }
     notifyListeners();
   }

@@ -14,6 +14,11 @@ class PersonControler extends ChangeNotifier {
     unawaited(loadata());
   }
 
+  /// user id
+
+  /// image user
+  String? imageuser;
+
   ///The name of the user.
   String nameuser = '';
 
@@ -50,7 +55,6 @@ class PersonControler extends ChangeNotifier {
   Future<void> insert() async {
     try {
       final people = Person(
-          id: null,
           cnpj: _controllerCnpj.text,
           storeName: _controllerName.text,
           password: _controllerSenha.text);
@@ -70,8 +74,29 @@ class PersonControler extends ChangeNotifier {
   Future<void> loadata() async {
     try {
       final list = await constroller.select();
+
       listaPeople.clear();
       listaPeople.addAll(list);
+      notifyListeners();
+    } on Exception catch (e) {
+      debugPrint('erro no metodo loaddata $e');
+    }
+  }
+
+  /// reload perosn list
+  Future<void> selectUserID(int userid) async {
+    try {
+      final list = await constroller.selectUser(userid);
+      if (list.isNotEmpty) {
+        imageuser = list[0]
+            .imageuser; // Se a lista não estiver vazia, pegue o valor do índice 0
+        print(imageuser);
+        listaPeople.clear();
+        listaPeople.addAll(list);
+        notifyListeners();
+      } else {
+        print('lista vazia');
+      }
       notifyListeners();
     } on Exception catch (e) {
       debugPrint('erro no metodo loaddata $e');
@@ -113,12 +138,11 @@ class PersonControler extends ChangeNotifier {
 
   ///save preferences user current
   Future<void> saveUserInfo(
-      int userId, String userName, String userCnpj, String photoUser) async {
+      int userId, String userName, String userCnpj) async {
     final prefs = await SharedPreferences.getInstance();
     await prefs.setInt('userId', userId);
     await prefs.setString('userName', userName);
     await prefs.setString('userCnpj', userCnpj);
-    await prefs.setString('photoUser', photoUser);
     notifyListeners();
   }
 
@@ -128,14 +152,14 @@ class PersonControler extends ChangeNotifier {
     final userId = prefs.getInt('userId');
     final userName = prefs.getString('userName');
     final userCnpj = prefs.getString('userCnpj');
-    final photoUser = prefs.getString('photoUser');
+
     if (userId != null && userName != null) {
       _loggedUser = Person(
           id: userId,
           cnpj: userCnpj,
           storeName: userName,
           password: '',
-          imageuser: photoUser);
+          imageuser: '');
       notifyListeners();
     }
   }
@@ -155,9 +179,22 @@ class PersonControler extends ChangeNotifier {
     final prefs = await SharedPreferences.getInstance();
     var currentTime = DateTime.now().toString();
     await prefs.setString('lastLoginTime', currentTime);
+
     dataTimeNow = currentTime;
 
     notifyListeners();
+  }
+
+  /// verification is firt login
+  Future<bool> isFirstLogin() async {
+    final prfs = await SharedPreferences.getInstance();
+
+    final isFirst = prfs.getBool('isFirstLogin') ?? true;
+
+    if (isFirst) {
+      await prfs.setBool('isFirstLogin', false);
+    }
+    return isFirst;
   }
 
   /// clear preferences user

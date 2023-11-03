@@ -34,7 +34,6 @@ class SalesReportController extends ChangeNotifier {
       final list = person == 1
           ? await saleController.select()
           : await saleController.selectlist(person);
-
       listsale
         ..clear()
         ..addAll(list);

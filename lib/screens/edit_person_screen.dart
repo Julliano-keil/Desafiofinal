@@ -110,7 +110,6 @@ class EditPerson extends StatelessWidget {
                           children: [
                             ElevatedButton(
                               onPressed: () async {
-                                state.updatePerson(person!);
                                 await state.update();
                                 await state.loadata();
                                 if (context.mounted) {
@@ -120,7 +119,7 @@ class EditPerson extends StatelessWidget {
                                       return AlertDialog(
                                         content: Text(
                                           'usuario(a)'
-                                          ' ${person.storeName}'
+                                          ' ${person!.storeName}'
                                           ' alterado com sucesso ?',
                                           style: const TextStyle(
                                               fontSize: 20,
